@@ -97,7 +97,27 @@ func TestWorldStates(t *testing.T) {
 	kvs := WorldStates(mock, "")
 
 	fmt.Println(kvs)
-	kvs = ParseStates(GetStateByRange(mock,"a_1",""))
+	kvs = ParseStates(GetStateByRange(mock, "a_1", ""))
 	fmt.Println(kvs)
+	mock.MockTransactionEnd(TxID)
+}
+
+func TestGetStateObj(t *testing.T) {
+
+	var value = KVJson{"1", "2", "3"}
+	var TxID = "compositeKey"
+	var key = "a_1"
+	mock.MockTransactionStart(TxID)
+
+	PutStateObj(mock, key, value)
+
+	mock.MockTransactionEnd(TxID);
+	TxID = "composite1"
+	mock.MockTransactionStart(TxID)
+
+	var recovered KVJson
+	GetStateObj(mock, key, &recovered)
+
+	fmt.Println(recovered)
 	mock.MockTransactionEnd(TxID)
 }

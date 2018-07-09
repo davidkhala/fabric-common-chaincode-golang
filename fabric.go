@@ -50,6 +50,14 @@ func GetState(ccAPI shim.ChaincodeStubInterface, key string) []byte {
 	PanicError(err);
 	return bytes
 }
+func GetStateObj(ccAPI shim.ChaincodeStubInterface, key string, v interface{}) {
+	var bytes = GetState(ccAPI, key)
+	FromJson(bytes, v)
+}
+func PutStateObj(ccAPI shim.ChaincodeStubInterface, key string, v interface{}) {
+	var bytes = ToJson(v)
+	PutState(ccAPI, key, bytes)
+}
 func PutState(ccAPI shim.ChaincodeStubInterface, key string, value []byte) {
 	var err = ccAPI.PutState(key, value)
 	PanicError(err);
