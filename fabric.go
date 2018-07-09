@@ -70,6 +70,15 @@ type KeyModification struct {
 	IsDelete  bool
 }
 
+func GetThisMsp(ccApi shim.ChaincodeStubInterface) string {
+	var creatorBytes, err = ccApi.GetCreator();
+	PanicError(err)
+	var creator Creator
+	creator, err = ParseCreator(creatorBytes)
+	PanicError(err)
+	return creator.Msp;
+}
+
 func ParseHistory(iterator shim.HistoryQueryIteratorInterface) (result []KeyModification) {
 	defer iterator.Close()
 	for iterator.HasNext() {

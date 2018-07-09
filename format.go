@@ -3,6 +3,7 @@ package golang
 import (
 	"strconv"
 	"encoding/json"
+	"errors"
 )
 
 func ToInt(bytes []byte) int {
@@ -21,6 +22,11 @@ func ToBytes(i int) []byte {
 func PanicError(err error) {
 	if err != nil {
 		panic(err)
+	}
+}
+func PanicString(err string) {
+	if err != "" {
+		panic(errors.New(err))
 	}
 }
 
