@@ -27,7 +27,12 @@ func ParseStates(iterator shim.StateQueryIteratorInterface) ([]KVJson) {
 	}
 	return kvs
 }
-
+type Modifier func(interface{})
+func ModifyValue(ccApi shim.ChaincodeStubInterface, key string, modifier Modifier,v interface{})  {
+	GetStateObj(ccApi,key,&v)
+	modifier(v)
+	PutStateObj(ccApi,key,v)
+}
 type KVJson struct {
 	Namespace string
 	Key       string

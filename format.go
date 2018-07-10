@@ -11,14 +11,13 @@ func ToInt(bytes []byte) int {
 		return 0
 	}
 	i, err := strconv.Atoi(string(bytes))
-	if err != nil {
-		panic(err)
-	}
+	PanicError(err)
 	return i
 }
-func ToBytes(i int) []byte {
-	return []byte(strconv.Itoa(i))
+func ToBytes(integer interface{}) []byte {
+	return []byte(strconv.FormatInt(integer.(int64), 10))
 }
+
 func PanicError(err error) {
 	if err != nil {
 		panic(err)

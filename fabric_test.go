@@ -121,3 +121,16 @@ func TestGetStateObj(t *testing.T) {
 	fmt.Println(recovered)
 	mock.MockTransactionEnd(TxID)
 }
+func TestModifyValue(t *testing.T) {
+	var key = "a_1"
+	var kv KVJson
+	TxID := "composite2"
+	mock.MockTransactionStart(TxID)
+	var modifier  = func(v interface{}){
+		fmt.Println("modifierTest",v)
+		fmt.Println("modifierTest",kv)
+	}
+
+	ModifyValue(mock,key,modifier,&kv)
+	mock.MockTransactionEnd(TxID)
+}

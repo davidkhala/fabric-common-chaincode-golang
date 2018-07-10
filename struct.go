@@ -20,6 +20,7 @@ func (s *StringList) Has(value string) bool {
 	}
 	return false
 }
+
 func (s *StringList) String() string {
 	return strings.Join(s.Strings,",")
 }
