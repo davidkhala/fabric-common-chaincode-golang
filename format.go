@@ -4,6 +4,16 @@ import (
 	"strconv"
 	"encoding/json"
 	"errors"
+	"time"
+)
+
+const (
+	// Seconds field of the earliest valid Timestamp.
+	// This is time.Date(1, 1, 1, 0, 0, 0, 0, time.UTC).Unix().
+	minValidSeconds = -62135596800
+	// Seconds field just after the latest valid Timestamp.
+	// This is time.Date(10000, 1, 1, 0, 0, 0, 0, time.UTC).Unix().
+	maxValidSeconds = 253402300800
 )
 
 func ToInt(bytes []byte) int {
@@ -27,6 +37,9 @@ func PanicString(err string) {
 	if err != "" {
 		panic(errors.New(err))
 	}
+}
+func UnixMilliSecond(t time.Time) int64 {
+	return t.UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
 }
 
 /**
