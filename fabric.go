@@ -37,7 +37,8 @@ type Modifier func(interface{})
 func ModifyValue(ccApi shim.ChaincodeStubInterface, key string, modifier Modifier, v interface{}) {
 	rv := reflect.ValueOf(v)
 	if rv.Kind() != reflect.Ptr || rv.IsNil() {
-		PanicString(json.InvalidUnmarshalError{reflect.TypeOf(v)}.Error())
+		var invalidPtr = json.InvalidUnmarshalError{reflect.TypeOf(v)}
+		PanicString(invalidPtr.Error())
 	}
 	GetStateObj(ccApi, key, v)
 	modifier(v)
