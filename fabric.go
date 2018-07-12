@@ -125,11 +125,11 @@ func ParseHistory(iterator shim.HistoryQueryIteratorInterface) (result []KeyModi
 		keyModification, err := iterator.Next()
 		PanicError(err)
 		var timeStamp = keyModification.Timestamp
-		var time = timeStamp.Seconds*1000 + int64(timeStamp.Nanos/1000000)
+		var t = timeStamp.Seconds*1000 + int64(timeStamp.Nanos/1000000)
 		var translated = KeyModification{
 			keyModification.TxId,
 			string(keyModification.Value),
-			string(time),
+			string(t),
 			keyModification.IsDelete}
 		result = append(result, translated)
 	}
@@ -157,9 +157,19 @@ func PanicDefer(response *peer.Response) {
 			err = errors.New(x)
 		case error:
 		default:
-			err = errors.New("Unknown panic")
+			err = errors.New("unknown panic")
 		}
 		response.Status = shim.ERROR
 		response.Message = err.(error).Error()
 	}
+}
+
+type CommonChaincode struct {
+	Mock  bool
+	Debug bool
+	CCAPI *shim.ChaincodeStubInterface //chaincode API
+}
+
+func (cc *CommonChaincode) Prepare(ccAPI *shim.ChaincodeStubInterface) {
+	cc.CCAPI = ccAPI
 }
