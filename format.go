@@ -24,8 +24,8 @@ func ToInt(bytes []byte) int {
 	PanicError(err)
 	return i
 }
-func ToBytes(integer interface{}) []byte {
-	return []byte(strconv.FormatInt(integer.(int64), 10))
+func ToString(integer interface{}) string {
+	return strconv.FormatInt(integer.(int64), 10)
 }
 
 func PanicError(err error) {

@@ -30,7 +30,7 @@ func ParseCreator(creator []byte) (Creator, error) {
 				certificateBuffer.WriteByte(char)
 			}
 		} else if char == 10 {
-			if (mspReady) {
+			if mspReady {
 				certificateBuffer.WriteByte(char)
 			}
 		} else {

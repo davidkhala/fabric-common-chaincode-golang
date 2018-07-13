@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 )
 
-func WorldStates(ccAPI shim.ChaincodeStubInterface, objectType string) ([]KVJson) {
+func WorldStates(ccAPI shim.ChaincodeStubInterface, objectType string) (States) {
 	var keysIterator shim.StateQueryIteratorInterface
 	if objectType == "" {
 		keysIterator = GetStateByRange(ccAPI, "", "")
@@ -18,21 +18,10 @@ func WorldStates(ccAPI shim.ChaincodeStubInterface, objectType string) ([]KVJson
 		keysIterator = GetStateByPartialCompositeKey(ccAPI, objectType, nil)
 	}
 
-	var kvs = ParseStates(keysIterator)
-	return kvs
+	var state States
+	state.ParseStates(keysIterator)
+	return state
 }
-func ParseStates(iterator shim.StateQueryIteratorInterface) ([]KVJson) {
-	defer iterator.Close()
-	var kvs []KVJson
-	for iterator.HasNext() {
-		kv, err := iterator.Next()
-		PanicError(err)
-		kvs = append(kvs, KVJson{kv.Namespace, kv.Key, string(kv.Value)})
-	}
-	return kvs
-}
-
-type Modifier func(interface{})
 
 func ModifyValue(ccApi shim.ChaincodeStubInterface, key string, modifier Modifier, v interface{}) {
 	rv := reflect.ValueOf(v)
@@ -43,12 +32,6 @@ func ModifyValue(ccApi shim.ChaincodeStubInterface, key string, modifier Modifie
 	GetStateObj(ccApi, key, v)
 	modifier(v)
 	PutStateObj(ccApi, key, v)
-}
-
-type KVJson struct {
-	Namespace string
-	Key       string
-	Value     string
 }
 
 func SplitCompositeKey(ccAPI shim.ChaincodeStubInterface, compositeKey string) (string, []string) {
@@ -80,12 +63,7 @@ func PutState(ccAPI shim.ChaincodeStubInterface, key string, value []byte) {
 	PanicError(err)
 }
 
-type KeyModification struct {
-	TxId      string
-	Value     string
-	Timestamp string
-	IsDelete  bool
-}
+
 
 func GetTxTime(ccApi shim.ChaincodeStubInterface) (time.Time) {
 	ts, err := ccApi.GetTxTimestamp()
@@ -110,31 +88,16 @@ func GetTxTime(ccApi shim.ChaincodeStubInterface) (time.Time) {
 	return t
 
 }
-func GetThisMsp(ccApi shim.ChaincodeStubInterface) string {
+func GetThisCreator(ccApi shim.ChaincodeStubInterface) Creator {
 	var creatorBytes, err = ccApi.GetCreator()
 	PanicError(err)
 	var creator Creator
 	creator, err = ParseCreator(creatorBytes)
 	PanicError(err)
-	return creator.Msp
+	return creator
 }
 
-func ParseHistory(iterator shim.HistoryQueryIteratorInterface) (result []KeyModification) {
-	defer iterator.Close()
-	for iterator.HasNext() {
-		keyModification, err := iterator.Next()
-		PanicError(err)
-		var timeStamp = keyModification.Timestamp
-		var t = timeStamp.Seconds*1000 + int64(timeStamp.Nanos/1000000)
-		var translated = KeyModification{
-			keyModification.TxId,
-			string(keyModification.Value),
-			string(t),
-			keyModification.IsDelete}
-		result = append(result, translated)
-	}
-	return result
-}
+
 func GetHistoryForKey(ccAPI shim.ChaincodeStubInterface, key string) (shim.HistoryQueryIteratorInterface) {
 	var r, err = ccAPI.GetHistoryForKey(key)
 	PanicError(err)
@@ -159,6 +122,7 @@ func PanicDefer(response *peer.Response) {
 		default:
 			err = errors.New("unknown panic")
 		}
+		fmt.Println(err)
 		response.Status = shim.ERROR
 		response.Message = err.(error).Error()
 	}

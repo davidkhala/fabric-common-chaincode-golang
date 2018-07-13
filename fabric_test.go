@@ -97,7 +97,8 @@ func TestWorldStates(t *testing.T) {
 	kvs := WorldStates(mock, "")
 
 	fmt.Println(kvs)
-	kvs = ParseStates(GetStateByRange(mock, "a_1", ""))
+
+	kvs.ParseStates(GetStateByRange(mock, "a_1", ""))
 	fmt.Println(kvs)
 	mock.MockTransactionEnd(TxID)
 }
