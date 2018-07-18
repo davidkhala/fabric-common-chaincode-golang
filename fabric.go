@@ -50,9 +50,13 @@ func GetState(ccAPI shim.ChaincodeStubInterface, key string) []byte {
 	PanicError(err)
 	return bytes
 }
-func GetStateObj(ccAPI shim.ChaincodeStubInterface, key string, v interface{}) {
+func GetStateObj(ccAPI shim.ChaincodeStubInterface, key string, v interface{}) bool {
 	var bytes = GetState(ccAPI, key)
+	if bytes == nil {
+		return false
+	}
 	FromJson(bytes, v)
+	return true
 }
 func PutStateObj(ccAPI shim.ChaincodeStubInterface, key string, v interface{}) {
 	var bytes = ToJson(v)
@@ -62,8 +66,6 @@ func PutState(ccAPI shim.ChaincodeStubInterface, key string, value []byte) {
 	var err = ccAPI.PutState(key, value)
 	PanicError(err)
 }
-
-
 
 func GetTxTime(ccApi shim.ChaincodeStubInterface) (time.Time) {
 	ts, err := ccApi.GetTxTimestamp()
@@ -96,7 +98,6 @@ func GetThisCreator(ccApi shim.ChaincodeStubInterface) Creator {
 	PanicError(err)
 	return creator
 }
-
 
 func GetHistoryForKey(ccAPI shim.ChaincodeStubInterface, key string) (shim.HistoryQueryIteratorInterface) {
 	var r, err = ccAPI.GetHistoryForKey(key)
