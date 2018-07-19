@@ -74,7 +74,8 @@ func TestCreateCompositeKey(t *testing.T) {
 	TxID = "composite1"
 	mock.MockTransactionStart(TxID)
 	iterator := GetStateByPartialCompositeKey(mock, "a", []string{"d"})
-	kvs := ParseStates(iterator)
+	var kvs States
+	kvs.ParseStates(iterator)
 	fmt.Println(kvs)
 	mock.MockTransactionEnd(TxID)
 }
@@ -127,11 +128,11 @@ func TestModifyValue(t *testing.T) {
 	var kv KVJson
 	TxID := "composite2"
 	mock.MockTransactionStart(TxID)
-	var modifier  = func(v interface{}){
-		fmt.Println("modifierTest",v)
-		fmt.Println("modifierTest",kv)
+	var modifier = func(v interface{}) {
+		fmt.Println("modifierTest", v)
+		fmt.Println("modifierTest", kv)
 	}
 
-	ModifyValue(mock,key,modifier,&kv)
+	ModifyValue(mock, key, modifier, &kv)
 	mock.MockTransactionEnd(TxID)
 }
