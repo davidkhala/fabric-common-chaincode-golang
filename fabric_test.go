@@ -20,7 +20,6 @@ var logger = shim.NewLogger(name)
 func (t *TestChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
 	logger.Info("########### " + name + " Init ###########")
 	return shim.Success(nil)
-
 }
 
 // Transaction makes payment of X units from A to B
@@ -29,14 +28,9 @@ func (t *TestChaincode) Invoke(ccAPI shim.ChaincodeStubInterface) peer.Response 
 	fcn, _ := ccAPI.GetFunctionAndParameters()
 	switch fcn {
 	case "panic":
-		fmt.Println("use panic")
-		panic(1)
+		PanicString("use panic")
 	}
 	return shim.Success([]byte(nil))
-}
-
-func main() {
-	shim.Start(new(TestChaincode))
 }
 
 var cc = new(TestChaincode)
