@@ -114,6 +114,11 @@ func GetStateByRange(ccAPI shim.ChaincodeStubInterface, startKey string, endKey 
 	PanicError(err)
 	return r
 }
+func SetEvent(ccApi shim.ChaincodeStubInterface, name string, payload []byte) {
+	var err = ccApi.SetEvent(name, payload)
+	PanicError(err)
+}
+
 func PanicDefer(response *peer.Response) {
 	if err := recover(); err != nil {
 		switch x := err.(type) {
