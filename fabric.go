@@ -10,12 +10,12 @@ import (
 	"encoding/json"
 )
 
-func WorldStates(ccAPI shim.ChaincodeStubInterface, objectType string) (States) {
+func (cc CommonChaincode) WorldStates(objectType string) (States) {
 	var keysIterator shim.StateQueryIteratorInterface
 	if objectType == "" {
-		keysIterator = GetStateByRange(ccAPI, "", "")
+		keysIterator = cc.GetStateByRange("", "")
 	} else {
-		keysIterator = GetStateByPartialCompositeKey(ccAPI, objectType, nil)
+		keysIterator = cc.GetStateByPartialCompositeKey(objectType, nil)
 	}
 
 	var state States
@@ -23,52 +23,52 @@ func WorldStates(ccAPI shim.ChaincodeStubInterface, objectType string) (States) 
 	return state
 }
 
-func ModifyValue(ccApi shim.ChaincodeStubInterface, key string, modifier Modifier, v interface{}) {
+func (cc CommonChaincode) ModifyValue(key string, modifier Modifier, v interface{}) {
 	rv := reflect.ValueOf(v)
 	if rv.Kind() != reflect.Ptr || rv.IsNil() {
 		var invalidPtr = json.InvalidUnmarshalError{reflect.TypeOf(v)}
 		PanicString(invalidPtr.Error())
 	}
-	GetStateObj(ccApi, key, v)
+	cc.GetStateObj(key, v)
 	modifier(v)
-	PutStateObj(ccApi, key, v)
+	cc.PutStateObj(key, v)
 }
 
-func SplitCompositeKey(ccAPI shim.ChaincodeStubInterface, compositeKey string) (string, []string) {
-	objectType, attributes, err := ccAPI.SplitCompositeKey(compositeKey)
+func (cc CommonChaincode) SplitCompositeKey(compositeKey string) (string, []string) {
+	objectType, attributes, err := cc.CCAPI.SplitCompositeKey(compositeKey)
 	PanicError(err)
 	return objectType, attributes
 }
-func CreateCompositeKey(ccAPI shim.ChaincodeStubInterface, objectType string, attributes []string) string {
-	var key, err = ccAPI.CreateCompositeKey(objectType, attributes)
+func (cc CommonChaincode) CreateCompositeKey(objectType string, attributes []string) string {
+	var key, err = cc.CCAPI.CreateCompositeKey(objectType, attributes)
 	PanicError(err)
 	return key
 }
 
-func GetState(ccAPI shim.ChaincodeStubInterface, key string) []byte {
-	var bytes, err = ccAPI.GetState(key)
+func (cc CommonChaincode) GetState(key string) []byte {
+	var bytes, err = cc.CCAPI.GetState(key)
 	PanicError(err)
 	return bytes
 }
-func GetStateObj(ccAPI shim.ChaincodeStubInterface, key string, v interface{}) bool {
-	var bytes = GetState(ccAPI, key)
+func (cc CommonChaincode) GetStateObj(key string, v interface{}) bool {
+	var bytes = cc.GetState(key)
 	if bytes == nil {
 		return false
 	}
 	FromJson(bytes, v)
 	return true
 }
-func PutStateObj(ccAPI shim.ChaincodeStubInterface, key string, v interface{}) {
+func (cc CommonChaincode) PutStateObj(key string, v interface{}) {
 	var bytes = ToJson(v)
-	PutState(ccAPI, key, bytes)
+	cc.PutState(key, bytes)
 }
-func PutState(ccAPI shim.ChaincodeStubInterface, key string, value []byte) {
-	var err = ccAPI.PutState(key, value)
+func (cc CommonChaincode) PutState(key string, value []byte) {
+	var err = cc.CCAPI.PutState(key, value)
 	PanicError(err)
 }
 
-func GetTxTime(ccApi shim.ChaincodeStubInterface) (time.Time) {
-	ts, err := ccApi.GetTxTimestamp()
+func (cc CommonChaincode) GetTxTime() (time.Time) {
+	ts, err := cc.CCAPI.GetTxTimestamp()
 	PanicError(err)
 
 	var t time.Time
@@ -90,8 +90,8 @@ func GetTxTime(ccApi shim.ChaincodeStubInterface) (time.Time) {
 	return t
 
 }
-func GetThisCreator(ccApi shim.ChaincodeStubInterface) Creator {
-	var creatorBytes, err = ccApi.GetCreator()
+func (cc CommonChaincode) GetThisCreator() Creator {
+	var creatorBytes, err = cc.CCAPI.GetCreator()
 	PanicError(err)
 	var creator Creator
 	creator, err = ParseCreator(creatorBytes)
@@ -99,23 +99,23 @@ func GetThisCreator(ccApi shim.ChaincodeStubInterface) Creator {
 	return creator
 }
 
-func GetHistoryForKey(ccAPI shim.ChaincodeStubInterface, key string) (shim.HistoryQueryIteratorInterface) {
-	var r, err = ccAPI.GetHistoryForKey(key)
+func (cc CommonChaincode) GetHistoryForKey(key string) (shim.HistoryQueryIteratorInterface) {
+	var r, err = cc.CCAPI.GetHistoryForKey(key)
 	PanicError(err)
 	return r
 }
-func GetStateByPartialCompositeKey(ccAPI shim.ChaincodeStubInterface, objectType string, keys []string) shim.StateQueryIteratorInterface {
-	var r, err = ccAPI.GetStateByPartialCompositeKey(objectType, keys)
+func (cc CommonChaincode) GetStateByPartialCompositeKey(objectType string, keys []string) shim.StateQueryIteratorInterface {
+	var r, err = cc.CCAPI.GetStateByPartialCompositeKey(objectType, keys)
 	PanicError(err)
 	return r
 }
-func GetStateByRange(ccAPI shim.ChaincodeStubInterface, startKey string, endKey string) shim.StateQueryIteratorInterface {
-	var r, err = ccAPI.GetStateByRange(startKey, endKey)
+func (cc CommonChaincode) GetStateByRange(startKey string, endKey string) shim.StateQueryIteratorInterface {
+	var r, err = cc.CCAPI.GetStateByRange(startKey, endKey)
 	PanicError(err)
 	return r
 }
-func SetEvent(ccApi shim.ChaincodeStubInterface, name string, payload []byte) {
-	var err = ccApi.SetEvent(name, payload)
+func (cc CommonChaincode) SetEvent(name string, payload []byte) {
+	var err = cc.CCAPI.SetEvent(name, payload)
 	PanicError(err)
 }
 
@@ -137,9 +137,9 @@ func PanicDefer(response *peer.Response) {
 type CommonChaincode struct {
 	Mock  bool
 	Debug bool
-	CCAPI *shim.ChaincodeStubInterface //chaincode API
+	CCAPI shim.ChaincodeStubInterface //chaincode API
 }
 
-func (cc *CommonChaincode) Prepare(ccAPI *shim.ChaincodeStubInterface) {
+func (cc *CommonChaincode) Prepare(ccAPI shim.ChaincodeStubInterface) {
 	cc.CCAPI = ccAPI
 }
