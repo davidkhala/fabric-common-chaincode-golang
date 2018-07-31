@@ -38,9 +38,10 @@ func PanicString(err string) {
 		panic(errors.New(err))
 	}
 }
-func UnixMilliSecond(t time.Time) int64 {
-	return t.UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
+func UnixMilliSecond(t time.Time) TimeLong {
+	return TimeLong(t.UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond)))
 }
+type TimeLong int64
 
 /**
 	a wrapper to panic Unmarshal(non-pointer v)
