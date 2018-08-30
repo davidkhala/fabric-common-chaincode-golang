@@ -1,0 +1,3 @@
+[submodule "goutils"]
+	path = goutils
+	url = https://github.com/davidkhala/goutils
