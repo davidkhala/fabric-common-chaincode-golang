@@ -16,13 +16,16 @@ const (
 	maxValidSeconds = 253402300800
 )
 
+func Atoi(str string) int {
+	i, err := strconv.Atoi(str)
+	PanicError(err)
+	return i
+}
 func ToInt(bytes []byte) int {
 	if bytes == nil {
 		return 0
 	}
-	i, err := strconv.Atoi(string(bytes))
-	PanicError(err)
-	return i
+	return Atoi(string(bytes))
 }
 func ToString(integer int64) string {
 	return strconv.FormatInt(integer, 10)
