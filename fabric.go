@@ -3,11 +3,20 @@ package golang
 import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
+	"github.com/davidkhala/goutils"
 	"errors"
 	"time"
 	"fmt"
 	"reflect"
 	"encoding/json"
+)
+const (
+	// Seconds field of the earliest valid Timestamp.
+	// This is time.Date(1, 1, 1, 0, 0, 0, 0, time.UTC).Unix().
+	minValidSeconds = -62135596800
+	// Seconds field just after the latest valid Timestamp.
+	// This is time.Date(10000, 1, 1, 0, 0, 0, 0, time.UTC).Unix().
+	maxValidSeconds = 253402300800
 )
 
 func (cc CommonChaincode) WorldStates(objectType string) (States) {
