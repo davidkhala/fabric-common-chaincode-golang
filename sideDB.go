@@ -1,6 +1,9 @@
 package golang
 
-import "github.com/hyperledger/fabric/core/chaincode/shim"
+import (
+	"github.com/hyperledger/fabric/core/chaincode/shim"
+	. "github.com/davidkhala/goutils"
+)
 
 func (cc CommonChaincode) GetPrivateData(collection, key string) ([]byte) {
 	var r, err = cc.CCAPI.GetPrivateData(collection, key)

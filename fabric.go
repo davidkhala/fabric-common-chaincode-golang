@@ -3,13 +3,13 @@ package golang
 import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
-	"github.com/davidkhala/goutils"
-	"errors"
+	. "github.com/davidkhala/goutils"
 	"time"
 	"fmt"
 	"reflect"
 	"encoding/json"
 )
+
 const (
 	// Seconds field of the earliest valid Timestamp.
 	// This is time.Date(1, 1, 1, 0, 0, 0, 0, time.UTC).Unix().
@@ -128,19 +128,14 @@ func (cc CommonChaincode) SetEvent(name string, payload []byte) {
 	PanicError(err)
 }
 
-func PanicDefer(response *peer.Response) {
-	if err := recover(); err != nil {
-		switch x := err.(type) {
-		case string:
-			err = errors.New(x)
-		case error:
-		default:
-			err = errors.New("unknown panic")
-		}
-		fmt.Println(err)
+func DeferPeerResponse(response *peer.Response) {
+	var handler = func(errString string) bool {
+		fmt.Println(errString)
 		response.Status = shim.ERROR
-		response.Message = err.(error).Error()
+		response.Message = errString
+		return true
 	}
+	Deferred(handler)
 }
 
 type CommonChaincode struct {
