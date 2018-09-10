@@ -36,6 +36,10 @@ func (t *TestChaincode) Invoke(ccAPI shim.ChaincodeStubInterface) peer.Response 
 
 var cc = new(TestChaincode)
 var mock = shim.NewMockStub(name, cc)
+//initialize mocker
+func TestCommonChaincode_Prepare(t *testing.T) {
+	cc.Prepare(mock)
+}
 
 func TestTestChaincode_Init(t *testing.T) {
 	var initArgs [][]byte
@@ -59,16 +63,16 @@ func TestTestChaincode_Invoke(t *testing.T) {
 }
 
 func TestCreateCompositeKey(t *testing.T) {
-	var cKey1 = TestChaincode.CreateCompositeKey(mock, "a", []string{"c", "C"})
-	var cKey2 = TestChaincode.CreateCompositeKey(mock, "a", []string{"d", "D"})
+	var cKey1 = cc.CreateCompositeKey("a", []string{"c", "C"})
+	var cKey2 = cc.CreateCompositeKey("a", []string{"d", "D"})
 	var TxID = "composityKey"
 	mock.MockTransactionStart(TxID);
-	TestChaincode.PutState(mock, cKey1, []byte("c"))
-	TestChaincode.PutState(mock, cKey2, []byte("C"))
+	cc.PutState(cKey1, []byte("c"))
+	cc.PutState(cKey2, []byte("C"))
 	mock.MockTransactionEnd(TxID);
 	TxID = "composite1"
 	mock.MockTransactionStart(TxID)
-	iterator := TestChaincode.GetStateByPartialCompositeKey(mock, "a", []string{"d"})
+	iterator := cc.GetStateByPartialCompositeKey("a", []string{"d"})
 	var kvs States
 	kvs.ParseStates(iterator)
 	t.Log(kvs)
@@ -83,18 +87,18 @@ func TestWorldStates(t *testing.T) {
 	var TxID = "composityKey"
 	mock.MockTransactionStart(TxID)
 
-	TestChaincode.PutState(mock, "a_1", []byte("c"))
-	TestChaincode.PutState(mock, "a_2", []byte("C"))
-	TestChaincode.PutState(mock, "a_3", []byte("C"))
+	cc.PutState("a_1", []byte("c"))
+	cc.PutState("a_2", []byte("C"))
+	cc.PutState("a_3", []byte("C"))
 
 	mock.MockTransactionEnd(TxID);
 	TxID = "composite1"
 	mock.MockTransactionStart(TxID)
-	kvs := TestChaincode.WorldStates(mock, "")
+	kvs := cc.WorldStates( "")
 
 	t.Log(kvs)
 
-	kvs.ParseStates(TestChaincode.GetStateByRange(mock, "a_1", ""))
+	kvs.ParseStates(cc.GetStateByRange("a_1", ""))
 	t.Log(kvs)
 	mock.MockTransactionEnd(TxID)
 }
@@ -106,14 +110,14 @@ func TestGetStateObj(t *testing.T) {
 	var key = "a_1"
 	mock.MockTransactionStart(TxID)
 
-	TestChaincode.PutStateObj(mock, key, value)
+	cc.PutStateObj(key, value)
 
 	mock.MockTransactionEnd(TxID);
 	TxID = "composite1"
 	mock.MockTransactionStart(TxID)
 
 	var recovered KVJson
-	TestChaincode.GetStateObj(mock, key, &recovered)
+	cc.GetStateObj(key, &recovered)
 
 	t.Log(recovered)
 	mock.MockTransactionEnd(TxID)
@@ -128,6 +132,6 @@ func TestModifyValue(t *testing.T) {
 		t.Log("modifierTest", kv)
 	}
 
-	TestChaincode.ModifyValue(mock, key, modifier, &kv)
+	cc.ModifyValue(key, modifier, &kv)
 	mock.MockTransactionEnd(TxID)
 }
