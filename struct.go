@@ -5,7 +5,6 @@ import (
 	. "github.com/davidkhala/goutils"
 )
 
-
 type KeyModification struct {
 	TxId      string
 	Value     []byte
@@ -61,3 +60,17 @@ func (state *States) ParseStates(iterator shim.StateQueryIteratorInterface) {
 type Modifier func(interface{})
 type Filter func(interface{}) bool
 
+type Args [][]byte
+
+func ArgsBuilder(fcn string) (Args) {
+	return Args{[]byte(fcn)}
+}
+
+func (t *Args) AppendArg(str string) {
+	var buff = *t
+	buff = append(buff, []byte(str))
+	t = &buff
+}
+func (t Args) Get() [][]byte {
+	return [][]byte(t)
+}

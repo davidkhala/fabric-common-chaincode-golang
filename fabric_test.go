@@ -5,6 +5,7 @@ import (
 	"github.com/hyperledger/fabric/protos/peer"
 	"testing"
 	"github.com/hyperledger/fabric/common/ledger/testutil"
+	. "github.com/davidkhala/goutils"
 )
 
 type TestChaincode struct {
