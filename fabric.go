@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"reflect"
 	"encoding/json"
+	"errors"
 )
 
 const (
@@ -30,6 +31,13 @@ func (cc CommonChaincode) WorldStates(objectType string) (States) {
 	var state States
 	state.ParseStates(keysIterator)
 	return state
+}
+func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
+	var resp = cc.CCAPI.InvokeChaincode(chaincodeName, args, channel)
+	if resp.Status >= shim.ERRORTHRESHOLD {
+		PanicError(errors.New(string(resp.Payload)))
+	}
+	return resp
 }
 
 func (cc CommonChaincode) ModifyValue(key string, modifier Modifier, v interface{}) {
