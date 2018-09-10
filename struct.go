@@ -60,17 +60,17 @@ func (state *States) ParseStates(iterator shim.StateQueryIteratorInterface) {
 type Modifier func(interface{})
 type Filter func(interface{}) bool
 
-type Args [][]byte
+type Args struct {
+	buff [][]byte
+}
 
 func ArgsBuilder(fcn string) (Args) {
-	return Args{[]byte(fcn)}
+	return Args{[][]byte{[]byte(fcn)}}
 }
 
 func (t *Args) AppendArg(str string) {
-	var buff = *t
-	buff = append(buff, []byte(str))
-	t = &buff
+	t.buff = append(t.buff, []byte(str))
 }
 func (t Args) Get() [][]byte {
-	return [][]byte(t)
+	return t.buff
 }
