@@ -1,14 +1,14 @@
 package golang
 
 import (
-	"github.com/hyperledger/fabric/core/chaincode/shim"
-	"github.com/hyperledger/fabric/protos/peer"
-	. "github.com/davidkhala/goutils"
-	"time"
-	"fmt"
-	"reflect"
 	"encoding/json"
 	"errors"
+	"fmt"
+	. "github.com/davidkhala/goutils"
+	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"github.com/hyperledger/fabric/protos/peer"
+	"reflect"
+	"time"
 )
 
 const (
@@ -20,7 +20,7 @@ const (
 	maxValidSeconds = 253402300800
 )
 
-func (cc CommonChaincode) WorldStates(objectType string) (States) {
+func (cc CommonChaincode) WorldStates(objectType string) States {
 	var keysIterator shim.StateQueryIteratorInterface
 	if objectType == "" {
 		keysIterator = cc.GetStateByRange("", "")
@@ -84,7 +84,7 @@ func (cc CommonChaincode) PutState(key string, value []byte) {
 	PanicError(err)
 }
 
-func (cc CommonChaincode) GetTxTime() (time.Time) {
+func (cc CommonChaincode) GetTxTime() time.Time {
 	ts, err := cc.CCAPI.GetTxTimestamp()
 	PanicError(err)
 
@@ -116,7 +116,7 @@ func (cc CommonChaincode) GetThisCreator() Creator {
 	return creator
 }
 
-func (cc CommonChaincode) GetHistoryForKey(key string) (shim.HistoryQueryIteratorInterface) {
+func (cc CommonChaincode) GetHistoryForKey(key string) shim.HistoryQueryIteratorInterface {
 	var r, err = cc.CCAPI.GetHistoryForKey(key)
 	PanicError(err)
 	return r
@@ -150,6 +150,7 @@ type CommonChaincode struct {
 	Mock  bool
 	Debug bool
 	CCAPI shim.ChaincodeStubInterface //chaincode API
+	shim.Chaincode
 }
 
 func (cc *CommonChaincode) Prepare(ccAPI shim.ChaincodeStubInterface) {
