@@ -147,12 +147,14 @@ func DeferPeerResponse(response *peer.Response) {
 }
 
 type CommonChaincode struct {
-	Mock  bool
-	Debug bool
-	CCAPI shim.ChaincodeStubInterface //chaincode API
+	Mock    bool
+	Debug   bool
+	Channel string
+	CCAPI   shim.ChaincodeStubInterface //chaincode API
 	shim.Chaincode
 }
 
 func (cc *CommonChaincode) Prepare(ccAPI shim.ChaincodeStubInterface) {
 	cc.CCAPI = ccAPI
+	cc.Channel = ccAPI.GetChannelID()
 }
