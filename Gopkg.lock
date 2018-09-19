@@ -54,11 +54,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:fc8dbcc2a5de7c093e167828ebbdf551641761d2ad75431d3a167d467a264115"
+  digest = "1:4a029051269e04c040c092eb4ddd92732f8f3a3921a8b43b82b30804e00f3357"
   name = "github.com/containerd/continuity"
   packages = ["pathdriver"]
   pruneopts = "UT"
-  revision = "f44b615e492bdfb371aae2f76ec694d9da1db537"
+  revision = "f04dbc0d6e83984cca2c4c8b0d9b833d3809f260"
 
 [[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
@@ -70,14 +70,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:72dcd1ca9d08bdb2b8904953f148f08753fe8e26e45154e3e5416bfd2e39cfd3"
+  digest = "1:748fd7b7bc25c4bea880847e76d7d17a0101447f9ecdc6addcfb1fddbc4afd04"
   name = "github.com/davidkhala/goutils"
   packages = ["."]
   pruneopts = "UT"
-  revision = "ac21a45ea9c7778a3ef822888fbf1f8c1fcc87ed"
+  revision = "7fe30d1d79179fae46bc45bb9d6f232d3642558b"
 
 [[projects]]
-  digest = "1:e80ed0f4bb8a40859d97a65541edbe3d310234bd702d6fa334cf19e847e69a73"
+  digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
   name = "github.com/docker/docker"
   packages = [
     "api/types",
@@ -92,15 +92,19 @@
     "api/types/swarm/runtime",
     "api/types/versions",
     "opts",
+    "pkg/archive",
     "pkg/fileutils",
     "pkg/homedir",
     "pkg/idtools",
     "pkg/ioutils",
+    "pkg/jsonmessage",
     "pkg/longpath",
     "pkg/mount",
     "pkg/pools",
     "pkg/stdcopy",
     "pkg/system",
+    "pkg/term",
+    "pkg/term/windows",
   ]
   pruneopts = "UT"
   revision = "a422774e593b33bd287d9890544ad9e09b380d8c"
@@ -146,17 +150,12 @@
   version = "v1.1.0"
 
 [[projects]]
-  digest = "1:027133e2c23fd4ff467e66d928ab4a64f7fd7cb2f77acdb580c483f7389d22d7"
+  digest = "1:ed17414a259d9c62eb01cf8c2b0231e6310948337197ebd01161121a36be3759"
   name = "github.com/fsouza/go-dockerclient"
-  packages = [
-    ".",
-    "internal/archive",
-    "internal/jsonmessage",
-    "internal/term",
-  ]
+  packages = ["."]
   pruneopts = "UT"
-  revision = "8842d40dbf5ee062d80f9dc429db31a0fe0cdc73"
-  version = "v1.2.2"
+  revision = "51bd33c0c7792b2566054672a4915b406d988cc6"
+  version = "v1.2.1"
 
 [[projects]]
   digest = "1:bbadccf3d3317ea03c0dac0b45b673b4b397c8f91a1d2eff550a3c51c4ad770e"
@@ -167,7 +166,8 @@
   version = "v1.1.1"
 
 [[projects]]
-  digest = "1:5ac24c0ad5dc117fb2b6d90d205c876ec599c09cccb702a36586680e09cb20b5"
+  branch = "master"
+  digest = "1:c095e448622bb061a09cb718e3dddc59acb624a67756392282374fa091c83343"
   name = "github.com/golang/protobuf"
   packages = [
     "proto",
@@ -178,8 +178,7 @@
     "ptypes/timestamp",
   ]
   pruneopts = "UT"
-  revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
-  version = "v1.2.0"
+  revision = "6e3d092c77c3bae25acf4925942b568e742c1c20"
 
 [[projects]]
   branch = "master"
@@ -207,7 +206,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:9007b8102242980dd02739e1ad6b4f1f83e77b6e9744a1338344d39b1dbf19b2"
+  digest = "1:e8e9fb4680853536085054f8b7bfce20ae24b00de8eb80877c364a93c44bcc3c"
   name = "github.com/hyperledger/fabric"
   packages = [
     "bccsp",
@@ -216,6 +215,7 @@
     "bccsp/signer",
     "bccsp/sw",
     "bccsp/utils",
+    "common/attrmgr",
     "common/capabilities",
     "common/cauthdsl",
     "common/channelconfig",
@@ -236,6 +236,7 @@
     "common/tools/configtxlator/update",
     "common/util",
     "common/viperutil",
+    "core/chaincode/lib/cid",
     "core/chaincode/platforms",
     "core/chaincode/platforms/ccmetadata",
     "core/chaincode/shim",
@@ -261,7 +262,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "b710dd3e25a529ca60732d299e4b20badf80f597"
+  revision = "e6bdd232138c7e22ccb373587956ee6f5c18725a"
 
 [[projects]]
   branch = "master"
@@ -342,9 +343,12 @@
   version = "v1.0.1"
 
 [[projects]]
-  digest = "1:38ee335aedf4626620f3cf8f605661e71abdcce7b40b38921962beb3980f0a20"
+  digest = "1:1869683e323ebff2bdf8adcb560f82bf6f8d94019d35099e3403f7df12e9c07e"
   name = "github.com/opencontainers/runc"
-  packages = ["libcontainer/user"]
+  packages = [
+    "libcontainer/system",
+    "libcontainer/user",
+  ]
   pruneopts = "UT"
   revision = "baf6536d6259209c3edfa2b22237af82942d3dfa"
   version = "v0.1.1"
@@ -472,7 +476,7 @@
     "ssh/terminal",
   ]
   pruneopts = "UT"
-  revision = "0709b304e793a5edb4a2c0145f281ecdc20838a4"
+  revision = "0e37d006457bf46f9e6692014ba72ef82c33022c"
 
 [[projects]]
   branch = "master"
@@ -488,18 +492,18 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "161cd47e91fd58ac17490ef4d742dc98bb4cf60e"
+  revision = "26e67e76b6c3f6ce91f7c52def5af501b4e0f3a2"
 
 [[projects]]
   branch = "master"
-  digest = "1:374fc90fcb026e9a367e3fad29e988e5dd944b68ca3f24a184d77abc5307dda4"
+  digest = "1:e10551220bea6da5274318545537df1012268056be6484b83a3338328050cde0"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "d0be0721c37eeb5299f245a996a483160fc36940"
+  revision = "ee1b12c67af419cf5a9be3bdbeea7fc1c5f32f11"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
@@ -526,11 +530,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:077c1c599507b3b3e9156d17d36e1e61928ee9b53a5b420f10f28ebd4a0b275c"
+  digest = "1:56b0bca90b7e5d1facf5fbdacba23e4e0ce069d25381b8e2f70ef1e7ebfb9c1a"
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "11092d34479b07829b72e10713b159248caf5dad"
+  revision = "c3f76f3b92d1ffa4c58a9ff842a58b8877655e0f"
 
 [[projects]]
   digest = "1:2dab32a43451e320e49608ff4542fdfc653c95dcc35d0065ec9c6c3dd540ed74"
@@ -580,6 +584,7 @@
   input-imports = [
     "github.com/davidkhala/goutils",
     "github.com/hyperledger/fabric/common/ledger/testutil",
+    "github.com/hyperledger/fabric/core/chaincode/lib/cid",
     "github.com/hyperledger/fabric/core/chaincode/shim",
     "github.com/hyperledger/fabric/protos/peer",
   ]
