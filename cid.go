@@ -43,3 +43,6 @@ func (t ClientIdentity) AssertAttributeValue(attrName, attrValue string) {
 	var err = t.cid.AssertAttributeValue(attrName, attrValue)
 	PanicError(err)
 }
+func (t ClientIdentity) ToJSON() []byte {
+	return ToJson(t.cid)
+}
