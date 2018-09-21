@@ -58,7 +58,7 @@
   name = "github.com/containerd/continuity"
   packages = ["pathdriver"]
   pruneopts = "UT"
-  revision = "f04dbc0d6e83984cca2c4c8b0d9b833d3809f260"
+  revision = "508d86ade3c25875053b68f5061c20020b3f2894"
 
 [[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
@@ -178,7 +178,7 @@
     "ptypes/timestamp",
   ]
   pruneopts = "UT"
-  revision = "6e3d092c77c3bae25acf4925942b568e742c1c20"
+  revision = "7716a980bceefe9a0213654823d9ea62d23b87a2"
 
 [[projects]]
   branch = "master"
@@ -206,7 +206,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:e8e9fb4680853536085054f8b7bfce20ae24b00de8eb80877c364a93c44bcc3c"
+  digest = "1:c9b978aac1ccfa55c77107843a46bd5ac59843f03fa2e5fdc8f113996b6a98fc"
   name = "github.com/hyperledger/fabric"
   packages = [
     "bccsp",
@@ -236,7 +236,6 @@
     "common/tools/configtxlator/update",
     "common/util",
     "common/viperutil",
-    "core/chaincode/lib/cid",
     "core/chaincode/platforms",
     "core/chaincode/platforms/ccmetadata",
     "core/chaincode/shim",
@@ -262,7 +261,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "e6bdd232138c7e22ccb373587956ee6f5c18725a"
+  revision = "f8ce69508a6241e299e7957fa4f971b5262213c5"
 
 [[projects]]
   branch = "master"
@@ -492,18 +491,18 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "26e67e76b6c3f6ce91f7c52def5af501b4e0f3a2"
+  revision = "2f5d2388922f370f4355f327fcf4cfe9f5583908"
 
 [[projects]]
   branch = "master"
-  digest = "1:e10551220bea6da5274318545537df1012268056be6484b83a3338328050cde0"
+  digest = "1:3bb4674103eef9bf860b88e59048c67ad646de4274ea7de8d71d16e9f8209bff"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "ee1b12c67af419cf5a9be3bdbeea7fc1c5f32f11"
+  revision = "d641721ec2dead6fe5ca284096fe4b1fcd49e427"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
@@ -583,10 +582,13 @@
   analyzer-version = 1
   input-imports = [
     "github.com/davidkhala/goutils",
+    "github.com/golang/protobuf/proto",
+    "github.com/hyperledger/fabric/common/attrmgr",
     "github.com/hyperledger/fabric/common/ledger/testutil",
-    "github.com/hyperledger/fabric/core/chaincode/lib/cid",
     "github.com/hyperledger/fabric/core/chaincode/shim",
+    "github.com/hyperledger/fabric/protos/msp",
     "github.com/hyperledger/fabric/protos/peer",
+    "github.com/pkg/errors",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
