@@ -2,47 +2,57 @@ package golang
 
 import (
 	"crypto/x509"
+	"encoding/pem"
 	. "github.com/davidkhala/goutils"
-	"github.com/hyperledger/fabric/core/chaincode/lib/cid"
+	"github.com/golang/protobuf/proto"
+	"github.com/hyperledger/fabric/common/attrmgr"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"github.com/hyperledger/fabric/protos/msp"
+	"github.com/pkg/errors"
 )
 
 //import "github.com/hyperledger/fabric/core/chaincode/lib/cid"
 // alternative of creator starting from 1.1
 type ClientIdentity struct {
-	cid cid.ClientIdentity
+	stub  shim.ChaincodeStubInterface
+	MspID string
+	Cert  x509.Certificate
+	Attrs attrmgr.Attributes
 }
 
 func NewClientIdentity(stub shim.ChaincodeStubInterface) ClientIdentity {
-	var c, err = cid.New(stub)
+
+	var c = ClientIdentity{stub: stub}
+	signingID := c.getIdentity()
+	c.MspID = signingID.GetMspid()
+	idbytes := signingID.GetIdBytes()
+	block, _ := pem.Decode(idbytes)
+	if block == nil {
+		panic(errors.New("Expecting a PEM-encoded X509 certificate; PEM block not found"))
+	}
+	cert, err := x509.ParseCertificate(block.Bytes)
 	PanicError(err)
-	return ClientIdentity{c}
+	c.Cert = *cert
+	attrs, err := attrmgr.New().GetAttributesFromCert(cert)
+	PanicError(err)
+	c.Attrs = *attrs
+	return c
 }
 
-func (t ClientIdentity) GetID() string {
-	var id, err = t.cid.GetID()
+// Unmarshals the bytes returned by ChaincodeStubInterface.GetCreator method and
+// returns the resulting msp.SerializedIdentity object
+func (c *ClientIdentity) getIdentity() (*msp.SerializedIdentity) {
+	sid := &msp.SerializedIdentity{}
+	creator, err := c.stub.GetCreator()
 	PanicError(err)
-	return id
-}
-func (t ClientIdentity) GetMSPID() string {
-	var mspid, err = t.cid.GetMSPID()
+	if creator == nil {
+		panic(errors.New("failed to get transaction invoker's identity from the chaincode stub"))
+	}
+	err = proto.Unmarshal(creator, sid)
 	PanicError(err)
-	return mspid
+	return sid
 }
-func (t ClientIdentity) GetX509Certificate() *x509.Certificate {
-	var cert, err = t.cid.GetX509Certificate()
-	PanicError(err)
-	return cert
-}
-func (t ClientIdentity) GetAttributeValue(attrName string) (string, bool) {
-	var value, found, err = t.cid.GetAttributeValue(attrName)
-	PanicError(err)
-	return value, found
-}
-func (t ClientIdentity) AssertAttributeValue(attrName, attrValue string) {
-	var err = t.cid.AssertAttributeValue(attrName, attrValue)
-	PanicError(err)
-}
-func (t ClientIdentity) ToJSON() []byte {
-	return ToJson(t.cid)
+
+func (c *ClientIdentity) GetAttributeValue(attrName string) (string) {
+	return c.Attrs.Attrs[attrName]
 }
