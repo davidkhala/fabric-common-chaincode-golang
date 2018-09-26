@@ -75,6 +75,11 @@ func (cc CommonChaincode) GetStateObj(key string, v interface{}) bool {
 	FromJson(bytes, v)
 	return true
 }
+func (cc CommonChaincode) GetTransient() map[string][]byte {
+	transient, err := cc.CCAPI.GetTransient()
+	PanicError(err)
+	return transient
+}
 func (cc CommonChaincode) PutStateObj(key string, v interface{}) {
 	var bytes = ToJson(v)
 	cc.PutState(key, bytes)
