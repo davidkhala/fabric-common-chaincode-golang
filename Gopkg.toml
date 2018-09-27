@@ -8,9 +8,6 @@
 # TODO jira issue https://jira.hyperledger.org/browse/FAB-10936
 
 [[override]]
-    name = "github.com/golang/protobuf"
-    branch = "master"
-[[override]]
     name = "github.com/fsouza/go-dockerclient"
     version = "=1.2.1"
 

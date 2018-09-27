@@ -1,11 +1,11 @@
 package golang
 
 import (
+	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
+	"github.com/stretchr/testify/assert"
 	"testing"
-	"github.com/hyperledger/fabric/common/ledger/testutil"
-	. "github.com/davidkhala/goutils"
 )
 
 type TestChaincode struct {
@@ -48,7 +48,7 @@ func TestTestChaincode_Init(t *testing.T) {
 
 	var response = mock.MockInit(TxID, initArgs)
 	t.Log("init ", response)
-	testutil.AssertSame(t, response.Status, int32(200));
+	assert.Equal(t, int32(200), response.Status)
 }
 func TestTestChaincode_Invoke(t *testing.T) {
 
@@ -58,7 +58,7 @@ func TestTestChaincode_Invoke(t *testing.T) {
 	var TxID = "oa"
 	var response = mock.MockInvoke(TxID, args)
 	t.Log("invoke ", response)
-	testutil.AssertSame(t, response.Status, int32(200));
+	assert.Equal(t, int32(200), response.Status);
 	//	when error status is 500
 }
 
@@ -94,7 +94,7 @@ func TestWorldStates(t *testing.T) {
 	mock.MockTransactionEnd(TxID);
 	TxID = "composite1"
 	mock.MockTransactionStart(TxID)
-	kvs := cc.WorldStates( "")
+	kvs := cc.WorldStates("")
 
 	t.Log(kvs)
 
