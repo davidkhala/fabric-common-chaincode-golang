@@ -1,8 +1,8 @@
 package golang
 
 import (
-	"github.com/hyperledger/fabric/core/chaincode/shim"
 	. "github.com/davidkhala/goutils"
+	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
 type KeyModification struct {
@@ -68,6 +68,9 @@ func ArgsBuilder(fcn string) (Args) {
 	return Args{[][]byte{[]byte(fcn)}}
 }
 
+func (t *Args) AppendBytes(bytes []byte) {
+	t.buff = append(t.buff, bytes)
+}
 func (t *Args) AppendArg(str string) {
 	t.buff = append(t.buff, []byte(str))
 }
