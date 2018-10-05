@@ -493,6 +493,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/davidkhala/goutils",
+    "github.com/fsouza/go-dockerclient",
     "github.com/golang/protobuf/proto",
     "github.com/hyperledger/fabric/common/attrmgr",
     "github.com/hyperledger/fabric/core/chaincode/shim",
