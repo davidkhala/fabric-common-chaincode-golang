@@ -143,7 +143,6 @@ func (cc CommonChaincode) SetEvent(name string, payload []byte) {
 
 func DeferPeerResponse(response *peer.Response) {
 	var handler = func(errString string) bool {
-		fmt.Println("fmt.print err(string)", errString)
 		response.Status = shim.ERROR
 		response.Message = errString
 		return true
