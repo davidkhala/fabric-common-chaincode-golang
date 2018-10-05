@@ -54,11 +54,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:43ca0cf4c44c0eaec1f819411473965dfb344ae28a003bcb98c9caa5c6d51224"
+  digest = "1:2559ba0534cc749e8920c0690428ccb9f8d22c91336e12c5cd1883b3157a6919"
   name = "github.com/davidkhala/goutils"
   packages = ["."]
   pruneopts = "UT"
-  revision = "ffc6e3a504f6b4dd4a8ad7b38a11b919f3b7fe40"
+  revision = "6092f40362e1298459d8337ae089d81af1c46aa3"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"

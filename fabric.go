@@ -141,13 +141,11 @@ func (cc CommonChaincode) SetEvent(name string, payload []byte) {
 	PanicError(err)
 }
 
-func DeferPeerResponse(response *peer.Response) {
-	var handler = func(errString string) bool {
-		response.Status = shim.ERROR
-		response.Message = errString
-		return true
-	}
-	Deferred(handler)
+var DeferHandlerPeerResponse = func(errString string, params ...interface{}) bool {
+	var response = params[0].(*peer.Response)
+	response.Status = shim.ERROR
+	response.Message = errString
+	return true
 }
 
 type CommonChaincode struct {

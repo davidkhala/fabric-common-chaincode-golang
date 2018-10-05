@@ -24,8 +24,9 @@ func (t *TestChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
 }
 
 // Transaction makes payment of X units from A to B
-func (t *TestChaincode) Invoke(ccAPI shim.ChaincodeStubInterface) peer.Response {
+func (t *TestChaincode) Invoke(ccAPI shim.ChaincodeStubInterface) (response peer.Response) {
 	logger.Info("########### " + name + " Invoke ###########")
+	defer Deferred(DeferHandlerPeerResponse, &response)
 	fcn, _ := ccAPI.GetFunctionAndParameters()
 	switch fcn {
 	case "panic":
