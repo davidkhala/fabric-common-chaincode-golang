@@ -168,3 +168,7 @@ func (cc *CommonChaincode) SetLogger(ccName string) {
 	cc.Name = ccName
 	cc.Logger = shim.NewLogger(ccName)
 }
+func ChaincodeStart(cc shim.Chaincode) {
+	var err = shim.Start(cc)
+	PanicError(err)
+}
