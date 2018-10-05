@@ -157,7 +157,6 @@ type CommonChaincode struct {
 	Logger  *shim.ChaincodeLogger
 	Channel string
 	CCAPI   shim.ChaincodeStubInterface //chaincode API
-	shim.Chaincode
 }
 
 func (cc *CommonChaincode) Prepare(ccAPI shim.ChaincodeStubInterface) {
