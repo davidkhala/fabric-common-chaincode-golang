@@ -17,8 +17,7 @@ func ParseCreator(creator []byte) (Creator) {
 	var msp bytes.Buffer
 
 	var certificateBuffer bytes.Buffer
-	var mspReady bool
-	mspReady = false
+	var mspReady = false
 
 	for i := 0; i < len(creator); i++ {
 		char := creator[i]
