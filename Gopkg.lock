@@ -54,11 +54,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:2559ba0534cc749e8920c0690428ccb9f8d22c91336e12c5cd1883b3157a6919"
+  digest = "1:9dd825d9cdc9152eca63df81559850ad15ff8af97abaf77a9fdff23c7feadf1b"
   name = "github.com/davidkhala/goutils"
   packages = ["."]
   pruneopts = "UT"
-  revision = "6092f40362e1298459d8337ae089d81af1c46aa3"
+  revision = "309ec447f2e12e0cf857a83fdc7e9bc5a0f56253"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -183,7 +183,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "e9d023b4d4887c8213387d011b0b4864ebedaf21"
+  revision = "5edfc76f73e6c25f3b3e3ac744233603d616dd39"
 
 [[projects]]
   branch = "master"
@@ -406,14 +406,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:8a35cf7e4a316cee63d627d7de15b81901a19f8a3f9aff0d1a80c746a57234d6"
+  digest = "1:850d28ab022512e2cd3cf511a77f363c29e22689b4031f2050871f5de47ae4a0"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "8469e314837c2e2471561de5c47bbf8bfd0d9099"
+  revision = "4497e2df6f9e69048a54498c7affbbec3294ad47"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"

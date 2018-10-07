@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"crypto/x509"
 	"encoding/pem"
-	"errors"
+	. "github.com/davidkhala/goutils"
 )
 
 type Creator struct {
@@ -13,8 +13,7 @@ type Creator struct {
 	Certificate    x509.Certificate
 }
 
-func ParseCreator(creator []byte) (Creator, error) {
-	var result Creator;
+func ParseCreator(creator []byte) (Creator) {
 	var msp bytes.Buffer
 
 	var certificateBuffer bytes.Buffer
@@ -42,15 +41,10 @@ func ParseCreator(creator []byte) (Creator, error) {
 	}
 
 	block, rest := pem.Decode(certificateBuffer.Bytes())
-
-	if rest != nil && len(rest) > 0 {
-		return result, errors.New("pem decode failed:" + string(rest))
-	}
+	AssertEmpty(rest, "pem decode failed:"+string(rest))
 	certificate, err := x509.ParseCertificate(block.Bytes)
-	if err != nil {
-		return result, errors.New("pem decode failed:" + err.Error())
-	}
-	result = Creator{Msp: msp.String(), CertificatePem: certificateBuffer.String(), Certificate: *certificate}
-	return result, nil
+	PanicError(err)
+
+	return Creator{Msp: msp.String(), CertificatePem: certificateBuffer.String(), Certificate: *certificate}
 
 }
