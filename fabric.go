@@ -115,10 +115,7 @@ func (cc CommonChaincode) GetTxTime() time.Time {
 func (cc CommonChaincode) GetThisCreator() Creator {
 	var creatorBytes, err = cc.CCAPI.GetCreator()
 	PanicError(err)
-	var creator Creator
-	creator, err = ParseCreator(creatorBytes)
-	PanicError(err)
-	return creator
+	return ParseCreator(creatorBytes)
 }
 
 func (cc CommonChaincode) GetHistoryForKey(key string) shim.HistoryQueryIteratorInterface {

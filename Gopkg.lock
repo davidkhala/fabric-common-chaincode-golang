@@ -54,11 +54,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:9dd825d9cdc9152eca63df81559850ad15ff8af97abaf77a9fdff23c7feadf1b"
+  digest = "1:1185b78aca307e503269b6dda793cf3bc82c5b5e6396479b413a31e51ca52039"
   name = "github.com/davidkhala/goutils"
   packages = ["."]
   pruneopts = "UT"
-  revision = "309ec447f2e12e0cf857a83fdc7e9bc5a0f56253"
+  revision = "d6796efd58eb1239c7dda0a4d8345e03142149b4"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -183,7 +183,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "5edfc76f73e6c25f3b3e3ac744233603d616dd39"
+  revision = "bcc924d884f22699b1cf0511e56481682833c10d"
 
 [[projects]]
   branch = "master"
