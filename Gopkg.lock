@@ -58,7 +58,7 @@
   name = "github.com/davidkhala/goutils"
   packages = ["."]
   pruneopts = "UT"
-  revision = "49504d3d4f1fcb5d89f273af0eb5aa50c03a3343"
+  revision = "d90db03359078a860d9759f85a67ff5a33ca6faf"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
