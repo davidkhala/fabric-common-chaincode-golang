@@ -54,11 +54,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:1185b78aca307e503269b6dda793cf3bc82c5b5e6396479b413a31e51ca52039"
+  digest = "1:fdf744454966f466c686938bfe13a8f3e1920ee0a787fa57362816320c07abdc"
   name = "github.com/davidkhala/goutils"
   packages = ["."]
   pruneopts = "UT"
-  revision = "d6796efd58eb1239c7dda0a4d8345e03142149b4"
+  revision = "49504d3d4f1fcb5d89f273af0eb5aa50c03a3343"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -150,7 +150,7 @@
 
 [[projects]]
   branch = "release-1.3"
-  digest = "1:ee917be83b1033111fe6ed162d768228919e0f39dcb26fd7de3b7f618a27189c"
+  digest = "1:ea5d9f0d9ce6c60a3e395bab69a40bef9c9246c776158378e19551e09d60b175"
   name = "github.com/hyperledger/fabric"
   packages = [
     "bccsp",
@@ -183,7 +183,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "bcc924d884f22699b1cf0511e56481682833c10d"
+  revision = "595a8c21e1a0e355da8b66f691f627660deaff33"
 
 [[projects]]
   branch = "master"
@@ -299,12 +299,12 @@
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:dc2d85c13ac22c22a1f3170a41a8e1b897fa05134aaf533f16df44f66a25b4a1"
+  digest = "1:3f53e9e4dfbb664cd62940c9c4b65a2171c66acd0b7621a1a6b8e78513525a52"
   name = "github.com/sirupsen/logrus"
   packages = ["."]
   pruneopts = "UT"
-  revision = "a67f783a3814b8729bd2dac5780b5f78f8dbd64d"
-  version = "v1.1.0"
+  revision = "ad15b42461921f1fb3529b058c6786c6a45d5162"
+  version = "v1.1.1"
 
 [[projects]]
   digest = "1:516e71bed754268937f57d4ecb190e01958452336fa73dbac880894164e91c1f"
