@@ -162,6 +162,16 @@ func (cc *CommonChaincode) SetLogger(ccName string) {
 	cc.Name = ccName
 	cc.Logger = shim.NewLogger(ccName)
 }
+func (cc CommonChaincode) GetFunctionAndArgs() (string, [][]byte) {
+	var allArgs = cc.CCAPI.GetArgs()
+	var fcn = ""
+	var args = [][]byte{}
+	if len(allArgs) >= 1 {
+		fcn = string(allArgs[0])
+		args = allArgs[1:]
+	}
+	return fcn, args
+}
 func ChaincodeStart(cc shim.Chaincode) {
 	var err = shim.Start(cc)
 	PanicError(err)
