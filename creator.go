@@ -3,14 +3,13 @@ package golang
 import (
 	"bytes"
 	"crypto/x509"
-	"encoding/pem"
 	. "github.com/davidkhala/goutils"
 )
 
 type Creator struct {
 	Msp            string
 	CertificatePem []byte
-	Certificate    x509.Certificate `json:"-"`
+	Certificate    *x509.Certificate `json:"-"`
 }
 
 func ParseCreator(creator []byte) (Creator) {
@@ -40,11 +39,8 @@ func ParseCreator(creator []byte) (Creator) {
 	}
 
 	certBytes := certificateBuffer.Bytes()
-	block, rest := pem.Decode(certBytes)
-	AssertEmpty(rest, "pem decode failed:"+string(rest))
-	certificate, err := x509.ParseCertificate(block.Bytes)
-	PanicError(err)
+	certificate := ParseCertPem(certBytes)
 
-	return Creator{Msp: msp.String(), CertificatePem: certBytes, Certificate: *certificate}
+	return Creator{msp.String(), certBytes, certificate}
 
 }

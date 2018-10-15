@@ -54,11 +54,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:fdf744454966f466c686938bfe13a8f3e1920ee0a787fa57362816320c07abdc"
+  digest = "1:a7d386052c2c244f0e823c4b1bb2f6c290cfeddc99a5ea34e21b78b343435551"
   name = "github.com/davidkhala/goutils"
   packages = ["."]
   pruneopts = "UT"
-  revision = "d90db03359078a860d9759f85a67ff5a33ca6faf"
+  revision = "6679568f1dc3206ee1130e3c1617dad8dcf76fae"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -150,7 +150,7 @@
 
 [[projects]]
   branch = "release-1.3"
-  digest = "1:ea5d9f0d9ce6c60a3e395bab69a40bef9c9246c776158378e19551e09d60b175"
+  digest = "1:187e0ea7a1d33df07219adf86ca3cdab78539629ecda02be896f598839f2fc8d"
   name = "github.com/hyperledger/fabric"
   packages = [
     "bccsp",
@@ -183,7 +183,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "595a8c21e1a0e355da8b66f691f627660deaff33"
+  revision = "ce1bd7286ed0c1915dc9020182d8e9ad5a9959de"
 
 [[projects]]
   branch = "master"
@@ -386,7 +386,7 @@
     "ssh/terminal",
   ]
   pruneopts = "UT"
-  revision = "e3636079e1a4c1f337f212cc5cd2aca108f6c900"
+  revision = "0c41d7ab0a0ee717d4590a44bcb987dfd9e183eb"
 
 [[projects]]
   branch = "master"
@@ -402,18 +402,18 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "146acd28ed5894421fb5aac80ca93bc1b1f46f87"
+  revision = "49bb7cea24b1df9410e1712aa6433dae904ff66a"
 
 [[projects]]
   branch = "master"
-  digest = "1:850d28ab022512e2cd3cf511a77f363c29e22689b4031f2050871f5de47ae4a0"
+  digest = "1:f5aa274a0377f85735edc7fedfb0811d3cbc20af91633797cb359e29c3272271"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "4497e2df6f9e69048a54498c7affbbec3294ad47"
+  revision = "fa43e7bc11baaae89f3f902b2b4d832b68234844"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"

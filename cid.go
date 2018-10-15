@@ -2,7 +2,6 @@ package golang
 
 import (
 	"crypto/x509"
-	"encoding/pem"
 	. "github.com/davidkhala/goutils"
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric/common/attrmgr"
@@ -31,18 +30,11 @@ func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 
 	c.MspID = signingID.GetMspid()
 	c.CertificatePem = signingID.GetIdBytes()
-	c.Cert = c.GetCert()
+	c.Cert = ParseCertPem(c.CertificatePem)
 	attrs, err := attrmgr.New().GetAttributesFromCert(c.Cert)
 	PanicError(err)
 	c.Attrs = *attrs
 	return c
-}
-func (c ClientIdentity) GetCert() *x509.Certificate {
-	block, rest := pem.Decode(c.CertificatePem)
-	AssertEmpty(rest, "pem decode failed:"+string(rest))
-	cert, err := x509.ParseCertificate(block.Bytes)
-	PanicError(err)
-	return cert
 }
 
 func (c *ClientIdentity) GetAttributeValue(attrName string) (string) {
