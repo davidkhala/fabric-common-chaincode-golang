@@ -13,9 +13,10 @@ import (
 
 // alternative of creator starting from 1.1
 type ClientIdentity struct {
-	MspID string
-	Cert  x509.Certificate
-	Attrs attrmgr.Attributes
+	MspID          string
+	Cert           *x509.Certificate `json:"-"`
+	CertificatePem []byte
+	Attrs          attrmgr.Attributes
 }
 
 func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
@@ -30,17 +31,19 @@ func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 
 	c.MspID = signingID.GetMspid()
 	idbytes := signingID.GetIdBytes()
-	block, _ := pem.Decode(idbytes)
-	if block == nil {
-		panic(errors.New("Expecting a PEM-encoded X509 certificate; PEM block not found"))
-	}
-	cert, err := x509.ParseCertificate(block.Bytes)
-	PanicError(err)
-	c.Cert = *cert
-	attrs, err := attrmgr.New().GetAttributesFromCert(cert)
+	block, rest := pem.Decode(idbytes)
+	AssertEmpty(rest, "pem decode failed:"+string(rest))
+	c.CertificatePem = block.Bytes
+	c.Cert = c.GetCert()
+	attrs, err := attrmgr.New().GetAttributesFromCert(c.Cert)
 	PanicError(err)
 	c.Attrs = *attrs
 	return c
+}
+func (c ClientIdentity) GetCert() *x509.Certificate {
+	cert, err := x509.ParseCertificate(c.CertificatePem)
+	PanicError(err)
+	return cert
 }
 
 func (c *ClientIdentity) GetAttributeValue(attrName string) (string) {

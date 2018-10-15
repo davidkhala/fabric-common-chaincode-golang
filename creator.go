@@ -9,8 +9,8 @@ import (
 
 type Creator struct {
 	Msp            string
-	CertificatePem string
-	Certificate    x509.Certificate
+	CertificatePem []byte
+	Certificate    x509.Certificate `json:"-"`
 }
 
 func ParseCreator(creator []byte) (Creator) {
@@ -39,11 +39,12 @@ func ParseCreator(creator []byte) (Creator) {
 		}
 	}
 
-	block, rest := pem.Decode(certificateBuffer.Bytes())
+	certBytes := certificateBuffer.Bytes()
+	block, rest := pem.Decode(certBytes)
 	AssertEmpty(rest, "pem decode failed:"+string(rest))
 	certificate, err := x509.ParseCertificate(block.Bytes)
 	PanicError(err)
 
-	return Creator{Msp: msp.String(), CertificatePem: certificateBuffer.String(), Certificate: *certificate}
+	return Creator{Msp: msp.String(), CertificatePem: certBytes, Certificate: *certificate}
 
 }
