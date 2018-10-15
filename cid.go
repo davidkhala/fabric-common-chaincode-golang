@@ -14,7 +14,7 @@ import (
 // alternative of creator starting from 1.1
 type ClientIdentity struct {
 	MspID          string
-	Cert           *x509.Certificate `json:"-"`
+	Cert           *x509.Certificate `json:"-"` //only an ec-use reference
 	CertificatePem []byte
 	Attrs          attrmgr.Attributes
 }
@@ -30,10 +30,7 @@ func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 	PanicError(err)
 
 	c.MspID = signingID.GetMspid()
-	idbytes := signingID.GetIdBytes()
-	block, rest := pem.Decode(idbytes)
-	AssertEmpty(rest, "pem decode failed:"+string(rest))
-	c.CertificatePem = block.Bytes
+	c.CertificatePem = signingID.GetIdBytes()
 	c.Cert = c.GetCert()
 	attrs, err := attrmgr.New().GetAttributesFromCert(c.Cert)
 	PanicError(err)
@@ -41,7 +38,9 @@ func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 	return c
 }
 func (c ClientIdentity) GetCert() *x509.Certificate {
-	cert, err := x509.ParseCertificate(c.CertificatePem)
+	block, rest := pem.Decode(c.CertificatePem)
+	AssertEmpty(rest, "pem decode failed:"+string(rest))
+	cert, err := x509.ParseCertificate(block.Bytes)
 	PanicError(err)
 	return cert
 }
