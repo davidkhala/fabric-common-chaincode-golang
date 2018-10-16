@@ -37,24 +37,24 @@ func (history *History) ParseHistory(iterator shim.HistoryQueryIteratorInterface
 }
 
 type States struct {
-	States []KVJson
+	States []StateKV
 }
 
-type KVJson struct {
+type StateKV struct {
 	Namespace string
 	Key       string
 	Value     string
 }
 
-func (state *States) ParseStates(iterator shim.StateQueryIteratorInterface) {
+func ParseStates(iterator shim.StateQueryIteratorInterface) States {
 	defer iterator.Close()
-	var kvs []KVJson
+	var kvs []StateKV
 	for iterator.HasNext() {
 		kv, err := iterator.Next()
 		PanicError(err)
-		kvs = append(kvs, KVJson{kv.Namespace, kv.Key, string(kv.Value)})
+		kvs = append(kvs, StateKV{kv.Namespace, kv.Key, string(kv.Value)})
 	}
-	state.States = kvs
+	return States{kvs}
 }
 
 type Modifier func(interface{})

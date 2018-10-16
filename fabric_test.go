@@ -74,8 +74,7 @@ func TestCreateCompositeKey(t *testing.T) {
 	TxID = "composite1"
 	mock.MockTransactionStart(TxID)
 	iterator := cc.GetStateByPartialCompositeKey("a", []string{"d"})
-	var kvs States
-	kvs.ParseStates(iterator)
+	var kvs = ParseStates(iterator)
 	t.Log(kvs)
 	mock.MockTransactionEnd(TxID)
 }
@@ -99,14 +98,14 @@ func TestWorldStates(t *testing.T) {
 
 	t.Log(kvs)
 
-	kvs.ParseStates(cc.GetStateByRange("a_1", ""))
-	t.Log(kvs)
+	var states2 = ParseStates(cc.GetStateByRange("a_1", ""))
+	t.Log(states2)
 	mock.MockTransactionEnd(TxID)
 }
 
 func TestGetStateObj(t *testing.T) {
 
-	var value = KVJson{"1", "2", "3"}
+	var value = StateKV{"1", "2", "3"}
 	var TxID = "compositeKey"
 	var key = "a_1"
 	mock.MockTransactionStart(TxID)
@@ -117,7 +116,7 @@ func TestGetStateObj(t *testing.T) {
 	TxID = "composite1"
 	mock.MockTransactionStart(TxID)
 
-	var recovered KVJson
+	var recovered StateKV
 	cc.GetStateObj(key, &recovered)
 
 	t.Log(recovered)
@@ -125,7 +124,7 @@ func TestGetStateObj(t *testing.T) {
 }
 func TestModifyValue(t *testing.T) {
 	var key = "a_1"
-	var kv KVJson
+	var kv StateKV
 	TxID := "composite2"
 	mock.MockTransactionStart(TxID)
 	var modifier = func(v interface{}) {

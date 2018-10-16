@@ -28,9 +28,7 @@ func (cc CommonChaincode) WorldStates(objectType string) States {
 		keysIterator = cc.GetStateByPartialCompositeKey(objectType, nil)
 	}
 
-	var state States
-	state.ParseStates(keysIterator)
-	return state
+	return ParseStates(keysIterator)
 }
 func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
 	var resp = cc.CCAPI.InvokeChaincode(chaincodeName, args, channel)
