@@ -140,6 +140,7 @@ var DeferHandlerPeerResponse = func(errString string, params ...interface{}) boo
 	var response = params[0].(*peer.Response)
 	response.Status = shim.ERROR
 	response.Message = errString
+	fmt.Println("DeferHandlerPeerResponse", errString)
 	return true
 }
 
