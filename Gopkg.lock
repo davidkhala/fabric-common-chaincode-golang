@@ -54,11 +54,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:12071abd60bcbf07922ccf9c1e4147ee3151b8d0dba53f26d34a3f43c5fd4f02"
+  digest = "1:44d12d717d639e0c866a0e0d594e790626562e5d30962ad36adfb86fca14352a"
   name = "github.com/davidkhala/goutils"
   packages = ["."]
   pruneopts = "UT"
-  revision = "890b3702dca9bfc7b81a534cc1ea2d500142a4fd"
+  revision = "bc12c9e94a98f180286f972e36a9b900fce63214"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -444,7 +444,7 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "5fc9ac5403620be16bcdb0c8e7644b1178472c3b"
+  revision = "b5d43981345bdb2c233eb4bf3277847b48c6fdc6"
 
 [[projects]]
   digest = "1:2dab32a43451e320e49608ff4542fdfc653c95dcc35d0065ec9c6c3dd540ed74"
