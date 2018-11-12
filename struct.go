@@ -8,14 +8,11 @@ import (
 type KeyModification struct {
 	TxId      string
 	Value     []byte
-	Timestamp int64
+	Timestamp TimeLong
 	IsDelete  bool
 }
-type History struct {
-	Modifications []KeyModification
-}
 
-func (history *History) ParseHistory(iterator shim.HistoryQueryIteratorInterface, filter Filter) {
+func ParseHistory(iterator shim.HistoryQueryIteratorInterface, filter Filter) []KeyModification {
 	defer iterator.Close()
 	var result []KeyModification
 	for iterator.HasNext() {
@@ -26,18 +23,14 @@ func (history *History) ParseHistory(iterator shim.HistoryQueryIteratorInterface
 		var translated = KeyModification{
 			keyModification.TxId,
 			keyModification.Value,
-			t,
+			TimeLong(t),
 			keyModification.IsDelete}
 		if filter(translated) {
 			result = append(result, translated)
 		}
 
 	}
-	history.Modifications = result
-}
-
-type States struct {
-	States []StateKV
+	return result
 }
 
 type StateKV struct {
@@ -46,7 +39,7 @@ type StateKV struct {
 	Value     string
 }
 
-func ParseStates(iterator shim.StateQueryIteratorInterface) States {
+func ParseStates(iterator shim.StateQueryIteratorInterface) []StateKV {
 	defer iterator.Close()
 	var kvs []StateKV
 	for iterator.HasNext() {
@@ -54,7 +47,7 @@ func ParseStates(iterator shim.StateQueryIteratorInterface) States {
 		PanicError(err)
 		kvs = append(kvs, StateKV{kv.Namespace, kv.Key, string(kv.Value)})
 	}
-	return States{kvs}
+	return kvs
 }
 
 type Modifier func(interface{})

@@ -20,7 +20,7 @@ const (
 	maxValidSeconds = 253402300800
 )
 
-func (cc CommonChaincode) WorldStates(objectType string) States {
+func (cc CommonChaincode) WorldStates(objectType string) []StateKV {
 	var keysIterator shim.StateQueryIteratorInterface
 	if objectType == "" {
 		keysIterator = cc.GetStateByRange("", "")
