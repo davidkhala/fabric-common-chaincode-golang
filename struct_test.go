@@ -10,5 +10,7 @@ func TestArgsBuilder_Constructor(t *testing.T) {
 	fmt.Println("args", args)
 	args.AppendArg("cde")
 	args.AppendBytes(nil)
-	fmt.Println("args2", args)
+	var result = args.Get()
+	fmt.Println("args2", result)
+	fmt.Println(`args[2]==""`, string(result[2]) == "")
 }
