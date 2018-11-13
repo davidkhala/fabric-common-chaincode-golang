@@ -3,7 +3,7 @@ package golang
 import (
 	"bytes"
 	"crypto/x509"
-	. "github.com/davidkhala/goutils"
+	. "github.com/davidkhala/goutils/crypto"
 )
 
 type Creator struct {

@@ -3,6 +3,7 @@ package golang
 import (
 	"crypto/x509"
 	. "github.com/davidkhala/goutils"
+	. "github.com/davidkhala/goutils/crypto"
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric/common/attrmgr"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
