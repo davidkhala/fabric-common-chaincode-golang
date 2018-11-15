@@ -54,11 +54,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:0484253dbe96542c07a96a814f1e6daf5bfefb429490714c33d31ffacac6a4b4"
+  digest = "1:bd5ea99f3ef77d8488141f90d1448ac3fddad231529a31ad251bf0d03cfa71f3"
   name = "github.com/davidkhala/goutils"
-  packages = ["."]
+  packages = [
+    ".",
+    "crypto",
+  ]
   pruneopts = "UT"
-  revision = "fdc7d7558320fd66639253401266e13b7769b9cc"
+  revision = "06ca15e68cec9b0bd5016eaae9e137b0c3bbde35"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -183,7 +186,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "306640d399bbea46d25bfa1673f35a3fa8187b49"
+  revision = "6c073551a117b8281d676bded20826d2516640ce"
 
 [[projects]]
   branch = "master"
@@ -386,7 +389,7 @@
     "ssh/terminal",
   ]
   pruneopts = "UT"
-  revision = "e4dc69e5b2fd71dcaf8bd5d054eb936deb78d1fa"
+  revision = "3d3f9f413869b949e48070b5bc593aa22cc2b8f2"
 
 [[projects]]
   branch = "master"
@@ -402,7 +405,7 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "03003ca0c849e57b6ea29a4bab8d3cb6e4d568fe"
+  revision = "adae6a3d119ae4890b46832a2e88a95adc62b8e7"
 
 [[projects]]
   branch = "master"
@@ -493,6 +496,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/davidkhala/goutils",
+    "github.com/davidkhala/goutils/crypto",
     "github.com/golang/protobuf/proto",
     "github.com/hyperledger/fabric/common/attrmgr",
     "github.com/hyperledger/fabric/core/chaincode/shim",
