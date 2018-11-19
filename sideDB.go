@@ -44,3 +44,7 @@ func (cc CommonChaincode) GetPrivateDataQueryResult(collection, query string) (s
 	PanicError(err)
 	return r;
 }
+func (cc CommonChaincode) DelPrivateData(collection, key string){
+	var err = cc.CCAPI.DelPrivateData(collection,key)
+	PanicError(err)
+}

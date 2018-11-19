@@ -86,7 +86,10 @@ func (cc CommonChaincode) PutState(key string, value []byte) {
 	var err = cc.CCAPI.PutState(key, value)
 	PanicError(err)
 }
-
+func (cc CommonChaincode) DelState(key string) {
+	var err = cc.CCAPI.DelState(key)
+	PanicError(err)
+}
 func (cc CommonChaincode) GetTxTime() time.Time {
 	ts, err := cc.CCAPI.GetTxTimestamp()
 	PanicError(err)
