@@ -44,7 +44,17 @@ func (cc CommonChaincode) GetPrivateDataQueryResult(collection, query string) (s
 	PanicError(err)
 	return r;
 }
-func (cc CommonChaincode) DelPrivateData(collection, key string){
-	var err = cc.CCAPI.DelPrivateData(collection,key)
+func (cc CommonChaincode) DelPrivateData(collection, key string) {
+	var err = cc.CCAPI.DelPrivateData(collection, key)
 	PanicError(err)
+}
+
+func (cc CommonChaincode) WorldStatesPrivate(collection, objectType string) []StateKV {
+	var keysIterator shim.StateQueryIteratorInterface
+	if objectType == "" {
+		keysIterator = cc.GetPrivateDataByRange(collection, "", "")
+	} else {
+		keysIterator = cc.GetPrivateDataByPartialCompositeKey(collection, objectType, nil)
+	}
+	return ParseStates(keysIterator)
 }
