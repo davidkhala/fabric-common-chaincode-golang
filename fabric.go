@@ -8,6 +8,7 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
 	"reflect"
+	"runtime/debug"
 	"time"
 )
 
@@ -144,6 +145,7 @@ var DeferHandlerPeerResponse = func(errString string, params ...interface{}) boo
 	response.Status = shim.ERROR
 	response.Message = errString
 	fmt.Println("DeferHandlerPeerResponse", errString)
+	debug.PrintStack()
 	return true
 }
 

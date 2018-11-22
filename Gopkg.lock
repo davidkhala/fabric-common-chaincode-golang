@@ -61,7 +61,7 @@
     "crypto",
   ]
   pruneopts = "UT"
-  revision = "bd7a7144103761af5d658d1abb15ac93f8cd2a61"
+  revision = "f70edfca2992835719db9f92d4911697fc2d0ecd"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
