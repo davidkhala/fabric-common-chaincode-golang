@@ -34,7 +34,12 @@ func (cc CommonChaincode) WorldStates(objectType string) []StateKV {
 func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
 	var resp = cc.CCAPI.InvokeChaincode(chaincodeName, args, channel)
 	if resp.Status >= shim.ERRORTHRESHOLD {
-		panic(errors.New(string(ToJson(resp))))
+		var errorPB = PeerResponse{
+			resp.Status,
+			resp.Message,
+			string(resp.Payload),
+		}
+		panic(errors.New(string(ToJson(errorPB))))
 	}
 	return resp
 }

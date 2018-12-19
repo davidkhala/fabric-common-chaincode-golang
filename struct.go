@@ -70,3 +70,13 @@ func (t *Args) AppendArg(str string) {
 func (t Args) Get() [][]byte {
 	return t.buff
 }
+
+//a readable structure of peer.response
+type PeerResponse struct {
+	// A status code that should follow the HTTP status codes.
+	Status int32 `json:"status,omitempty"`
+	// A message associated with the response code.
+	Message string `json:"message,omitempty"`
+	// A payload that can be used to include metadata with this response.
+	Payload string `json:"payload,omitempty"`
+}
