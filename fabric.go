@@ -65,7 +65,11 @@ func (cc CommonChaincode) CreateCompositeKey(objectType string, attributes []str
 	PanicError(err)
 	return key
 }
-
+func (cc CommonChaincode) GetBinding() []byte {
+	var result, err = cc.CCAPI.GetBinding()
+	PanicError(err)
+	return result
+}
 func (cc CommonChaincode) GetState(key string) []byte {
 	var bytes, err = cc.CCAPI.GetState(key)
 	PanicError(err)
@@ -119,6 +123,8 @@ func (cc CommonChaincode) GetTxTime() time.Time {
 	return t
 
 }
+
+//Deprecated, use Client Identity library instead
 func (cc CommonChaincode) GetThisCreator() Creator {
 	var creatorBytes, err = cc.CCAPI.GetCreator()
 	PanicError(err)
