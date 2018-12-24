@@ -6,5 +6,10 @@
 
 # TODO
 
-- Yacov M introduce about chaincodeStub.GetDecorations
-    As for Decorations, a peer may add additional input to the chaincode input via custom endorsement handlers. You need to specify a plugin file in the core.yaml section that implements a decorator.
+- Yacov M introduce about
+    chaincodeStub.GetDecorations: As for Decorations, a peer may add additional input to the chaincode input via custom endorsement handlers.
+    You need to specify a plugin file in the core.yaml section that implements a decorator.
+
+    chaincodeStub.GetBinding: it's just hash over nonce || creator || epoch
+
+-
