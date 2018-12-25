@@ -1,7 +1,9 @@
-package golang
-
+package cid
+//todo how to import official cid
 import (
 	"crypto/x509"
+	"encoding/base64"
+	"fmt"
 	. "github.com/davidkhala/goutils"
 	. "github.com/davidkhala/goutils/crypto"
 	"github.com/golang/protobuf/proto"
@@ -38,6 +40,15 @@ func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 	return c
 }
 
-func (c *ClientIdentity) GetAttributeValue(attrName string) (string) {
+func (c ClientIdentity) GetAttributeValue(attrName string) (string) {
 	return c.Attrs.Attrs[attrName]
+}
+
+// GetID returns a unique ID associated with the invoking identity.
+func (c ClientIdentity) GetID() string {
+	// The leading "x509::" distinguishes this as an X509 certificate, and
+	// the subject and issuer DNs uniquely identify the X509 certificate.
+	// The resulting ID will remain the same if the certificate is renewed.
+	id := fmt.Sprintf("x509::%s::%s", GetDN(&c.Cert.Subject), GetDN(&c.Cert.Issuer))
+	return base64.StdEncoding.EncodeToString([]byte(id))
 }
