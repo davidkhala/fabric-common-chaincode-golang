@@ -49,6 +49,6 @@ func (c ClientIdentity) GetID() string {
 	// The leading "x509::" distinguishes this as an X509 certificate, and
 	// the subject and issuer DNs uniquely identify the X509 certificate.
 	// The resulting ID will remain the same if the certificate is renewed.
-	id := fmt.Sprintf("x509::%s::%s", GetDN(&c.Cert.Subject), GetDN(&c.Cert.Issuer))
+	id := fmt.Sprintf("x509::%s::%s", GetDN(c.Cert.Subject), GetDN(c.Cert.Issuer))
 	return base64.StdEncoding.EncodeToString([]byte(id))
 }

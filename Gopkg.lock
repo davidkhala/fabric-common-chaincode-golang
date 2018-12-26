@@ -54,14 +54,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:c8a528cda7c93622d28e0362ed330459890d17ebdb358a17b33c31ce3ce15b48"
+  digest = "1:a54768da1dc900ffc60c02bf946db1bdbe98234d9c4737251bce7c42c9d3c874"
   name = "github.com/davidkhala/goutils"
   packages = [
     ".",
     "crypto",
   ]
   pruneopts = "UT"
-  revision = "d9a07c31d2c700094e5dd04b5f4afcabf4f0049c"
+  revision = "b902ab696b5b20ce1a96ea13417893d06ad70d6e"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
