@@ -6,6 +6,7 @@ import (
 	"fmt"
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"github.com/hyperledger/fabric/core/chaincode/shim/ext/cid"
 	"github.com/hyperledger/fabric/protos/peer"
 	"reflect"
 	"runtime/debug"
@@ -190,4 +191,10 @@ func (cc CommonChaincode) GetFunctionAndArgs() (string, [][]byte) {
 func ChaincodeStart(cc shim.Chaincode) {
 	var err = shim.Start(cc)
 	PanicError(err)
+}
+
+func FabricCID(stub shim.ChaincodeStubInterface) cid.ClientIdentity {
+	var identity, err = cid.New(stub)
+	PanicError(err)
+	return identity
 }
