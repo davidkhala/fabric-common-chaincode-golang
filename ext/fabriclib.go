@@ -6,7 +6,8 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim/ext/cid"
 )
 
-func ParseClientIdentity(stub shim.ChaincodeStubInterface) cid.ClientIdentity {
+//Note:clientIdentityImpl has no public properties, so ToJson(cid.ClientIdentity) is empty
+func NewClientIdentity(stub shim.ChaincodeStubInterface) cid.ClientIdentity {
 	var identity, err = cid.New(stub)
 	PanicError(err)
 	return identity
