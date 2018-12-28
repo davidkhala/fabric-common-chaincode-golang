@@ -6,7 +6,6 @@ import (
 	"fmt"
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
-	"github.com/hyperledger/fabric/core/chaincode/shim/ext/cid"
 	"github.com/hyperledger/fabric/protos/peer"
 	"reflect"
 	"runtime/debug"
@@ -125,13 +124,6 @@ func (cc CommonChaincode) GetTxTime() time.Time {
 
 }
 
-//Deprecated, use Client Identity library instead
-func (cc CommonChaincode) GetThisCreator() Creator {
-	var creatorBytes, err = cc.CCAPI.GetCreator()
-	PanicError(err)
-	return ParseCreator(creatorBytes)
-}
-
 func (cc CommonChaincode) GetHistoryForKey(key string) shim.HistoryQueryIteratorInterface {
 	var r, err = cc.CCAPI.GetHistoryForKey(key)
 	PanicError(err)
@@ -193,8 +185,3 @@ func ChaincodeStart(cc shim.Chaincode) {
 	PanicError(err)
 }
 
-func FabricCID(stub shim.ChaincodeStubInterface) cid.ClientIdentity {
-	var identity, err = cid.New(stub)
-	PanicError(err)
-	return identity
-}
