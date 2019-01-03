@@ -184,4 +184,3 @@ func ChaincodeStart(cc shim.Chaincode) {
 	var err = shim.Start(cc)
 	PanicError(err)
 }
-
