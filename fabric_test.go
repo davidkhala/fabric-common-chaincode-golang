@@ -19,20 +19,24 @@ const (
 var logger = shim.NewLogger(name)
 
 func (t *TestChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
-	logger.Info("########### " + name + " Init ###########")
+	t.Prepare(stub)
+	logger.Info("Init")
 	return shim.Success(nil)
 }
 
 // Transaction makes payment of X units from A to B
-func (t *TestChaincode) Invoke(ccAPI shim.ChaincodeStubInterface) (response peer.Response) {
-	logger.Info("########### " + name + " Invoke ###########")
+func (t *TestChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
+	logger.Info("Invoke")
 	defer Deferred(DeferHandlerPeerResponse, &response)
-	fcn, _ := ccAPI.GetFunctionAndParameters()
+	var fcn, _ = stub.GetFunctionAndParameters()
+	var responseBytes []byte
 	switch fcn {
 	case "panic":
 		PanicString("use panic")
+	case "whoami":
+		responseBytes = ToJson(FabricCID(stub))
 	}
-	return shim.Success([]byte(nil))
+	return shim.Success(responseBytes)
 }
 
 var cc = new(TestChaincode)
@@ -43,21 +47,19 @@ func TestCommonChaincode_Prepare(t *testing.T) {
 }
 
 func TestTestChaincode_Init(t *testing.T) {
-	var initArgs [][]byte
-	initArgs = append(initArgs, []byte("Initfcn")) //fcn
+	var args = ArgsBuilder("Initfcn")
 	var TxID = "ob"
 
-	var response = mock.MockInit(TxID, initArgs)
+	var response = mock.MockInit(TxID,args.Get())
 	t.Log("init ", response)
 	assert.Equal(t, int32(200), response.Status)
 }
 func TestTestChaincode_Invoke(t *testing.T) {
 
-	var args [][]byte
-	args = append(args, []byte("Invokefcn")) //fcn
+	var args = ArgsBuilder("Invokefcn")
 
 	var TxID = "oa"
-	var response = mock.MockInvoke(TxID, args)
+	var response = mock.MockInvoke(TxID, args.Get())
 	t.Log("invoke ", response)
 	assert.Equal(t, int32(200), response.Status);
 	//	when error status is 500
