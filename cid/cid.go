@@ -1,5 +1,4 @@
 package cid
-//todo how to import official cid
 import (
 	"crypto/x509"
 	"encoding/base64"
