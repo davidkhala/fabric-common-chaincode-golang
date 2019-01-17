@@ -38,6 +38,10 @@ type StateKV struct {
 	Key       string
 	Value     string
 }
+type QueryResponseMetadata struct {
+	FetchedRecordsCount int
+	Bookmark            string
+}
 
 func ParseStates(iterator shim.StateQueryIteratorInterface) []StateKV {
 	defer iterator.Close()
