@@ -49,16 +49,17 @@ func (cc CommonChaincode) DelPrivateData(collection, key string) {
 	PanicError(err)
 }
 
-func (cc CommonChaincode) WorldStatesPrivate(collection, objectType string) []StateKV {
+func (cc CommonChaincode) WorldStatesPrivate(collection, objectType string, filter func(StateKV) bool) []StateKV {
 	var keysIterator shim.StateQueryIteratorInterface
 	if objectType == "" {
 		keysIterator = cc.GetPrivateDataByRange(collection, "", "")
 	} else {
 		keysIterator = cc.GetPrivateDataByPartialCompositeKey(collection, objectType, nil)
 	}
-	return ParseStates(keysIterator)
+	return ParseStates(keysIterator, filter)
 }
+
 // transaction should be commit to take effect TODO FIXME https://jira.hyperledger.org/browse/FAB-5094
-func (cc CommonChaincode)EnableHistoryForPrivateKey(key string) {
+func (cc CommonChaincode) EnableHistoryForPrivateKey(key string) {
 	//crypto.HashSha256([]byte(key))
 }

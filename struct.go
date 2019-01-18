@@ -12,7 +12,7 @@ type KeyModification struct {
 	IsDelete  bool
 }
 
-func ParseHistory(iterator shim.HistoryQueryIteratorInterface, filter Filter) []KeyModification {
+func ParseHistory(iterator shim.HistoryQueryIteratorInterface, filter func(KeyModification) bool) []KeyModification {
 	defer iterator.Close()
 	var result []KeyModification
 	for iterator.HasNext() {
@@ -28,7 +28,6 @@ func ParseHistory(iterator shim.HistoryQueryIteratorInterface, filter Filter) []
 		if filter(translated) {
 			result = append(result, translated)
 		}
-
 	}
 	return result
 }
@@ -43,19 +42,21 @@ type QueryResponseMetadata struct {
 	Bookmark            string
 }
 
-func ParseStates(iterator shim.StateQueryIteratorInterface) []StateKV {
+func ParseStates(iterator shim.StateQueryIteratorInterface, filter func(StateKV) bool) []StateKV {
 	defer iterator.Close()
 	var kvs []StateKV
 	for iterator.HasNext() {
 		kv, err := iterator.Next()
 		PanicError(err)
-		kvs = append(kvs, StateKV{kv.Namespace, kv.Key, string(kv.Value)})
+		var stateKV = StateKV{kv.Namespace, kv.Key, string(kv.Value)}
+		if filter(stateKV) {
+			kvs = append(kvs, stateKV)
+		}
 	}
 	return kvs
 }
 
 type Modifier func(interface{})
-type Filter func(interface{}) bool
 
 type Args struct {
 	buff [][]byte

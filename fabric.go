@@ -21,7 +21,7 @@ const (
 	maxValidSeconds = 253402300800
 )
 
-func (cc CommonChaincode) WorldStates(objectType string) []StateKV {
+func (cc CommonChaincode) WorldStates(objectType string, filter func(StateKV) bool) []StateKV {
 	var keysIterator shim.StateQueryIteratorInterface
 	if objectType == "" {
 		keysIterator = cc.GetStateByRange("", "")
@@ -29,7 +29,7 @@ func (cc CommonChaincode) WorldStates(objectType string) []StateKV {
 		keysIterator = cc.GetStateByPartialCompositeKey(objectType, nil)
 	}
 
-	return ParseStates(keysIterator)
+	return ParseStates(keysIterator, filter)
 }
 func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
 	var resp = cc.CCAPI.InvokeChaincode(chaincodeName, args, channel)
