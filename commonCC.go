@@ -2,7 +2,7 @@ package golang
 
 import (
 	"encoding/json"
-	"github.com/davidkhala/goutils"
+	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"reflect"
 )
@@ -39,9 +39,20 @@ func (cc CommonChaincode) ModifyValue(key string, modifier Modifier, v interface
 	rv := reflect.ValueOf(v)
 	if rv.Kind() != reflect.Ptr || rv.IsNil() {
 		var invalidPtr = json.InvalidUnmarshalError{reflect.TypeOf(v)}
-		goutils.PanicError(&invalidPtr)
+		PanicError(&invalidPtr)
 	}
 	cc.GetStateObj(key, v)
 	modifier(v)
 	cc.PutStateObj(key, v)
+}
+
+//return empty for if no record.
+func (cc CommonChaincode) GetChaincodeID() string {
+	var iterator, _ = cc.GetStateByRangeWithPagination("", "", 1, "")
+	if !iterator.HasNext() {
+		return ""
+	}
+	var kv, err = iterator.Next()
+	PanicError(err)
+	return kv.GetNamespace()
 }

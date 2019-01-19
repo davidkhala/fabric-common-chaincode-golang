@@ -117,7 +117,7 @@ func (cc CommonChaincode) GetStateByRange(startKey string, endKey string) shim.S
 	return r
 }
 
-//TODO test should be done
+
 // This call is only supported in a read only transaction.
 func (cc CommonChaincode) GetStateByRangeWithPagination(startKey, endKey string, pageSize int, bookmark string) (shim.StateQueryIteratorInterface, QueryResponseMetadata) {
 	var iteratorInterface, r, err = cc.CCAPI.GetStateByRangeWithPagination(startKey, endKey, int32(pageSize), bookmark)
