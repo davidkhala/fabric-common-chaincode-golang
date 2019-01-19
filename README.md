@@ -1,5 +1,9 @@
 # fabric-common-chaincode-golang
 
+# Before git clone...
+Wait, you should use `go get github.com/davidkhala/fabric-common-chaincode-golang` instead. 
+And then `dep ensure`
+
 # Notes
 
 - full document of couchdb query syntax ```http://docs.couchdb.org/en/stable/api/database/find.html?highlight=find.html#post--db-_find```
