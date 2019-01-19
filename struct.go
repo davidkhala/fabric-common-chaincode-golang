@@ -25,7 +25,7 @@ func ParseHistory(iterator shim.HistoryQueryIteratorInterface, filter func(KeyMo
 			keyModification.Value,
 			TimeLong(t),
 			keyModification.IsDelete}
-		if filter(translated) {
+		if filter == nil || filter(translated) {
 			result = append(result, translated)
 		}
 	}
@@ -49,7 +49,7 @@ func ParseStates(iterator shim.StateQueryIteratorInterface, filter func(StateKV)
 		kv, err := iterator.Next()
 		PanicError(err)
 		var stateKV = StateKV{kv.Namespace, kv.Key, string(kv.Value)}
-		if filter(stateKV) {
+		if filter == nil || filter(stateKV) {
 			kvs = append(kvs, stateKV)
 		}
 	}
