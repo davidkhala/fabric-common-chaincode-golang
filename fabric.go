@@ -1,13 +1,11 @@
 package golang
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
-	"reflect"
 	"runtime/debug"
 	"time"
 )
@@ -21,16 +19,6 @@ const (
 	maxValidSeconds = 253402300800
 )
 
-func (cc CommonChaincode) WorldStates(objectType string, filter func(StateKV) bool) []StateKV {
-	var keysIterator shim.StateQueryIteratorInterface
-	if objectType == "" {
-		keysIterator = cc.GetStateByRange("", "")
-	} else {
-		keysIterator = cc.GetStateByPartialCompositeKey(objectType, nil)
-	}
-
-	return ParseStates(keysIterator, filter)
-}
 func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
 	var resp = cc.CCAPI.InvokeChaincode(chaincodeName, args, channel)
 	if resp.Status >= shim.ERRORTHRESHOLD {
@@ -42,17 +30,6 @@ func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, c
 		panic(errors.New(string(ToJson(errorPB))))
 	}
 	return resp
-}
-
-func (cc CommonChaincode) ModifyValue(key string, modifier Modifier, v interface{}) {
-	rv := reflect.ValueOf(v)
-	if rv.Kind() != reflect.Ptr || rv.IsNil() {
-		var invalidPtr = json.InvalidUnmarshalError{reflect.TypeOf(v)}
-		PanicString(invalidPtr.Error())
-	}
-	cc.GetStateObj(key, v)
-	modifier(v)
-	cc.PutStateObj(key, v)
 }
 
 func (cc CommonChaincode) SplitCompositeKey(compositeKey string) (string, []string) {
@@ -162,23 +139,6 @@ var DeferHandlerPeerResponse = func(errString string, params ...interface{}) boo
 	return true
 }
 
-type CommonChaincode struct {
-	Mock    bool
-	Debug   bool
-	Name    string
-	Logger  *shim.ChaincodeLogger
-	Channel string
-	CCAPI   shim.ChaincodeStubInterface //chaincode API
-}
-
-func (cc *CommonChaincode) Prepare(ccAPI shim.ChaincodeStubInterface) {
-	cc.CCAPI = ccAPI
-	cc.Channel = ccAPI.GetChannelID()
-}
-func (cc *CommonChaincode) SetLogger(ccName string) {
-	cc.Name = ccName
-	cc.Logger = shim.NewLogger(ccName)
-}
 func (cc CommonChaincode) GetFunctionAndArgs() (string, [][]byte) {
 	var allArgs = cc.CCAPI.GetArgs()
 	var fcn = ""
