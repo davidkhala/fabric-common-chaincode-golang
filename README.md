@@ -12,6 +12,10 @@ And then `dep ensure`
 
   "the key-level endorsement policy overrides the chaincode-level endorsement policy." not just a new layer of restriction.
   If a key’s endorsement policy is removed (set to nil), the chaincode-level endorsement policy becomes the default again.
+- https://jira.hyperledger.org/browse/FAB-5094 GetHistoryForPrivateKey
+  
+      The workaround simply make a shadow copy of privateData in public scope. 
+      And how do we implement that copy depends on requirements.
 # TODO
 
 - Yacov M introduce about
@@ -20,4 +24,4 @@ And then `dep ensure`
 
     chaincodeStub.GetBinding: it's just hash over nonce || creator || epoch
 
-- https://jira.hyperledger.org/browse/FAB-5094 with SHA256
+    
