@@ -20,4 +20,4 @@ And then `dep ensure`
 
     chaincodeStub.GetBinding: it's just hash over nonce || creator || epoch
 
--
+- https://jira.hyperledger.org/browse/FAB-5094 with SHA256

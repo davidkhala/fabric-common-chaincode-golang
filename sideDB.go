@@ -58,8 +58,3 @@ func (cc CommonChaincode) WorldStatesPrivate(collection, objectType string, filt
 	}
 	return ParseStates(keysIterator, filter)
 }
-
-// transaction should be commit to take effect TODO FIXME https://jira.hyperledger.org/browse/FAB-5094
-func (cc CommonChaincode) EnableHistoryForPrivateKey(key string) {
-	//crypto.HashSha256([]byte(key))
-}
