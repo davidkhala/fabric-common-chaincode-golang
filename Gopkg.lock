@@ -72,7 +72,8 @@
   revision = "a753e368296de19b4da03c6de40b119ec9ff13ef"
 
 [[projects]]
-  digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
+  branch = "master"
+  digest = "1:b090e9cc078ff7b86465f84c10565bb5edef47575b6c9af4b2feabc0b5f6508d"
   name = "github.com/docker/docker"
   packages = [
     "api/types",
@@ -86,23 +87,20 @@
     "api/types/swarm",
     "api/types/swarm/runtime",
     "api/types/versions",
+    "errdefs",
     "opts",
-    "pkg/archive",
     "pkg/fileutils",
     "pkg/homedir",
     "pkg/idtools",
     "pkg/ioutils",
-    "pkg/jsonmessage",
     "pkg/longpath",
     "pkg/mount",
     "pkg/pools",
     "pkg/stdcopy",
     "pkg/system",
-    "pkg/term",
-    "pkg/term/windows",
   ]
   pruneopts = "UT"
-  revision = "a422774e593b33bd287d9890544ad9e09b380d8c"
+  revision = "de86ba27fbea7a0876066d14220a22fdb1fd8295"
 
 [[projects]]
   digest = "1:ade935c55cd6d0367c843b109b09c9d748b1982952031414740750fdf94747eb"
@@ -121,12 +119,25 @@
   version = "v0.3.3"
 
 [[projects]]
-  digest = "1:ed17414a259d9c62eb01cf8c2b0231e6310948337197ebd01161121a36be3759"
-  name = "github.com/fsouza/go-dockerclient"
-  packages = ["."]
+  digest = "1:4f57c53dc1244bd265be71bc4e75fc48132f1cf2927b19de52ed600b7d73cd8e"
+  name = "github.com/docker/libnetwork"
+  packages = ["ipamutils"]
   pruneopts = "UT"
-  revision = "51bd33c0c7792b2566054672a4915b406d988cc6"
-  version = "v1.2.1"
+  revision = "6d23f11e681f24ee31802939e243fe8be41a75eb"
+  version = "v0.8.0-dev.2"
+
+[[projects]]
+  digest = "1:730879a0d2bfbe16e6d36c4e57e308e46babe0453f013be71d98f09fda5d1cf5"
+  name = "github.com/fsouza/go-dockerclient"
+  packages = [
+    ".",
+    "internal/archive",
+    "internal/jsonmessage",
+    "internal/term",
+  ]
+  pruneopts = "UT"
+  revision = "1b33efcb40bef3494af8bc6a1f73600f37a3c9d1"
+  version = "v1.3.0"
 
 [[projects]]
   digest = "1:d059a146ab350e553c2687d3e17f198eb5b27c7cf55fe6ba0e2d21349df63388"
@@ -160,12 +171,15 @@
   version = "v1.0.0"
 
 [[projects]]
-  branch = "release-1.3"
-  digest = "1:0e3d879c4e374476590e6c0b3882dd26cc83d582d7958f0d67370e222b9d381f"
+  branch = "release-1.4"
+  digest = "1:2cee61a537b79da6f810a53b39c5156a50e101844bd16c249936a06a428cc64e"
   name = "github.com/hyperledger/fabric"
   packages = [
     "bccsp",
     "bccsp/factory",
+    "bccsp/idemix",
+    "bccsp/idemix/bridge",
+    "bccsp/idemix/handlers",
     "bccsp/pkcs11",
     "bccsp/signer",
     "bccsp/sw",
@@ -177,13 +191,16 @@
     "common/flogging/fabenc",
     "common/ledger",
     "common/metadata",
+    "common/metrics",
     "common/policies",
+    "common/semaphore",
     "common/util",
     "core/chaincode/platforms",
     "core/chaincode/platforms/ccmetadata",
     "core/chaincode/shim",
     "core/chaincode/shim/ext/attrmgr",
     "core/chaincode/shim/ext/cid",
+    "core/chaincode/shim/ext/entities",
     "core/chaincode/shim/ext/statebased",
     "core/comm",
     "core/config",
@@ -196,10 +213,11 @@
     "protos/ledger/rwset/kvrwset",
     "protos/msp",
     "protos/peer",
+    "protos/token",
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "afbc66a1b8c9ecafca8c64159739373f57b72e46"
+  revision = "30a75a63f8a353b4e2adc08b9bab9ac6919a93d2"
 
 [[projects]]
   branch = "master"
@@ -288,12 +306,9 @@
   version = "v1.0.1"
 
 [[projects]]
-  digest = "1:1869683e323ebff2bdf8adcb560f82bf6f8d94019d35099e3403f7df12e9c07e"
+  digest = "1:38ee335aedf4626620f3cf8f605661e71abdcce7b40b38921962beb3980f0a20"
   name = "github.com/opencontainers/runc"
-  packages = [
-    "libcontainer/system",
-    "libcontainer/user",
-  ]
+  packages = ["libcontainer/user"]
   pruneopts = "UT"
   revision = "baf6536d6259209c3edfa2b22237af82942d3dfa"
   version = "v0.1.1"
@@ -463,7 +478,7 @@
   revision = "ae2f86662275e140f395167f1dab7081a5bd5fa8"
 
 [[projects]]
-  digest = "1:2dab32a43451e320e49608ff4542fdfc653c95dcc35d0065ec9c6c3dd540ed74"
+  digest = "1:ab8e92d746fb5c4c18846b0879842ac8e53b3d352449423d0924a11f1020ae1b"
   name = "google.golang.org/grpc"
   packages = [
     ".",
@@ -479,7 +494,9 @@
     "internal",
     "internal/backoff",
     "internal/channelz",
+    "internal/envconfig",
     "internal/grpcrand",
+    "internal/transport",
     "keepalive",
     "metadata",
     "naming",
@@ -490,11 +507,10 @@
     "stats",
     "status",
     "tap",
-    "transport",
   ]
   pruneopts = "UT"
-  revision = "168a6198bcb0ef175f7dacec0b8691fc141dc9b8"
-  version = "v1.13.0"
+  revision = "8dea3dc473e90c8179e519d91302d0597c0ca1d1"
+  version = "v1.15.0"
 
 [[projects]]
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
@@ -511,9 +527,12 @@
     "github.com/davidkhala/goutils",
     "github.com/davidkhala/goutils/crypto",
     "github.com/golang/protobuf/proto",
+    "github.com/hyperledger/fabric/bccsp/factory",
+    "github.com/hyperledger/fabric/bccsp/utils",
     "github.com/hyperledger/fabric/common/attrmgr",
     "github.com/hyperledger/fabric/core/chaincode/shim",
     "github.com/hyperledger/fabric/core/chaincode/shim/ext/cid",
+    "github.com/hyperledger/fabric/core/chaincode/shim/ext/entities",
     "github.com/hyperledger/fabric/core/chaincode/shim/ext/statebased",
     "github.com/hyperledger/fabric/protos/msp",
     "github.com/hyperledger/fabric/protos/peer",

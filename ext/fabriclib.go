@@ -2,16 +2,14 @@ package ext
 
 import (
 	. "github.com/davidkhala/goutils"
+	"github.com/davidkhala/goutils/crypto"
+	"github.com/hyperledger/fabric/bccsp/factory"
+	"github.com/hyperledger/fabric/bccsp/utils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/core/chaincode/shim/ext/cid"
+	"github.com/hyperledger/fabric/core/chaincode/shim/ext/entities"
 	"github.com/hyperledger/fabric/core/chaincode/shim/ext/statebased"
 	"github.com/hyperledger/fabric/protos/msp"
-	"github.com/hyperledger/fabric/core/chaincode/shim/ext/entities"
-	"encoding/pem"
-	"crypto/x509"
-	"github.com/hyperledger/fabric/bccsp/factory"
-	"fmt"
-	"github.com/hyperledger/fabric/bccsp/utils"
 )
 
 //Note:clientIdentityImpl has no public properties, so ToJson(cid.ClientIdentity) is empty
@@ -41,46 +39,38 @@ func (t KeyEndorsementPolicy) AddOrgs(roleType msp.MSPRole_MSPRoleType, organiza
 	PanicError(err)
 }
 
-func Sign(ID string, payload []byte, signKeyPemBytes []byte) (*entities.SignedMessage, error) {
-	msg := entities.SignedMessage{
-		ID: []byte(ID),
-		Payload: payload,
-	}
+func NewECDSASignerEntity(ID string, signKeyBytes []byte) *entities.BCCSPSignerEntity {
 	factory.InitFactories(nil)
-	entPvt, err := entities.NewECDSASignerEntity(string(msg.ID), factory.GetDefault(), signKeyPemBytes)
-	if err !=nil {
-		return nil, fmt.Errorf("failed to new signer entity, err: %s", err)
-	}
-
-	err = msg.Sign(entPvt)
-	if err !=nil {
-		return nil, fmt.Errorf("failed to sign, err: %s", err)
-	}
-	return &msg, nil
+	signerEntity, err := entities.NewECDSASignerEntity(ID, factory.GetDefault(), signKeyBytes)
+	PanicError(err)
+	return signerEntity
 }
 
-func Verify(msg *entities.SignedMessage, signCertBytes []byte) (bool, error) {
-	pemCert, _ := pem.Decode([]byte(signCertBytes))
+func Sign(msg *entities.SignedMessage, signer entities.Signer) {
+	err := msg.Sign(signer) // msg sig changed inline
+	PanicError(err)
+}
 
-	// get a cert
-	cert, err := x509.ParseCertificate(pemCert.Bytes)
-	if err !=nil {
-		return false, fmt.Errorf("failed to parse certificate, err: %s", err)
-	}
-
-	publicKeyPemBytes, err := utils.PublicKeyToPEM(cert.PublicKey, nil)
-	if err !=nil {
-		return false, fmt.Errorf("failed to convert pub key to pem, err: %s", err)
-	}
+func SignECDSA(msg *entities.SignedMessage, privateKeyBytes []byte) {
+	var privateSigner = NewECDSASignerEntity(string(msg.ID), privateKeyBytes)
+	Sign(msg, privateSigner)
+}
+func NewECDSAVerifierEntity(ID string, publicKeyBytes []byte) *entities.BCCSPSignerEntity {
 	factory.InitFactories(nil)
-	entPub, err := entities.NewECDSAVerifierEntity(string(msg.ID), factory.GetDefault(), publicKeyPemBytes)
-	if err !=nil {
-		return false, fmt.Errorf("failed to new verifier entity, err: %s", err)
-	}
+	pub, err := entities.NewECDSAVerifierEntity(ID, factory.GetDefault(), publicKeyBytes)
+	PanicError(err)
+	return pub
+}
 
-	valid, err := msg.Verify(entPub)
-	if err !=nil {
-		return false, fmt.Errorf("failed to verify, err: %s", err)
-	}
-	return valid, nil
+func Verify(msg *entities.SignedMessage, signer entities.Signer) bool {
+	valid, err := msg.Verify(signer)
+	PanicError(err)
+	return valid
+}
+func VerifyECDSA(msg *entities.SignedMessage, certBytes []byte) bool {
+	var cert = crypto.ParseCertPem(certBytes)
+	publicKeyPemBytes, err := utils.PublicKeyToPEM(cert.PublicKey, nil)
+	PanicError(err)
+	var pub = NewECDSAVerifierEntity(string(msg.ID), publicKeyPemBytes)
+	return Verify(msg, pub)
 }
