@@ -62,18 +62,17 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:cc6ecc84c1ca91ae8975eb61b20f3e193e5fceefdfc47b5160a853fe2ba1617a"
+  digest = "1:f7cd5a23fa1e730d82a4a27eb2352dfd9b05cdafe485d9affab95e8c062429b5"
   name = "github.com/davidkhala/goutils"
   packages = [
     ".",
     "crypto",
   ]
   pruneopts = "UT"
-  revision = "a753e368296de19b4da03c6de40b119ec9ff13ef"
+  revision = "ee1959a49a01a4a199766753b03a711df3bb2e1d"
 
 [[projects]]
-  branch = "master"
-  digest = "1:b090e9cc078ff7b86465f84c10565bb5edef47575b6c9af4b2feabc0b5f6508d"
+  digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
   name = "github.com/docker/docker"
   packages = [
     "api/types",
@@ -87,20 +86,23 @@
     "api/types/swarm",
     "api/types/swarm/runtime",
     "api/types/versions",
-    "errdefs",
     "opts",
+    "pkg/archive",
     "pkg/fileutils",
     "pkg/homedir",
     "pkg/idtools",
     "pkg/ioutils",
+    "pkg/jsonmessage",
     "pkg/longpath",
     "pkg/mount",
     "pkg/pools",
     "pkg/stdcopy",
     "pkg/system",
+    "pkg/term",
+    "pkg/term/windows",
   ]
   pruneopts = "UT"
-  revision = "de86ba27fbea7a0876066d14220a22fdb1fd8295"
+  revision = "a422774e593b33bd287d9890544ad9e09b380d8c"
 
 [[projects]]
   digest = "1:ade935c55cd6d0367c843b109b09c9d748b1982952031414740750fdf94747eb"
@@ -119,25 +121,12 @@
   version = "v0.3.3"
 
 [[projects]]
-  digest = "1:4f57c53dc1244bd265be71bc4e75fc48132f1cf2927b19de52ed600b7d73cd8e"
-  name = "github.com/docker/libnetwork"
-  packages = ["ipamutils"]
-  pruneopts = "UT"
-  revision = "6d23f11e681f24ee31802939e243fe8be41a75eb"
-  version = "v0.8.0-dev.2"
-
-[[projects]]
-  digest = "1:730879a0d2bfbe16e6d36c4e57e308e46babe0453f013be71d98f09fda5d1cf5"
+  digest = "1:ed17414a259d9c62eb01cf8c2b0231e6310948337197ebd01161121a36be3759"
   name = "github.com/fsouza/go-dockerclient"
-  packages = [
-    ".",
-    "internal/archive",
-    "internal/jsonmessage",
-    "internal/term",
-  ]
+  packages = ["."]
   pruneopts = "UT"
-  revision = "1b33efcb40bef3494af8bc6a1f73600f37a3c9d1"
-  version = "v1.3.0"
+  revision = "51bd33c0c7792b2566054672a4915b406d988cc6"
+  version = "v1.2.1"
 
 [[projects]]
   digest = "1:d059a146ab350e553c2687d3e17f198eb5b27c7cf55fe6ba0e2d21349df63388"
@@ -217,7 +206,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "30a75a63f8a353b4e2adc08b9bab9ac6919a93d2"
+  revision = "c74ccd3ffe718c7f6e3b7b76c5acac288f7dcd44"
 
 [[projects]]
   branch = "master"
@@ -306,9 +295,12 @@
   version = "v1.0.1"
 
 [[projects]]
-  digest = "1:38ee335aedf4626620f3cf8f605661e71abdcce7b40b38921962beb3980f0a20"
+  digest = "1:1869683e323ebff2bdf8adcb560f82bf6f8d94019d35099e3403f7df12e9c07e"
   name = "github.com/opencontainers/runc"
-  packages = ["libcontainer/user"]
+  packages = [
+    "libcontainer/system",
+    "libcontainer/user",
+  ]
   pruneopts = "UT"
   revision = "baf6536d6259209c3edfa2b22237af82942d3dfa"
   version = "v0.1.1"
@@ -417,11 +409,11 @@
     "ssh/terminal",
   ]
   pruneopts = "UT"
-  revision = "ff983b9c42bc9fbf91556e191cc8efb585c16908"
+  revision = "057139ce5d2bdbe6fe73c53679e24e9cf007f637"
 
 [[projects]]
   branch = "master"
-  digest = "1:89a0cb976397aa9157a45bb2b896d0bcd07ee095ac975e0f03c53250c402265e"
+  digest = "1:fc7b6b4384e1e849d99eab58eca4f8c0a76bad4699117d5077a9a5c3c83e289e"
   name = "golang.org/x/net"
   packages = [
     "context",
@@ -433,18 +425,18 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "be1c187aa6c66b9daa1d9461c228d17e9dd2cab7"
+  revision = "d26f9f9a57f3fab6a695bec0d84433c2c50f8bbf"
 
 [[projects]]
   branch = "master"
-  digest = "1:5ee4df7ab18e945607ac822de8d10b180baea263b5e8676a1041727543b9c1e4"
+  digest = "1:bb644db32f5bc1e327a0f748ec871edc4dc46f19b4fbbc15bfd95b1460646537"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "48ac38b7c8cbedd50b1613c0fccacfc7d88dfcdf"
+  revision = "b90733256f2e882e81d52f9126de08df5615afd9"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
@@ -475,7 +467,7 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "ae2f86662275e140f395167f1dab7081a5bd5fa8"
+  revision = "aa24cbd621fe1e2867110ea8c673d99a1a92efdc"
 
 [[projects]]
   digest = "1:ab8e92d746fb5c4c18846b0879842ac8e53b3d352449423d0924a11f1020ae1b"
