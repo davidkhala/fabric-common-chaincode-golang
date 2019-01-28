@@ -34,8 +34,8 @@ func (t KeyEndorsementPolicy) Policy() []byte {
 	return result
 }
 
-func (t KeyEndorsementPolicy) AddOrgs(roleType msp.MSPRole_MSPRoleType, organizations ...string) {
-	var err = t.KeyEndorsementPolicy.AddOrgs(statebased.RoleType(roleType.String()), organizations...)
+func (t KeyEndorsementPolicy) AddOrgs(roleType msp.MSPRole_MSPRoleType, MSPIDs ...string) {
+	var err = t.KeyEndorsementPolicy.AddOrgs(statebased.RoleType(roleType.String()), MSPIDs...)
 	PanicError(err)
 }
 
