@@ -10,15 +10,6 @@ import (
 	"time"
 )
 
-const (
-	// Seconds field of the earliest valid Timestamp.
-	// This is time.Date(1, 1, 1, 0, 0, 0, 0, time.UTC).Unix().
-	minValidSeconds = -62135596800
-	// Seconds field just after the latest valid Timestamp.
-	// This is time.Date(10000, 1, 1, 0, 0, 0, 0, time.UTC).Unix().
-	maxValidSeconds = 253402300800
-)
-
 func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
 	var resp = cc.CCAPI.InvokeChaincode(chaincodeName, args, channel)
 	if resp.Status >= shim.ERRORTHRESHOLD {
@@ -80,25 +71,7 @@ func (cc CommonChaincode) DelState(key string) {
 func (cc CommonChaincode) GetTxTime() time.Time {
 	ts, err := cc.CCAPI.GetTxTimestamp()
 	PanicError(err)
-
-	var t time.Time
-	if ts == nil {
-		t = time.Unix(0, 0).UTC() // treat nil like the empty Timestamp
-	} else {
-		t = time.Unix(ts.Seconds, int64(ts.Nanos)).UTC()
-	}
-
-	if ts.Seconds < minValidSeconds {
-		PanicError(fmt.Errorf("timestamp: %v before 0001-01-01", ts))
-	}
-	if ts.Seconds >= maxValidSeconds {
-		PanicError(fmt.Errorf("timestamp: %v after 10000-01-01", ts))
-	}
-	if ts.Nanos < 0 || ts.Nanos >= 1e9 {
-		PanicError(fmt.Errorf("timestamp: %v: nanos not in range [0, 1e9)", ts))
-	}
-	return t
-
+	return time.Unix(ts.Seconds, int64(ts.Nanos)).UTC()
 }
 
 func (cc CommonChaincode) GetHistoryForKey(key string) shim.HistoryQueryIteratorInterface {
@@ -116,7 +89,6 @@ func (cc CommonChaincode) GetStateByRange(startKey string, endKey string) shim.S
 	PanicError(err)
 	return r
 }
-
 
 // This call is only supported in a read only transaction.
 func (cc CommonChaincode) GetStateByRangeWithPagination(startKey, endKey string, pageSize int, bookmark string) (shim.StateQueryIteratorInterface, QueryResponseMetadata) {
