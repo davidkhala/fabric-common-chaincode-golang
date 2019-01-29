@@ -13,7 +13,7 @@ type KeyModification struct {
 }
 
 func ParseHistory(iterator shim.HistoryQueryIteratorInterface, filter func(KeyModification) bool) []KeyModification {
-	defer iterator.Close()
+	defer PanicError(iterator.Close())
 	var result []KeyModification
 	for iterator.HasNext() {
 		keyModification, err := iterator.Next()
@@ -43,7 +43,7 @@ type QueryResponseMetadata struct {
 }
 
 func ParseStates(iterator shim.StateQueryIteratorInterface, filter func(StateKV) bool) []StateKV {
-	defer iterator.Close()
+	defer PanicError(iterator.Close())
 	var kvs []StateKV
 	for iterator.HasNext() {
 		kv, err := iterator.Next()
