@@ -1,6 +1,7 @@
 package golang
 
 import (
+	"github.com/davidkhala/fabric-common-chaincode-golang/cid"
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
@@ -34,7 +35,7 @@ func (t *TestChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.
 	case "panic":
 		PanicString("use panic")
 	case "whoami":
-		responseBytes = ToJson(FabricCID(stub))
+		responseBytes = ToJson(cid.NewClientIdentity(stub))
 	}
 	return shim.Success(responseBytes)
 }
@@ -76,7 +77,7 @@ func TestCreateCompositeKey(t *testing.T) {
 	TxID = "composite1"
 	mock.MockTransactionStart(TxID)
 	iterator := cc.GetStateByPartialCompositeKey("a", []string{"d"})
-	var kvs = ParseStates(iterator)
+	var kvs = ParseStates(iterator,nil)
 	t.Log(kvs)
 	mock.MockTransactionEnd(TxID)
 }
@@ -96,11 +97,11 @@ func TestWorldStates(t *testing.T) {
 	mock.MockTransactionEnd(TxID);
 	TxID = "composite1"
 	mock.MockTransactionStart(TxID)
-	kvs := cc.WorldStates("")
+	kvs := cc.WorldStates("",nil)
 
 	t.Log(kvs)
 
-	var states2 = ParseStates(cc.GetStateByRange("a_1", ""))
+	var states2 = ParseStates(cc.GetStateByRange("a_1", ""),nil)
 	t.Log(states2)
 	mock.MockTransactionEnd(TxID)
 }
