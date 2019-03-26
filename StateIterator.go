@@ -13,19 +13,18 @@ func parse100States(iterator shim.StateQueryIteratorInterface, filter func(State
 	var lastKey = ""
 	for iterator.HasNext() {
 		fmt.Println("[debug]index", index)
-		if index >= 100 {
+		if index < 99 {
+			kv, err := iterator.Next()
+			PanicError(err)
+			lastKey = kv.Key
+			var stateKV = StateKV{kv.Namespace, kv.Key, string(kv.Value)}
+			if filter == nil || filter(stateKV) {
+				kvs = append(kvs, stateKV)
+			}
+			index++
+		} else {
 			return kvs, lastKey
 		}
-
-		kv, err := iterator.Next()
-		PanicError(err)
-		lastKey = kv.Key
-		var stateKV = StateKV{kv.Namespace, kv.Key, string(kv.Value)}
-		if filter == nil || filter(stateKV) {
-			kvs = append(kvs, stateKV)
-		}
-		index++
-
 	}
 	return kvs, ""
 }
