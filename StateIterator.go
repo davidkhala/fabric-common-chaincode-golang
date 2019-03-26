@@ -1,7 +1,6 @@
 package golang
 
 import (
-	"fmt"
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
@@ -18,7 +17,6 @@ func parse100States(iterator shim.StateQueryIteratorInterface, filter func(State
 			lastKey = kv.Key
 			var stateKV = StateKV{kv.Namespace, kv.Key, string(kv.Value)}
 			if filter == nil || filter(stateKV) {
-				fmt.Println(kv.Key)
 				kvs = append(kvs, stateKV)
 			}
 			index++
@@ -34,7 +32,7 @@ func (cc CommonChaincode) WorldStatesPrivate(collection, startKey string, filter
 
 	var states, bookmark = parse100States(keysIterator, filter)
 	if bookmark != "" {
-		return append(states, cc.WorldStatesPrivate(collection, bookmark, filter)[2:]...)
+		return append(states, cc.WorldStatesPrivate(collection, bookmark, filter)[1:]...)
 	} else {
 		return states
 	}
@@ -45,7 +43,7 @@ func (cc CommonChaincode) WorldStates(startKey string, filter func(StateKV) bool
 	keysIterator = cc.GetStateByRange(startKey, "")
 	var states, bookmark = parse100States(keysIterator, filter)
 	if bookmark != "" {
-		return append(states, cc.WorldStates(bookmark, filter)...)
+		return append(states, cc.WorldStates(bookmark, filter)[1:]...)
 	} else {
 		return states
 	}
