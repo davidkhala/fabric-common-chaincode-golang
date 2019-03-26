@@ -48,13 +48,3 @@ func (cc CommonChaincode) DelPrivateData(collection, key string) {
 	var err = cc.CCAPI.DelPrivateData(collection, key)
 	PanicError(err)
 }
-
-func (cc CommonChaincode) WorldStatesPrivate(collection, objectType string, filter func(StateKV) bool) []StateKV {
-	var keysIterator shim.StateQueryIteratorInterface
-	if objectType == "" {
-		keysIterator = cc.GetPrivateDataByRange(collection, "", "")
-	} else {
-		keysIterator = cc.GetPrivateDataByPartialCompositeKey(collection, objectType, nil)
-	}
-	return ParseStates(keysIterator, filter)
-}

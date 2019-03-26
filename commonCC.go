@@ -24,16 +24,6 @@ func (cc *CommonChaincode) SetLogger(ccName string) {
 	cc.Name = ccName
 	cc.Logger = shim.NewLogger(ccName)
 }
-func (cc CommonChaincode) WorldStates(objectType string, filter func(StateKV) bool) []StateKV {
-	var keysIterator shim.StateQueryIteratorInterface
-	if objectType == "" {
-		keysIterator = cc.GetStateByRange("", "")
-	} else {
-		keysIterator = cc.GetStateByPartialCompositeKey(objectType, nil)
-	}
-
-	return ParseStates(keysIterator, filter)
-}
 
 func (cc CommonChaincode) ModifyValue(key string, modifier Modifier, v interface{}) {
 	rv := reflect.ValueOf(v)
