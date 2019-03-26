@@ -91,10 +91,17 @@ func (cc CommonChaincode) GetStateByRange(startKey string, endKey string) shim.S
 }
 
 // This call is only supported in a read only transaction.
-func (cc CommonChaincode) GetStateByRangeWithPagination(startKey, endKey string, pageSize int, bookmark string) (shim.StateQueryIteratorInterface, QueryResponseMetadata) {
-	var iteratorInterface, r, err = cc.CCAPI.GetStateByRangeWithPagination(startKey, endKey, int32(pageSize), bookmark)
+func (cc CommonChaincode) GetStateByPartialCompositeKeyWithPagination(objectType string, keys []string, pageSize int, bookmark string) (shim.StateQueryIteratorInterface, QueryResponseMetadata) {
+	var iterator, r, err = cc.CCAPI.GetStateByPartialCompositeKeyWithPagination(objectType, keys, int32(pageSize), bookmark)
 	PanicError(err)
-	return iteratorInterface, QueryResponseMetadata{int(r.FetchedRecordsCount), r.Bookmark}
+	return iterator, QueryResponseMetadata{int(r.FetchedRecordsCount), r.Bookmark}
+}
+
+// This call is only supported in a read only transaction.
+func (cc CommonChaincode) GetStateByRangeWithPagination(startKey, endKey string, pageSize int, bookmark string) (shim.StateQueryIteratorInterface, QueryResponseMetadata) {
+	var iterator, r, err = cc.CCAPI.GetStateByRangeWithPagination(startKey, endKey, int32(pageSize), bookmark)
+	PanicError(err)
+	return iterator, QueryResponseMetadata{int(r.FetchedRecordsCount), r.Bookmark}
 }
 
 func (cc CommonChaincode) SetEvent(name string, payload []byte) {
