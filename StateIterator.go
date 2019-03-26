@@ -1,6 +1,7 @@
 package golang
 
 import (
+	"fmt"
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
@@ -11,6 +12,7 @@ func parse100States(iterator shim.StateQueryIteratorInterface, filter func(State
 	var index = 0
 	var lastKey = ""
 	for iterator.HasNext() {
+		fmt.Println("[debug]index", index)
 		if index >= 100 {
 			return kvs, lastKey
 		}
