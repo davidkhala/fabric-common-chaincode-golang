@@ -89,6 +89,11 @@ func (cc CommonChaincode) GetStateByRange(startKey string, endKey string) shim.S
 	PanicError(err)
 	return r
 }
+func (cc CommonChaincode) GetStateRange(collection, prefix string) shim.StateQueryIteratorInterface {
+	itr, err := cc.CCAPI.GetPrivateDataByRange(collection, prefix, prefix+"\x7f")
+	PanicError(err)
+	return itr
+}
 
 // This call is only supported in a read only transaction.
 func (cc CommonChaincode) GetStateByPartialCompositeKeyWithPagination(objectType string, keys []string, pageSize int, bookmark string) (shim.StateQueryIteratorInterface, QueryResponseMetadata) {
