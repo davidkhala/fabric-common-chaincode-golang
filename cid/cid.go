@@ -1,7 +1,7 @@
 package cid
+
 import (
 	"crypto/x509"
-	"encoding/base64"
 	"fmt"
 	. "github.com/davidkhala/goutils"
 	. "github.com/davidkhala/goutils/crypto"
@@ -49,5 +49,5 @@ func (c ClientIdentity) GetID() string {
 	// the subject and issuer DNs uniquely identify the X509 certificate.
 	// The resulting ID will remain the same if the certificate is renewed.
 	id := fmt.Sprintf("x509::%s::%s", GetDN(c.Cert.Subject), GetDN(c.Cert.Issuer))
-	return base64.StdEncoding.EncodeToString([]byte(id))//TODO why translate to base64
+	return id
 }
