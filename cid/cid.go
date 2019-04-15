@@ -9,7 +9,6 @@ import (
 	"github.com/hyperledger/fabric/common/attrmgr"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/msp"
-	"github.com/pkg/errors"
 )
 
 // alternative of creator starting from 1.1
@@ -25,7 +24,7 @@ func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 	creator, err := stub.GetCreator()
 	PanicError(err)
 	if creator == nil {
-		panic(errors.New("failed to get transaction invoker's identity from the chaincode stub"))
+		PanicString("failed to get transaction invoker's identity from the chaincode stub")
 	}
 	err = proto.Unmarshal(creator, signingID)
 	PanicError(err)

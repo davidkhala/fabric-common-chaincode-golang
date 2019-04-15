@@ -1,7 +1,6 @@
 package golang
 
 import (
-	"errors"
 	"fmt"
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -18,7 +17,7 @@ func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, c
 			resp.Message,
 			string(resp.Payload),
 		}
-		panic(errors.New(string(ToJson(errorPB))))
+		PanicString(string(ToJson(errorPB)))
 	}
 	return resp
 }
