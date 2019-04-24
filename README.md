@@ -1,10 +1,10 @@
 # fabric-common-chaincode-golang
 
-# Before git clone...
+## Before git clone...
 Wait, you should use `go get github.com/davidkhala/fabric-common-chaincode-golang` instead. 
 And then `dep ensure`
 
-# Notes
+## Notes
 
 - full document of couchdb query syntax ```http://docs.couchdb.org/en/stable/api/database/find.html?highlight=find.html#post--db-_find```
 - ParseCreator is deprecated now, please use ClientIdentityLibrary
@@ -16,7 +16,8 @@ And then `dep ensure`
   
       The workaround simply make a shadow copy of privateData in public scope. 
       And how do we implement that copy depends on requirements.
-# TODO
+- best practice for errors in golang chaincode: https://hyperledger-fabric.readthedocs.io/en/release-1.4/error-handling.html
+## TODO
 
 - Yacov M introduce about
     chaincodeStub.GetDecorations: As for Decorations, a peer may add additional input to the chaincode input via custom endorsement handlers.
