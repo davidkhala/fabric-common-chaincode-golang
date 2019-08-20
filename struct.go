@@ -42,7 +42,7 @@ type QueryResponseMetadata struct {
 	Bookmark            string
 }
 
-//throw error when iterate >100
+// throw error when iterate >100
 func ParseStates(iterator shim.StateQueryIteratorInterface, filter func(StateKV) bool) []StateKV {
 	defer PanicError(iterator.Close())
 	var kvs []StateKV
@@ -57,13 +57,11 @@ func ParseStates(iterator shim.StateQueryIteratorInterface, filter func(StateKV)
 	return kvs
 }
 
-type Modifier func(interface{})
-
 type Args struct {
 	buff [][]byte
 }
 
-func ArgsBuilder(fcn string) (Args) {
+func ArgsBuilder(fcn string) Args {
 	return Args{[][]byte{[]byte(fcn)}}
 }
 
@@ -77,7 +75,7 @@ func (t Args) Get() [][]byte {
 	return t.buff
 }
 
-//a readable structure of peer.response
+// a readable structure of peer.response
 type PeerResponse struct {
 	// A status code that should follow the HTTP status codes.
 	Status int32 `json:"status,omitempty"`
