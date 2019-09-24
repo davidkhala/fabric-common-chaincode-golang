@@ -65,14 +65,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:7906100ba587ea4e5edc0f379fcc7682ec3e1eb138f5ec5c5ef771bd812a9b34"
+  digest = "1:17b9539b997e4d234b34835843b4741ba57f6c4ecf51f36b7ccd6c3838b4d158"
   name = "github.com/davidkhala/goutils"
   packages = [
     ".",
     "crypto",
   ]
   pruneopts = "UT"
-  revision = "28480c306db0b24cc6b71d6e8901c92190f5470b"
+  revision = "d96c05a7be95f109e47ef6ea0553e41bdfb4174a"
 
 [[projects]]
   digest = "1:49a2a779b1af8f02547b5a505eb1382f9d42299ec7215f34a32535e6af9a1c9e"
@@ -209,7 +209,7 @@
     "protos/utils",
   ]
   pruneopts = "UT"
-  revision = "6cfdc7d87c4fcb522e4bad249723a89ff2494408"
+  revision = "fcfd12e5f361f75e9c13761df67c32cfd08c49d4"
 
 [[projects]]
   branch = "master"
@@ -349,12 +349,12 @@
   version = "v1.1.0"
 
 [[projects]]
-  digest = "1:c1b1102241e7f645bc8e0c22ae352e8f0dc6484b6cb4d132fa9f24174e0119e2"
+  digest = "1:524b71991fc7d9246cc7dc2d9e0886ccb97648091c63e30eef619e6862c955dd"
   name = "github.com/spf13/pflag"
   packages = ["."]
   pruneopts = "UT"
-  revision = "298182f68c66c05229eb03ac171abe6e309ee79a"
-  version = "v1.0.3"
+  revision = "2e9d26c8c37aae03e3f9d4e90b7116f5accb7cab"
+  version = "v1.0.5"
 
 [[projects]]
   digest = "1:8eac90acf58965d6b76248080861faf81423bae64a070ac81d0c49748a693260"
@@ -417,7 +417,7 @@
   name = "golang.org/x/crypto"
   packages = ["sha3"]
   pruneopts = "UT"
-  revision = "227b76d455e791cb042b03e633e2f7fbcfdf74a5"
+  revision = "9ee001bba392397c76f100a2d5b13afc86f167f1"
 
 [[projects]]
   branch = "master"
@@ -433,11 +433,11 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "c8589233b77dde5edd2205ba8a4fb5c9c2472556"
+  revision = "aa69164e4478b84860dc6769c710c699c67058a3"
 
 [[projects]]
   branch = "master"
-  digest = "1:cef0763cedef8416ca6f6f13fa1aadd064736a730f056a7aac30b3b03a82990a"
+  digest = "1:bc63533a3e3dfb2e7b8b4b73581509ee32907f5c996a42b34f7de14a37a87a1c"
   name = "golang.org/x/sys"
   packages = [
     "cpu",
@@ -445,7 +445,7 @@
     "windows",
   ]
   pruneopts = "UT"
-  revision = "b4ddaad3f8a36719f2b8bc6486c14cc468ca2bb5"
+  revision = "0a153f010e6963173baba2306531d173aa843137"
 
 [[projects]]
   digest = "1:8d8faad6b12a3a4c819a3f9618cb6ee1fa1cfc33253abeeea8b55336721e3405"

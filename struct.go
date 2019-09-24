@@ -8,7 +8,7 @@ import (
 type KeyModification struct {
 	TxId      string
 	Value     []byte
-	Timestamp TimeLong
+	Timestamp TimeLong // as unix nano
 	IsDelete  bool
 }
 
@@ -19,11 +19,12 @@ func ParseHistory(iterator shim.HistoryQueryIteratorInterface, filter func(KeyMo
 		keyModification, err := iterator.Next()
 		PanicError(err)
 		var timeStamp = keyModification.Timestamp
-		var t = timeStamp.Seconds*1000 + int64(timeStamp.Nanos/1000000)
+		var t TimeLong
+		t = t.FromTimeStamp(*timeStamp)
 		var translated = KeyModification{
 			keyModification.TxId,
 			keyModification.Value,
-			TimeLong(t),
+			t,
 			keyModification.IsDelete}
 		if filter == nil || filter(translated) {
 			result = append(result, translated)
@@ -42,7 +43,7 @@ type QueryResponseMetadata struct {
 	Bookmark            string
 }
 
-// throw error when iterate >100
+// TODO throw error when iterate >100
 func ParseStates(iterator shim.StateQueryIteratorInterface, filter func(StateKV) bool) []StateKV {
 	defer PanicError(iterator.Close())
 	var kvs []StateKV

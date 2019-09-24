@@ -25,5 +25,5 @@ And then `dep ensure`
 
     chaincodeStub.GetBinding: it's just hash over nonce || creator || epoch
 - when iterate >100 queryResult:  QUERY_STATE_NEXT failed: transaction ID: c84cb2a85b169e4f515c304199c38b22c8c818d55ed3cbf2c4cb91dfb67b0250: query iterator not found
-
+    - [does it work?] `totalQueryLimit` in https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml
     

@@ -42,6 +42,7 @@ func (t *TestChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.
 
 var cc = new(TestChaincode)
 var mock = shim.NewMockStub(name, cc)
+
 //initialize mocker
 func TestCommonChaincode_Prepare(t *testing.T) {
 	cc.Prepare(mock)
@@ -51,7 +52,7 @@ func TestTestChaincode_Init(t *testing.T) {
 	var args = ArgsBuilder("Initfcn")
 	var TxID = "ob"
 
-	var response = mock.MockInit(TxID,args.Get())
+	var response = mock.MockInit(TxID, args.Get())
 	t.Log("init ", response)
 	assert.Equal(t, int32(200), response.Status)
 }
@@ -62,7 +63,7 @@ func TestTestChaincode_Invoke(t *testing.T) {
 	var TxID = "oa"
 	var response = mock.MockInvoke(TxID, args.Get())
 	t.Log("invoke ", response)
-	assert.Equal(t, int32(200), response.Status);
+	assert.Equal(t, int32(200), response.Status)
 	//	when error status is 500
 }
 
@@ -70,14 +71,14 @@ func TestCreateCompositeKey(t *testing.T) {
 	var cKey1 = cc.CreateCompositeKey("a", []string{"c", "C"})
 	var cKey2 = cc.CreateCompositeKey("a", []string{"d", "D"})
 	var TxID = "composityKey"
-	mock.MockTransactionStart(TxID);
+	mock.MockTransactionStart(TxID)
 	cc.PutState(cKey1, []byte("c"))
 	cc.PutState(cKey2, []byte("C"))
-	mock.MockTransactionEnd(TxID);
+	mock.MockTransactionEnd(TxID)
 	TxID = "composite1"
 	mock.MockTransactionStart(TxID)
 	iterator := cc.GetStateByPartialCompositeKey("a", []string{"d"})
-	var kvs = ParseStates(iterator,nil)
+	var kvs = ParseStates(iterator, nil)
 	t.Log(kvs)
 	mock.MockTransactionEnd(TxID)
 }
@@ -85,7 +86,7 @@ func TestCreateCompositeKey(t *testing.T) {
 /**
 [31m2018-07-09 12:46:27.277 HKT [mock] HasNext -> ERRO 001[0m HasNext() couldn't get Current
 mockstub.go line 410:	mockLogger.Error("HasNext() couldn't get Current")
- */
+*/
 func TestWorldStates(t *testing.T) {
 	var TxID = "composityKey"
 	mock.MockTransactionStart(TxID)
@@ -94,14 +95,14 @@ func TestWorldStates(t *testing.T) {
 	cc.PutState("a_2", []byte("C"))
 	cc.PutState("a_3", []byte("C"))
 
-	mock.MockTransactionEnd(TxID);
+	mock.MockTransactionEnd(TxID)
 	TxID = "composite1"
 	mock.MockTransactionStart(TxID)
-	kvs := cc.WorldStates("",nil)
+	kvs := cc.WorldStates("", nil)
 
 	t.Log(kvs)
 
-	var states2 = ParseStates(cc.GetStateByRange("a_1", ""),nil)
+	var states2 = ParseStates(cc.GetStateByRange("a_1", ""), nil)
 	t.Log(states2)
 	mock.MockTransactionEnd(TxID)
 }
@@ -115,7 +116,7 @@ func TestGetStateObj(t *testing.T) {
 
 	cc.PutStateObj(key, value)
 
-	mock.MockTransactionEnd(TxID);
+	mock.MockTransactionEnd(TxID)
 	TxID = "composite1"
 	mock.MockTransactionStart(TxID)
 
@@ -123,18 +124,5 @@ func TestGetStateObj(t *testing.T) {
 	cc.GetStateObj(key, &recovered)
 
 	t.Log(recovered)
-	mock.MockTransactionEnd(TxID)
-}
-func TestModifyValue(t *testing.T) {
-	var key = "a_1"
-	var kv StateKV
-	TxID := "composite2"
-	mock.MockTransactionStart(TxID)
-	var modifier = func(v interface{}) {
-		t.Log("modifierTest", v)
-		t.Log("modifierTest", kv)
-	}
-
-	cc.ModifyValue(key, modifier, &kv)
 	mock.MockTransactionEnd(TxID)
 }
