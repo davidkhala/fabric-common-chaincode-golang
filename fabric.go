@@ -3,10 +3,10 @@ package golang
 import (
 	"fmt"
 	. "github.com/davidkhala/goutils"
+	"github.com/golang/protobuf/ptypes/timestamp"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
 	"runtime/debug"
-	"time"
 )
 
 func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
@@ -67,10 +67,10 @@ func (cc CommonChaincode) DelState(key string) {
 	var err = cc.CCAPI.DelState(key)
 	PanicError(err)
 }
-func (cc CommonChaincode) GetTxTime() time.Time {
+func (cc CommonChaincode) GetTxTimestamp() timestamp.Timestamp {
 	ts, err := cc.CCAPI.GetTxTimestamp()
 	PanicError(err)
-	return time.Unix(ts.Seconds, int64(ts.Nanos)).UTC()
+	return *ts
 }
 
 func (cc CommonChaincode) GetHistoryForKey(key string) shim.HistoryQueryIteratorInterface {
