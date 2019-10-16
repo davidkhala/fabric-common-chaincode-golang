@@ -88,10 +88,9 @@ func (cc CommonChaincode) GetStateByRange(startKey string, endKey string) shim.S
 	PanicError(err)
 	return r
 }
+// TODO is it used as getAll state starting with prefix?
 func (cc CommonChaincode) GetStateRange(collection, prefix string) shim.StateQueryIteratorInterface {
-	itr, err := cc.CCAPI.GetPrivateDataByRange(collection, prefix, prefix+"\x7f")
-	PanicError(err)
-	return itr
+	return cc.GetPrivateDataByRange(collection, prefix, prefix+"\x7f")
 }
 
 // This call is only supported in a read only transaction.
