@@ -9,8 +9,7 @@ import (
 	"runtime/debug"
 )
 
-func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
-	var resp = cc.CCAPI.InvokeChaincode(chaincodeName, args, channel)
+func PanicPeerResponse(resp peer.Response) {
 	if resp.Status >= shim.ERRORTHRESHOLD {
 		var errorPB = PeerResponse{
 			resp.Status,
@@ -19,6 +18,11 @@ func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, c
 		}
 		PanicString(string(ToJson(errorPB)))
 	}
+}
+
+func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
+	var resp = cc.CCAPI.InvokeChaincode(chaincodeName, args, channel)
+	PanicPeerResponse(resp)
 	return resp
 }
 
