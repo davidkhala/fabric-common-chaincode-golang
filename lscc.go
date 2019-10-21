@@ -54,11 +54,14 @@ func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) Cha
 	var instantiatePolicyProto = common.SignaturePolicyEnvelope{}
 	PanicError(proto.Unmarshal(chaincodeData.InstantiationPolicy, &instantiatePolicyProto))
 
+	var dataProto = ccprovider.CDSData{}
+	PanicError(proto.Unmarshal(chaincodeData.Data, &dataProto))
 	var convertedChaincodeData = ChaincodeData{
 		Name:                chaincodeData.Name,
 		Version:             chaincodeData.Version,
 		Escc:                chaincodeData.Escc,
 		Vscc:                chaincodeData.Vscc,
+		Data:                dataProto,
 		Policy:              policyProto,
 		InstantiationPolicy: instantiatePolicyProto,
 	}
