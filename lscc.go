@@ -5,6 +5,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric/core/common/ccprovider"
 	"github.com/hyperledger/fabric/protos/common"
+	"github.com/hyperledger/fabric/protos/msp"
 	"strings"
 )
 
@@ -24,21 +25,20 @@ func (cc CommonChaincode) ChaincodeExist(channel, checkedChaincode string) bool 
 
 }
 
-type ChaincodeData struct {
-	Name                string                         // Name of the chaincode
-	Version             string                         // Version of the chaincode
-	Escc                string                         // Escc for the chaincode instance
-	Vscc                string                         // Vscc for the chaincode instance
-	Data                ccprovider.CDSData             // Data data specific to the package
-	Policy              common.SignaturePolicyEnvelope // Policy endorsement policy for the chaincode instance
-	InstantiationPolicy common.SignaturePolicyEnvelope // InstantiationPolicy for the chaincode
+type SignaturePolicyEnvelope struct {
+	Version    int32
+	Rule       common.SignaturePolicy
+	Identities []*msp.MSPPrincipal
 }
-
-//type SignaturePolicyEnvelope struct {
-//	Version    int32
-//	Rule       *common.SignaturePolicy
-//	Identities []*msp.MSPPrincipal
-//}
+type ChaincodeData struct {
+	Name                string                  // Name of the chaincode
+	Version             string                  // Version of the chaincode
+	Escc                string                  // Escc for the chaincode instance
+	Vscc                string                  // Vscc for the chaincode instance
+	Data                []byte `json:"data"`    // Data data specific to the package
+	Policy              SignaturePolicyEnvelope // Policy endorsement policy for the chaincode instance
+	InstantiationPolicy SignaturePolicyEnvelope // InstantiationPolicy for the chaincode
+}
 
 func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) ChaincodeData {
 	var args = [][]byte{[]byte("GetChaincodeData"), []byte(channel), []byte(checkedChaincode)}
@@ -48,22 +48,33 @@ func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) Cha
 	var err = proto.Unmarshal(resp.Payload, &chaincodeData)
 	PanicError(err)
 
-	var policyProto = common.SignaturePolicyEnvelope{}
+	var policyProto common.SignaturePolicyEnvelope
 	PanicError(proto.Unmarshal(chaincodeData.Policy, &policyProto)) //TODO TBC  [principal:"\n\010ASTRIMSP"  principal:"\n\007icddMSP" ]
+	var policyText = SignaturePolicyEnvelope{
+		Version:    policyProto.Version,
+		Rule:       *policyProto.Rule,
+		Identities: policyProto.Identities,
+	}
 
-	var instantiatePolicyProto = common.SignaturePolicyEnvelope{}
+	var instantiatePolicyProto common.SignaturePolicyEnvelope
 	PanicError(proto.Unmarshal(chaincodeData.InstantiationPolicy, &instantiatePolicyProto))
+	var instantiatePolicyText = SignaturePolicyEnvelope{
+		Version:    instantiatePolicyProto.Version,
+		Rule:       *instantiatePolicyProto.Rule,
+		Identities: instantiatePolicyProto.Identities,
+	}
 
-	var dataProto = ccprovider.CDSData{}
+	//TODO MSPRole
+	var dataProto ccprovider.CDSData
 	PanicError(proto.Unmarshal(chaincodeData.Data, &dataProto))
 	var convertedChaincodeData = ChaincodeData{
 		Name:                chaincodeData.Name,
 		Version:             chaincodeData.Version,
 		Escc:                chaincodeData.Escc,
 		Vscc:                chaincodeData.Vscc,
-		Data:                dataProto,
-		Policy:              policyProto,
-		InstantiationPolicy: instantiatePolicyProto,
+		Data:                ToJson(dataProto), //TODO to test bytes
+		Policy:              policyText,
+		InstantiationPolicy: instantiatePolicyText,
 	}
 	return convertedChaincodeData
 }
