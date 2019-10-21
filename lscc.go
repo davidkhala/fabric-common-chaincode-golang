@@ -9,7 +9,6 @@ import (
 
 const operationChannel = "" // It does not matter what channel we use, so use current channel
 
-// TODO the meaning of ChaincodeExist
 // query function, a short representation of GetChaincodeData
 func (cc CommonChaincode) ChaincodeExist(channel, checkedChaincode string) bool {
 	var args = [][]byte{[]byte("ChaincodeExists"), []byte(channel), []byte(checkedChaincode)}
@@ -23,12 +22,12 @@ func (cc CommonChaincode) ChaincodeExist(channel, checkedChaincode string) bool 
 	return true
 
 }
-func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) []byte {
+func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) ccprovider.ChaincodeData {
 	var args = [][]byte{[]byte("GetChaincodeData"), []byte(channel), []byte(checkedChaincode)}
 	var resp = cc.InvokeChaincode("lscc", args, operationChannel)
 
-	var chaincodeData = &ccprovider.ChaincodeData{}
-	var err = proto.Unmarshal(resp.Payload, chaincodeData)
+	var chaincodeData = ccprovider.ChaincodeData{}
+	var err = proto.Unmarshal(resp.Payload, &chaincodeData)
 	PanicError(err)
-	return resp.Payload
+	return chaincodeData
 }
