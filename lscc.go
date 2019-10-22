@@ -130,10 +130,16 @@ func (cc CommonChaincode) GetDeploymentSpec(channel, checkedChaincode string) Ch
 	return convertedChaincodeDeploymentSpec
 }
 
-func (cc CommonChaincode) GetInstantiatedChaincode() []*peer.ChaincodeInfo {
+func (cc CommonChaincode) GetInstantiatedChaincode() []peer.ChaincodeInfo {
 	var args = [][]byte{[]byte("GetChaincodes")}
 	var resp = cc.InvokeChaincode("lscc", args, operationChannel)
 	var queryResponse peer.ChaincodeQueryResponse
 	PanicError(proto.Unmarshal(resp.Payload, &queryResponse))
-	return queryResponse.Chaincodes
+	var result []peer.ChaincodeInfo
+	for _, chaincodeInfo := range queryResponse.Chaincodes {
+		result = append(result, *chaincodeInfo)
+		// TODO input includes invalid byte
+		cc.Logger.Info(chaincodeInfo.String())
+	}
+	return result
 }
