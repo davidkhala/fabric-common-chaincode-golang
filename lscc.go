@@ -68,7 +68,7 @@ type ChaincodeData struct {
 	Version             string                  // Version of the chaincode
 	Escc                string                  // Escc for the chaincode instance
 	Vscc                string                  // Vscc for the chaincode instance
-	Data                []byte                  `json:"data"` // Data data specific to the package
+	Data                string                  // Data data specific to the package
 	Policy              SignaturePolicyEnvelope // Policy endorsement policy for the chaincode instance
 	InstantiationPolicy SignaturePolicyEnvelope // InstantiationPolicy for the chaincode
 }
@@ -104,7 +104,7 @@ func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) Cha
 		Version:             chaincodeData.Version,
 		Escc:                chaincodeData.Escc,
 		Vscc:                chaincodeData.Vscc,
-		Data:                ToJson(dataProto), // TODO to test bytes
+		Data:                string(ToJson(dataProto)), // TODO to test bytes
 		Policy:              policyText,
 		InstantiationPolicy: instantiatePolicyText,
 	}
