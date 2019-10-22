@@ -46,7 +46,7 @@ type MSPPrincipal struct {
 
 type SignaturePolicyEnvelope struct {
 	Version    int32
-	Rule       common.SignaturePolicy
+	Rule       *common.SignaturePolicy
 	Identities []MSPPrincipal // []*msp.MSPPrincipal
 }
 
@@ -82,10 +82,10 @@ func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) Cha
 	PanicError(err)
 
 	var policyProto common.SignaturePolicyEnvelope
-	PanicError(proto.Unmarshal(chaincodeData.Policy, &policyProto)) // TODO TBC  [principal:"\n\010ASTRIMSP"  principal:"\n\007icddMSP" ]
+	PanicError(proto.Unmarshal(chaincodeData.Policy, &policyProto))
 	var policyText = SignaturePolicyEnvelope{
 		Version: policyProto.Version,
-		Rule:    *policyProto.Rule,
+		Rule:    policyProto.Rule,
 	}
 	policyText.LoadIdentities(policyProto.Identities)
 
@@ -93,7 +93,7 @@ func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) Cha
 	PanicError(proto.Unmarshal(chaincodeData.InstantiationPolicy, &instantiatePolicyProto))
 	var instantiatePolicyText = SignaturePolicyEnvelope{
 		Version: instantiatePolicyProto.Version,
-		Rule:    *instantiatePolicyProto.Rule,
+		Rule:    instantiatePolicyProto.Rule,
 	}
 	instantiatePolicyText.LoadIdentities(instantiatePolicyProto.Identities)
 
