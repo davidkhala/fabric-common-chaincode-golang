@@ -6,6 +6,7 @@ import (
 	"github.com/hyperledger/fabric/core/common/ccprovider"
 	"github.com/hyperledger/fabric/protos/common"
 	"github.com/hyperledger/fabric/protos/msp"
+	"github.com/hyperledger/fabric/protos/peer"
 	"strings"
 )
 
@@ -73,13 +74,17 @@ type ChaincodeData struct {
 	InstantiationPolicy SignaturePolicyEnvelope // InstantiationPolicy for the chaincode
 }
 
+type ChaincodeDeploymentSpec struct {
+	ChaincodeSpec peer.ChaincodeSpec
+	ExecEnv       peer.ChaincodeDeploymentSpec_ExecutionEnvironment
+}
+
 func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) ChaincodeData {
 	var args = [][]byte{[]byte("GetChaincodeData"), []byte(channel), []byte(checkedChaincode)}
 	var resp = cc.InvokeChaincode("lscc", args, operationChannel)
 
 	var chaincodeData = ccprovider.ChaincodeData{}
-	var err = proto.Unmarshal(resp.Payload, &chaincodeData)
-	PanicError(err)
+	PanicError(proto.Unmarshal(resp.Payload, &chaincodeData))
 
 	var policyProto common.SignaturePolicyEnvelope
 	PanicError(proto.Unmarshal(chaincodeData.Policy, &policyProto))
@@ -109,4 +114,15 @@ func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) Cha
 		InstantiationPolicy: instantiatePolicyText,
 	}
 	return convertedChaincodeData
+}
+func (cc CommonChaincode) GetDeploymentSpec(channel, checkedChaincode string) ChaincodeDeploymentSpec {
+	var args = [][]byte{[]byte("GetDeploymentSpec"), []byte(channel), []byte(checkedChaincode)}
+	var resp = cc.InvokeChaincode("lscc", args, operationChannel)
+	var chaincodeDeploymentSpec peer.ChaincodeDeploymentSpec
+	PanicError(proto.Unmarshal(resp.Payload, &chaincodeDeploymentSpec))
+	var convertedChaincodeDeploymentSpec = ChaincodeDeploymentSpec{
+		ChaincodeSpec: *chaincodeDeploymentSpec.ChaincodeSpec,
+		ExecEnv:       chaincodeDeploymentSpec.ExecEnv,
+	}
+	return convertedChaincodeDeploymentSpec
 }
