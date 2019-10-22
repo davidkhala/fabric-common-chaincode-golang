@@ -25,17 +25,50 @@ func (cc CommonChaincode) ChaincodeExist(channel, checkedChaincode string) bool 
 
 }
 
+type MSPPrincipal struct {
+	// Classification describes the way that one should process
+	// Principal. An Classification value of "ByOrganizationUnit" reflects
+	// that "Principal" contains the name of an organization this MSP
+	// handles. A Classification value "ByIdentity" means that
+	// "Principal" contains a specific identity. Default value
+	// denotes that Principal contains one of the groups by
+	// default supported by all MSPs ("admin" or "member").
+	PrincipalClassification msp.MSPPrincipal_Classification
+	// Principal completes the policy principal definition. For the default
+	// principal types, Principal can be either "Admin" or "Member".
+	// For the ByOrganizationUnit/ByIdentity values of Classification,
+	// PolicyPrincipal acquires its value from an organization unit or
+	// identity, respectively.
+	// For the Combined Classification type, the Principal is a marshalled
+	// CombinedPrincipal.
+	Principal msp.MSPRole
+}
+
 type SignaturePolicyEnvelope struct {
 	Version    int32
 	Rule       common.SignaturePolicy
-	Identities []*msp.MSPPrincipal
+	Identities []MSPPrincipal // []*msp.MSPPrincipal
 }
+
+func (t *SignaturePolicyEnvelope) LoadIdentities(identities []*msp.MSPPrincipal) {
+	var result []MSPPrincipal
+	for _, mspPrincipal := range identities {
+		var principal = &msp.MSPRole{}
+		PanicError(proto.Unmarshal(mspPrincipal.Principal, principal))
+		result = append(result, MSPPrincipal{
+			PrincipalClassification: mspPrincipal.PrincipalClassification,
+			Principal:               *principal,
+		})
+	}
+	t.Identities = result
+}
+
 type ChaincodeData struct {
 	Name                string                  // Name of the chaincode
 	Version             string                  // Version of the chaincode
 	Escc                string                  // Escc for the chaincode instance
 	Vscc                string                  // Vscc for the chaincode instance
-	Data                []byte `json:"data"`    // Data data specific to the package
+	Data                []byte                  `json:"data"` // Data data specific to the package
 	Policy              SignaturePolicyEnvelope // Policy endorsement policy for the chaincode instance
 	InstantiationPolicy SignaturePolicyEnvelope // InstantiationPolicy for the chaincode
 }
@@ -49,22 +82,21 @@ func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) Cha
 	PanicError(err)
 
 	var policyProto common.SignaturePolicyEnvelope
-	PanicError(proto.Unmarshal(chaincodeData.Policy, &policyProto)) //TODO TBC  [principal:"\n\010ASTRIMSP"  principal:"\n\007icddMSP" ]
+	PanicError(proto.Unmarshal(chaincodeData.Policy, &policyProto)) // TODO TBC  [principal:"\n\010ASTRIMSP"  principal:"\n\007icddMSP" ]
 	var policyText = SignaturePolicyEnvelope{
-		Version:    policyProto.Version,
-		Rule:       *policyProto.Rule,
-		Identities: policyProto.Identities,
+		Version: policyProto.Version,
+		Rule:    *policyProto.Rule,
 	}
+	policyText.LoadIdentities(policyProto.Identities)
 
 	var instantiatePolicyProto common.SignaturePolicyEnvelope
 	PanicError(proto.Unmarshal(chaincodeData.InstantiationPolicy, &instantiatePolicyProto))
 	var instantiatePolicyText = SignaturePolicyEnvelope{
-		Version:    instantiatePolicyProto.Version,
-		Rule:       *instantiatePolicyProto.Rule,
-		Identities: instantiatePolicyProto.Identities,
+		Version: instantiatePolicyProto.Version,
+		Rule:    *instantiatePolicyProto.Rule,
 	}
+	instantiatePolicyText.LoadIdentities(instantiatePolicyProto.Identities)
 
-	//TODO MSPRole
 	var dataProto ccprovider.CDSData
 	PanicError(proto.Unmarshal(chaincodeData.Data, &dataProto))
 	var convertedChaincodeData = ChaincodeData{
@@ -72,7 +104,7 @@ func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) Cha
 		Version:             chaincodeData.Version,
 		Escc:                chaincodeData.Escc,
 		Vscc:                chaincodeData.Vscc,
-		Data:                ToJson(dataProto), //TODO to test bytes
+		Data:                ToJson(dataProto), // TODO to test bytes
 		Policy:              policyText,
 		InstantiationPolicy: instantiatePolicyText,
 	}
