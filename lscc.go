@@ -46,8 +46,8 @@ type MSPPrincipal struct {
 
 type SignaturePolicyEnvelope struct {
 	Version    int32
-	Rule       *common.SignaturePolicy
-	Identities []MSPPrincipal // []*msp.MSPPrincipal
+	Rule       *common.SignaturePolicy // it has to be a pointer to preserve raw type: SignaturePolicy_NOutOf_|SignaturePolicy_SignedBy
+	Identities []MSPPrincipal
 }
 
 func (t *SignaturePolicyEnvelope) LoadIdentities(identities []*msp.MSPPrincipal) {
@@ -104,7 +104,7 @@ func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) Cha
 		Version:             chaincodeData.Version,
 		Escc:                chaincodeData.Escc,
 		Vscc:                chaincodeData.Vscc,
-		Data:                string(ToJson(dataProto)), // TODO to test bytes
+		Data:                string(ToJson(dataProto)),
 		Policy:              policyText,
 		InstantiationPolicy: instantiatePolicyText,
 	}
