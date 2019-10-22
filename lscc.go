@@ -72,7 +72,9 @@ type ChaincodeData struct {
 	Data                string                  // Data data specific to the package
 	Policy              SignaturePolicyEnvelope // Policy endorsement policy for the chaincode instance
 	InstantiationPolicy SignaturePolicyEnvelope // InstantiationPolicy for the chaincode
+	Id                  string                  // the chaincode unique id.
 }
+
 // Specify the deployment of a chaincode.
 type ChaincodeDeploymentSpec struct {
 	ChaincodeSpec peer.ChaincodeSpec
@@ -112,6 +114,7 @@ func (cc CommonChaincode) GetChaincodeData(channel, checkedChaincode string) Cha
 		Data:                string(ToJson(dataProto)),
 		Policy:              policyText,
 		InstantiationPolicy: instantiatePolicyText,
+		Id:                  string(ToJson(chaincodeData.Id)), // TODO test required
 	}
 	return convertedChaincodeData
 }
@@ -125,4 +128,16 @@ func (cc CommonChaincode) GetDeploymentSpec(channel, checkedChaincode string) Ch
 		ExecEnv:       chaincodeDeploymentSpec.ExecEnv,
 	}
 	return convertedChaincodeDeploymentSpec
+}
+
+type ChaincodeQueryResponse struct {
+	Chaincodes []*peer.ChaincodeInfo `protobuf:"bytes,1,rep,name=chaincodes,proto3" json:"chaincodes,omitempty"`
+}
+
+func (cc CommonChaincode) GetInstantiatedChaincode(channel, checkedChaincode string) {
+	var args = [][]byte{[]byte("GetChaincodes")}
+	var resp = cc.InvokeChaincode("lscc", args, operationChannel)
+	var queryResponse peer.ChaincodeQueryResponse
+	PanicError(proto.Unmarshal(resp.Payload, &queryResponse))
+	// TODO
 }
