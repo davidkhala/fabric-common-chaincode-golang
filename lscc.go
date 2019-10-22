@@ -73,7 +73,7 @@ type ChaincodeData struct {
 	Policy              SignaturePolicyEnvelope // Policy endorsement policy for the chaincode instance
 	InstantiationPolicy SignaturePolicyEnvelope // InstantiationPolicy for the chaincode
 }
-
+// Specify the deployment of a chaincode.
 type ChaincodeDeploymentSpec struct {
 	ChaincodeSpec peer.ChaincodeSpec
 	ExecEnv       peer.ChaincodeDeploymentSpec_ExecutionEnvironment
