@@ -13,6 +13,13 @@
       The workaround simply make a shadow copy of privateData in public scope. 
       And how do we implement that copy depends on requirements.
 - best practice for errors in golang chaincode: https://hyperledger-fabric.readthedocs.io/en/release-1.4/error-handling.html
+- when iterate >100 times from queryResult iterator, it shows as:
+
+  ```
+  QUERY_STATE_NEXT failed: transaction ID: c84cb2a85b169e4f515c304199c38b22c8c818d55ed3cbf2c4cb91dfb67b0250: query iterator not found
+  ```
+    - This apply to [StateIterator][HistoryIterator] in golang chaincode only
+    - [totalQueryLimit](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) is not the cause
 ## TODO
 
 - Yacov M introduce about
@@ -20,6 +27,5 @@
     You need to specify a plugin file in the core.yaml section that implements a decorator.
 
     chaincodeStub.GetBinding: it's just hash over nonce || creator || epoch
-- when iterate >100 queryResult:  QUERY_STATE_NEXT failed: transaction ID: c84cb2a85b169e4f515c304199c38b22c8c818d55ed3cbf2c4cb91dfb67b0250: query iterator not found
-    - [does it work?] `totalQueryLimit` in https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml
+
     
