@@ -2,7 +2,7 @@ package golang
 
 import (
 	. "github.com/davidkhala/goutils"
-	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"github.com/hyperledger/fabric-chaincode-go/shim"
 )
 
 func parse100States(iterator shim.StateQueryIteratorInterface, filter func(StateKV) bool) ([]StateKV, string) {

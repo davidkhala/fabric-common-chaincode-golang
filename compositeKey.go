@@ -1,6 +1,6 @@
 package golang
 
-import "github.com/hyperledger/fabric/core/chaincode/shim"
+import "github.com/hyperledger/fabric-chaincode-go/shim"
 
 //TODO 100 iterator limit
 func (cc CommonChaincode) WorldStatesPrivateComposite(collection, objectType string, filter func(StateKV) bool) []StateKV {

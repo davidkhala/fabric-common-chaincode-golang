@@ -6,9 +6,9 @@ import (
 	. "github.com/davidkhala/goutils"
 	. "github.com/davidkhala/goutils/crypto"
 	"github.com/golang/protobuf/proto"
-	"github.com/hyperledger/fabric/common/attrmgr"
-	"github.com/hyperledger/fabric/core/chaincode/shim"
-	"github.com/hyperledger/fabric/protos/msp"
+	"github.com/hyperledger/fabric-chaincode-go/pkg/attrmgr"
+	"github.com/hyperledger/fabric-chaincode-go/shim"
+	"github.com/hyperledger/fabric-protos-go/msp"
 )
 
 // alternative of creator starting from 1.1
@@ -38,7 +38,7 @@ func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 	return c
 }
 
-func (c ClientIdentity) GetAttributeValue(attrName string) (string) {
+func (c ClientIdentity) GetAttributeValue(attrName string) string {
 	return c.Attrs.Attrs[attrName]
 }
 

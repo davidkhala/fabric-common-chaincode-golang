@@ -2,10 +2,10 @@ package golang
 
 import (
 	. "github.com/davidkhala/goutils"
-	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"github.com/hyperledger/fabric-chaincode-go/shim"
 )
 
-func (cc CommonChaincode) GetPrivateData(collection, key string) ([]byte) {
+func (cc CommonChaincode) GetPrivateData(collection, key string) []byte {
 	var r, err = cc.CCAPI.GetPrivateData(collection, key)
 	PanicError(err)
 	return r
@@ -28,21 +28,21 @@ func (cc CommonChaincode) PutPrivateData(collection, key string, value []byte) {
 	PanicError(err)
 }
 
-func (cc CommonChaincode) GetPrivateDataByPartialCompositeKey(collection, objectType string, keys []string) (shim.StateQueryIteratorInterface) {
+func (cc CommonChaincode) GetPrivateDataByPartialCompositeKey(collection, objectType string, keys []string) shim.StateQueryIteratorInterface {
 	var r, err = cc.CCAPI.GetPrivateDataByPartialCompositeKey(collection, objectType, keys)
 	PanicError(err)
 	return r
 }
-func (cc CommonChaincode) GetPrivateDataByRange(collection, startKey, endKey string) (shim.StateQueryIteratorInterface) {
+func (cc CommonChaincode) GetPrivateDataByRange(collection, startKey, endKey string) shim.StateQueryIteratorInterface {
 	var r, err = cc.CCAPI.GetPrivateDataByRange(collection, startKey, endKey)
 
 	PanicError(err)
 	return r
 }
-func (cc CommonChaincode) GetPrivateDataQueryResult(collection, query string) (shim.StateQueryIteratorInterface) {
-	var r, err = cc.CCAPI.GetPrivateDataQueryResult(collection, query);
+func (cc CommonChaincode) GetPrivateDataQueryResult(collection, query string) shim.StateQueryIteratorInterface {
+	var r, err = cc.CCAPI.GetPrivateDataQueryResult(collection, query)
 	PanicError(err)
-	return r;
+	return r
 }
 func (cc CommonChaincode) DelPrivateData(collection, key string) {
 	var err = cc.CCAPI.DelPrivateData(collection, key)

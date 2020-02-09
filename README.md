@@ -20,6 +20,12 @@
   ```
     - This apply to [StateIterator][HistoryIterator] in golang chaincode only
     - [totalQueryLimit](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) is not the cause
+- [2.0] dependency on fabric-core is now split to 
+    ```javascript
+      "github.com/hyperledger/fabric-chaincode-go"
+      "github.com/hyperledger/fabric-protos-go"
+    ```
+- [2.0] align `shim.NewLogger` removal [FAB-15366](https://jira.hyperledger.org/browse/FAB-15366)
 ## TODO
 
 - Yacov M introduce about
@@ -27,5 +33,10 @@
     You need to specify a plugin file in the core.yaml section that implements a decorator.
 
     chaincodeStub.GetBinding: it's just hash over nonce || creator || epoch
+- `github.com/hyperledger/fabric/core/chaincode/shim/ext/entities` is removed in [FAB-16213](https://jira.hyperledger.org/browse/FAB-16213)
+- `lscc.go` still depends on fabric core, remove it first
+    ```http request
+    github.com/hyperledger/fabric/core/common/ccprovider
+    ``` 
 
     

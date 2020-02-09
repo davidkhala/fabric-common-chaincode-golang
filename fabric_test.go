@@ -3,8 +3,10 @@ package golang
 import (
 	"github.com/davidkhala/fabric-common-chaincode-golang/cid"
 	. "github.com/davidkhala/goutils"
-	"github.com/hyperledger/fabric/core/chaincode/shim"
-	"github.com/hyperledger/fabric/protos/peer"
+	"github.com/hyperledger/fabric-chaincode-go/shim"
+	"github.com/hyperledger/fabric-chaincode-go/shimtest"
+	"github.com/hyperledger/fabric-protos-go/peer"
+	logger "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -16,8 +18,6 @@ type TestChaincode struct {
 const (
 	name = "TestChaincode"
 )
-
-var logger = shim.NewLogger(name)
 
 func (t *TestChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
 	t.Prepare(stub)
@@ -41,7 +41,7 @@ func (t *TestChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.
 }
 
 var cc = new(TestChaincode)
-var mock = shim.NewMockStub(name, cc)
+var mock = shimtest.NewMockStub(name, cc)
 
 //initialize mocker
 func TestCommonChaincode_Prepare(t *testing.T) {

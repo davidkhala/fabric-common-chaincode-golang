@@ -2,7 +2,7 @@ package golang
 
 import (
 	. "github.com/davidkhala/goutils"
-	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"github.com/hyperledger/fabric-chaincode-go/shim"
 )
 
 type KeyModification struct {
@@ -66,11 +66,11 @@ func ArgsBuilder(fcn string) Args {
 	return Args{[][]byte{[]byte(fcn)}}
 }
 
-func (t *Args) AppendBytes(bytes []byte) *Args{
+func (t *Args) AppendBytes(bytes []byte) *Args {
 	t.buff = append(t.buff, bytes)
 	return t
 }
-func (t *Args) AppendArg(str string) *Args{
+func (t *Args) AppendArg(str string) *Args {
 	t.buff = append(t.buff, []byte(str))
 	return t
 }

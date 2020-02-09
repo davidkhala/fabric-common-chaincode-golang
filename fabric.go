@@ -4,8 +4,8 @@ import (
 	"fmt"
 	. "github.com/davidkhala/goutils"
 	"github.com/golang/protobuf/ptypes/timestamp"
-	"github.com/hyperledger/fabric/core/chaincode/shim"
-	"github.com/hyperledger/fabric/protos/peer"
+	"github.com/hyperledger/fabric-chaincode-go/shim"
+	"github.com/hyperledger/fabric-protos-go/peer"
 	"runtime/debug"
 )
 
@@ -92,6 +92,7 @@ func (cc CommonChaincode) GetStateByRange(startKey string, endKey string) shim.S
 	PanicError(err)
 	return r
 }
+
 // TODO is it used as getAll state starting with prefix?
 func (cc CommonChaincode) GetStateRange(collection, prefix string) shim.StateQueryIteratorInterface {
 	return cc.GetPrivateDataByRange(collection, prefix, prefix+"\x7f")
