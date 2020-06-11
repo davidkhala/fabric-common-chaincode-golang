@@ -3,7 +3,6 @@
 ## Notes
 
 - full document of couchdb query syntax ```http://docs.couchdb.org/en/stable/api/database/find.html?highlight=find.html#post--db-_find```
-- ParseCreator is deprecated now, please use ClientIdentityLibrary
 - https://hlf.readthedocs.io/en/latest/endorsement-policies.html?highlight=endorse#validation
 
   "the key-level endorsement policy overrides the chaincode-level endorsement policy." not just a new layer of restriction.
@@ -25,12 +24,7 @@
     github.com/hyperledger/fabric/core/common/ccprovider
     ```
 ## TODO
-
-- Yacov M introduce about
-    chaincodeStub.GetDecorations: As for Decorations, a peer may add additional input to the chaincode input via custom endorsement handlers.
-    You need to specify a plugin file in the core.yaml section that implements a decorator.
-
-    chaincodeStub.GetBinding: it's just hash over nonce || creator || epoch
+- Get current peer MSPid: https://github.com/hyperledger/fabric-chaincode-go/commit/2d899240a7ed642a381ba9df2f6b0c303cb149dc
  
 
     
