@@ -127,6 +127,11 @@ var DeferHandlerPeerResponse = func(errString string, params ...interface{}) boo
 	return true
 }
 
+func GetMSPID() string {
+	var mspId, err = shim.GetMSPID()
+	PanicError(err)
+	return mspId
+}
 func (cc CommonChaincode) GetFunctionAndArgs() (string, [][]byte) {
 	var allArgs = cc.CCAPI.GetArgs()
 	var fcn = ""
