@@ -48,3 +48,6 @@ func (cc CommonChaincode) DelPrivateData(collection, key string) {
 	var err = cc.CCAPI.DelPrivateData(collection, key)
 	PanicError(err)
 }
+func ImplicitCollection(mspid string) string {
+	return "_implicit_org_" + mspid
+}
