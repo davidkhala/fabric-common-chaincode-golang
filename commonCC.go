@@ -9,7 +9,6 @@ type CommonChaincode struct {
 	Mock    bool
 	Debug   bool
 	Name    string
-	Logger  *shim.ChaincodeLogger
 	Channel string
 	CCAPI   shim.ChaincodeStubInterface // chaincode API
 }

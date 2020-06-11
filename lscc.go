@@ -139,7 +139,6 @@ func (cc CommonChaincode) GetInstantiatedChaincode() []peer.ChaincodeInfo {
 	for _, chaincodeInfo := range queryResponse.Chaincodes {
 		result = append(result, *chaincodeInfo)
 		// TODO input includes invalid byte
-		cc.Logger.Info(chaincodeInfo.String())
 	}
 	return result
 }
