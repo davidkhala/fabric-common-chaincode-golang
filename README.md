@@ -20,12 +20,12 @@
   ```
     - This apply to [StateIterator][HistoryIterator] in golang chaincode only
     - [totalQueryLimit](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) is not the cause
-## TODO
-
 - Yacov M introduce about
     chaincodeStub.GetDecorations: As for Decorations, a peer may add additional input to the chaincode input via custom endorsement handlers.
     You need to specify a plugin file in the core.yaml section that implements a decorator.
 
-    chaincodeStub.GetBinding: it's just hash over nonce || creator || epoch
+    chaincodeStub.GetBinding: it's just hash over nonce || creator || epoch    
+## TODO
+- Chaincodes that used the shim's NewLogger() will need to shift to their own preferred logging mechanism.
 
     

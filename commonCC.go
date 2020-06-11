@@ -18,10 +18,6 @@ func (cc *CommonChaincode) Prepare(ccAPI shim.ChaincodeStubInterface) {
 	cc.CCAPI = ccAPI
 	cc.Channel = ccAPI.GetChannelID()
 }
-func (cc *CommonChaincode) SetLogger(ccName string) {
-	cc.Name = ccName
-	cc.Logger = shim.NewLogger(ccName)
-}
 
 // return empty for if no record.
 func (cc CommonChaincode) GetChaincodeID() string {
