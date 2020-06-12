@@ -13,7 +13,7 @@ require (
 	github.com/docker/docker v17.12.0-ce-rc1.0.20180412203414-a422774e593b+incompatible // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
 	github.com/docker/go-units v0.3.3 // indirect
-	github.com/fsouza/go-dockerclient v1.2.1 // indirect
+	github.com/fsouza/go-dockerclient v1.2.1
 	github.com/gogo/protobuf v1.3.0 // indirect
 	github.com/golang/protobuf v1.4.2
 	github.com/google/go-cmp v0.4.1 // indirect
