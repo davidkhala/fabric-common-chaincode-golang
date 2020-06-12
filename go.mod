@@ -20,7 +20,7 @@ require (
 	github.com/gotestyourself/gotestyourself v2.2.0+incompatible // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.1.0 // indirect
 	github.com/hashicorp/go-version v1.2.0 // indirect
-	github.com/hyperledger/fabric v1.4.8-0.20200522075732-65e735383f1c
+	github.com/hyperledger/fabric v1.4.7
 	github.com/hyperledger/fabric-amcl v0.0.0-20190902191507-f66264322317 // indirect
 	github.com/hyperledger/fabric-lib-go v1.0.0 // indirect
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
