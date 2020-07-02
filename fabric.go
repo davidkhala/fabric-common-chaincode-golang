@@ -93,11 +93,6 @@ func (cc CommonChaincode) GetStateByRange(startKey string, endKey string) shim.S
 	return r
 }
 
-// TODO is it used as getAll state starting with prefix?
-func (cc CommonChaincode) GetStateRange(collection, prefix string) shim.StateQueryIteratorInterface {
-	return cc.GetPrivateDataByRange(collection, prefix, prefix+"\x7f")
-}
-
 // This call is only supported in a read only transaction.
 func (cc CommonChaincode) GetStateByPartialCompositeKeyWithPagination(objectType string, keys []string, pageSize int, bookmark string) (shim.StateQueryIteratorInterface, QueryResponseMetadata) {
 	var iterator, r, err = cc.CCAPI.GetStateByPartialCompositeKeyWithPagination(objectType, keys, int32(pageSize), bookmark)

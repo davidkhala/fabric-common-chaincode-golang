@@ -48,6 +48,12 @@ func (cc CommonChaincode) DelPrivateData(collection, key string) {
 	var err = cc.CCAPI.DelPrivateData(collection, key)
 	PanicError(err)
 }
+
+// TODO is it used as getAll state starting with prefix?
+func (cc CommonChaincode) GetStateRange(collection, prefix string) shim.StateQueryIteratorInterface {
+	return cc.GetPrivateDataByRange(collection, prefix, prefix+"\x7f")
+}
+
 func ImplicitCollection(mspid string) string {
 	return "_implicit_org_" + mspid
 }

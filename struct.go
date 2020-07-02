@@ -43,7 +43,6 @@ type QueryResponseMetadata struct {
 	Bookmark            string
 }
 
-// TODO throw error when iterate >100
 func ParseStates(iterator shim.StateQueryIteratorInterface, filter func(StateKV) bool) []StateKV {
 	defer PanicError(iterator.Close())
 	var kvs []StateKV
