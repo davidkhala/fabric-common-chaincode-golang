@@ -8,7 +8,7 @@ import (
 	"github.com/hyperledger/fabric-protos-go/msp"
 )
 
-//Note:clientIdentityImpl has no public properties, so ToJson(cid.ClientIdentity) is empty
+// Note:clientIdentityImpl has no public properties, so ToJson(cid.ClientIdentity) is empty
 func NewClientIdentity(stub shim.ChaincodeStubInterface) cid.ClientIdentity {
 	var identity, err = cid.New(stub)
 	PanicError(err)
