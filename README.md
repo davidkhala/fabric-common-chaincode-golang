@@ -24,7 +24,7 @@
     github.com/hyperledger/fabric/core/common/ccprovider
     ```
 ## TODO
-- Get current peer MSPid: https://github.com/hyperledger/fabric-chaincode-go/commit/2d899240a7ed642a381ba9df2f6b0c303cb149dc
+- Please take care of ioRead from a file, once the chaincode packaged, the file path changed in a way???
  
 
     
