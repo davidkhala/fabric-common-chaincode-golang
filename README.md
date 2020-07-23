@@ -20,6 +20,8 @@
   ```
     - This apply to [StateIterator][HistoryIterator] in golang chaincode only
     - [totalQueryLimit](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) is not the cause
+- `failed to invoke chaincode name:"lscc" , error: API error (400): OCI runtime create failed: container_linux.go:348: starting container process caused "exec: \"chaincode\": executable file not found in $PATH": unknown`
+    - means package name for golang-chaincode entrance is not `main`
 - Yacov M introduce about
     chaincodeStub.GetDecorations: As for Decorations, a peer may add additional input to the chaincode input via custom endorsement handlers.
     You need to specify a plugin file in the core.yaml section that implements a decorator.
