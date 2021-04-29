@@ -28,6 +28,5 @@
 
     chaincodeStub.GetBinding: it's just hash over nonce || creator || epoch    
 ## TODO
-- Chaincodes that used the shim's NewLogger() will need to shift to their own preferred logging mechanism.
 
     

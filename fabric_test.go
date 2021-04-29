@@ -17,17 +17,13 @@ const (
 	name = "TestChaincode"
 )
 
-var logger = shim.NewLogger(name)
-
 func (t *TestChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
 	t.Prepare(stub)
-	logger.Info("Init")
 	return shim.Success(nil)
 }
 
 // Transaction makes payment of X units from A to B
 func (t *TestChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
-	logger.Info("Invoke")
 	defer Deferred(DeferHandlerPeerResponse, &response)
 	var fcn, _ = stub.GetFunctionAndParameters()
 	var responseBytes []byte
@@ -83,10 +79,6 @@ func TestCreateCompositeKey(t *testing.T) {
 	mock.MockTransactionEnd(TxID)
 }
 
-/**
-[31m2018-07-09 12:46:27.277 HKT [mock] HasNext -> ERRO 001[0m HasNext() couldn't get Current
-mockstub.go line 410:	mockLogger.Error("HasNext() couldn't get Current")
-*/
 func TestWorldStates(t *testing.T) {
 	var TxID = "composityKey"
 	mock.MockTransactionStart(TxID)
