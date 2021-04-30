@@ -118,3 +118,6 @@ func TestGetStateObj(t *testing.T) {
 	t.Log(recovered)
 	mock.MockTransactionEnd(TxID)
 }
+func TestTouch(t *testing.T) {
+	touch()
+}
