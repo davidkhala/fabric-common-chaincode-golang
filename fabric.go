@@ -93,14 +93,14 @@ func (cc CommonChaincode) GetStateByRange(startKey string, endKey string) shim.S
 	return r
 }
 
-// This call is only supported in a read only transaction.
+// GetStateByPartialCompositeKeyWithPagination This call is only supported in a read only transaction.
 func (cc CommonChaincode) GetStateByPartialCompositeKeyWithPagination(objectType string, keys []string, pageSize int, bookmark string) (shim.StateQueryIteratorInterface, QueryResponseMetadata) {
 	var iterator, r, err = cc.CCAPI.GetStateByPartialCompositeKeyWithPagination(objectType, keys, int32(pageSize), bookmark)
 	PanicError(err)
 	return iterator, QueryResponseMetadata{int(r.FetchedRecordsCount), r.Bookmark}
 }
 
-// This call is only supported in a read only transaction.
+// GetStateByRangeWithPagination This call is only supported in a read only transaction.
 func (cc CommonChaincode) GetStateByRangeWithPagination(startKey, endKey string, pageSize int, bookmark string) (shim.StateQueryIteratorInterface, QueryResponseMetadata) {
 	var iterator, r, err = cc.CCAPI.GetStateByRangeWithPagination(startKey, endKey, int32(pageSize), bookmark)
 	PanicError(err)
@@ -122,7 +122,7 @@ var DeferHandlerPeerResponse = func(errString string, params ...interface{}) boo
 	return true
 }
 
-// From https://github.com/hyperledger/fabric-chaincode-go/commit/2d899240a7ed642a381ba9df2f6b0c303cb149dc
+// GetMSPID From https://github.com/hyperledger/fabric-chaincode-go/commit/2d899240a7ed642a381ba9df2f6b0c303cb149dc
 func GetMSPID() string {
 	var mspId, err = shim.GetMSPID()
 	PanicError(err)
