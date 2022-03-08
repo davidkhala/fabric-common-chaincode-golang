@@ -23,8 +23,6 @@
     ```http request
     github.com/hyperledger/fabric/core/common/ccprovider
     ```
-## TODO
-- Please take care of ioRead from a file, once the chaincode packaged, the file path changed in a way???
  
 
     
