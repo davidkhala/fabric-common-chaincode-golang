@@ -11,7 +11,7 @@ import (
 	"github.com/hyperledger/fabric-protos-go/msp"
 )
 
-// alternative of creator starting from 1.1
+// ClientIdentity alternative of creator starting from 1.1
 type ClientIdentity struct {
 	MspID          string
 	Cert           *x509.Certificate `json:"-"` //only an ec-use reference
@@ -31,7 +31,7 @@ func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 
 	c.MspID = signingID.GetMspid()
 	c.CertificatePem = signingID.GetIdBytes()
-	c.Cert = ParseCertPem(c.CertificatePem)
+	c.Cert = ParseCertPemOrPanic(c.CertificatePem)
 	attrs, err := attrmgr.New().GetAttributesFromCert(c.Cert)
 	PanicError(err)
 	c.Attrs = *attrs
