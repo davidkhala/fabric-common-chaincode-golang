@@ -18,7 +18,7 @@ func (cc *CommonChaincode) Prepare(ccAPI shim.ChaincodeStubInterface) {
 	cc.Channel = ccAPI.GetChannelID()
 }
 
-// return empty for if no record.
+// GetChaincodeID return empty for if no record.
 func (cc CommonChaincode) GetChaincodeID() string {
 	var iterator, _ = cc.GetStateByRangeWithPagination("", "", 1, "")
 	if !iterator.HasNext() {

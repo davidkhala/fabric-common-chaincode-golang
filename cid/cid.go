@@ -5,10 +5,11 @@ import (
 	"fmt"
 	. "github.com/davidkhala/goutils"
 	. "github.com/davidkhala/goutils/crypto"
-	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric-chaincode-go/pkg/attrmgr"
+	"github.com/hyperledger/fabric-chaincode-go/pkg/cid"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/hyperledger/fabric-protos-go/msp"
+	"github.com/hyperledger/fabric-protos-go-apiv2/msp"
+	"google.golang.org/protobuf/proto"
 )
 
 // ClientIdentity alternative of creator starting from 1.1
@@ -19,7 +20,22 @@ type ClientIdentity struct {
 	Attrs          attrmgr.Attributes
 }
 
-func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
+func FromInterface(identity cid.ClientIdentity) ClientIdentity {
+
+	cert, err := identity.GetX509Certificate()
+	PanicError(err)
+	mspID, err := identity.GetMSPID()
+	PanicError(err)
+	attrs, err := attrmgr.New().GetAttributesFromCert(cert)
+	PanicError(err)
+	return ClientIdentity{
+		mspID,
+		cert,
+		ToCertPem(cert),
+		*attrs,
+	}
+}
+func FromStub(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 	signingID := &msp.SerializedIdentity{}
 	creator, err := stub.GetCreator()
 	PanicError(err)

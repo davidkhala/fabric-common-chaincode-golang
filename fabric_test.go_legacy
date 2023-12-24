@@ -2,10 +2,11 @@ package golang
 
 import (
 	"github.com/davidkhala/fabric-common-chaincode-golang/cid"
+	"github.com/davidkhala/fabric-common-chaincode-golang/ext"
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-chaincode-go/shimtest"
-	"github.com/hyperledger/fabric-protos-go/peer"
+	"github.com/hyperledger/fabric-protos-go-apiv2/peer"
 	logger "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -20,9 +21,10 @@ const (
 )
 
 func (t *TestChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
-	t.Prepare(stub)
+	cc.CCAPI = stub
+	cc.Channel = stub.GetChannelID()
 	logger.Info("Init")
-	return shim.Success(nil)
+	return ext.Success(nil)
 }
 
 // Transaction makes payment of X units from A to B
@@ -35,18 +37,13 @@ func (t *TestChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.
 	case "panic":
 		PanicString("use panic")
 	case "whoami":
-		responseBytes = ToJson(cid.NewClientIdentity(stub))
+		responseBytes = ToJson(cid.FromStub(stub))
 	}
-	return shim.Success(responseBytes)
+	return ext.Success(responseBytes)
 }
 
 var cc = new(TestChaincode)
 var mock = shimtest.NewMockStub(name, cc)
-
-//initialize mocker
-func TestCommonChaincode_Prepare(t *testing.T) {
-	cc.Prepare(mock)
-}
 
 func TestTestChaincode_Init(t *testing.T) {
 	var args = ArgsBuilder("Initfcn")
@@ -83,7 +80,8 @@ func TestCreateCompositeKey(t *testing.T) {
 	mock.MockTransactionEnd(TxID)
 }
 
-/**
+/*
+*
 [31m2018-07-09 12:46:27.277 HKT [mock] HasNext -> ERRO 001[0m HasNext() couldn't get Current
 mockstub.go line 410:	mockLogger.Error("HasNext() couldn't get Current")
 */

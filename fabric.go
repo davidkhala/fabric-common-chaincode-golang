@@ -3,13 +3,15 @@ package golang
 import (
 	"fmt"
 	. "github.com/davidkhala/goutils"
-	"github.com/golang/protobuf/ptypes/timestamp"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/hyperledger/fabric-protos-go/peer"
+	"github.com/hyperledger/fabric-protos-go-apiv2/peer"
+	timestamp "google.golang.org/protobuf/types/known/timestamppb"
 	"runtime/debug"
 )
 
-func PanicPeerResponse(resp peer.Response) {
+func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
+	var resp = cc.CCAPI.InvokeChaincode(chaincodeName, args, channel)
+
 	if resp.Status >= shim.ERRORTHRESHOLD {
 		var errorPB = PeerResponse{
 			resp.Status,
@@ -18,12 +20,11 @@ func PanicPeerResponse(resp peer.Response) {
 		}
 		PanicString(string(ToJson(errorPB)))
 	}
-}
-
-func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
-	var resp = cc.CCAPI.InvokeChaincode(chaincodeName, args, channel)
-	PanicPeerResponse(resp)
-	return resp
+	return peer.Response{
+		Status:  resp.Status,
+		Message: resp.Message,
+		Payload: resp.Payload,
+	}
 }
 
 func (cc CommonChaincode) SplitCompositeKey(compositeKey string) (string, []string) {

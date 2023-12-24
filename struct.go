@@ -2,6 +2,7 @@ package golang
 
 import (
 	. "github.com/davidkhala/goutils"
+	"github.com/davidkhala/goutils/protobuf"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 )
 
@@ -18,9 +19,8 @@ func ParseHistory(iterator shim.HistoryQueryIteratorInterface, filter func(KeyMo
 	for iterator.HasNext() {
 		keyModification, err := iterator.Next()
 		PanicError(err)
-		var timeStamp = keyModification.Timestamp
-		var t TimeLong
-		t = t.FromTimeStamp(*timeStamp)
+		var t = protobuf.FromTimeStamp(keyModification.Timestamp)
+
 		var translated = KeyModification{
 			keyModification.TxId,
 			keyModification.Value,
@@ -77,7 +77,7 @@ func (t Args) Get() [][]byte {
 	return t.buff
 }
 
-// a readable structure of peer.response
+// PeerResponse a readable structure of peer.response
 type PeerResponse struct {
 	// A status code that should follow the HTTP status codes.
 	Status int32 `json:"status,omitempty"`
