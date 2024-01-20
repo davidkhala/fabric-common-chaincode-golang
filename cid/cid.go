@@ -14,7 +14,6 @@ import (
 // ClientIdentity alternative of creator starting from 1.1
 type ClientIdentity struct {
 	MspID          string
-	Cert           *x509.Certificate `json:"-"` //only an ec-use reference
 	CertificatePem []byte
 	Attrs          attrmgr.Attributes
 }
@@ -31,8 +30,7 @@ func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 
 	c.MspID = signingID.GetMspid()
 	c.CertificatePem = signingID.GetIdBytes()
-	c.Cert = ParseCertPemOrPanic(c.CertificatePem)
-	attrs, err := attrmgr.New().GetAttributesFromCert(c.Cert)
+	attrs, err := attrmgr.New().GetAttributesFromCert(c.GetCertificate())
 	PanicError(err)
 	c.Attrs = *attrs
 	return c
@@ -47,6 +45,11 @@ func (c ClientIdentity) GetID() string {
 	// The leading "x509::" distinguishes this as an X509 certificate, and
 	// the subject and issuer DNs uniquely identify the X509 certificate.
 	// The resulting ID will remain the same if the certificate is renewed.
-	id := fmt.Sprintf("x509::%s::%s", GetDN(c.Cert.Subject), GetDN(c.Cert.Issuer))
+	var certificate = c.GetCertificate()
+	id := fmt.Sprintf("x509::%s::%s", GetDN(certificate.Subject), GetDN(certificate.Issuer))
 	return id
+}
+
+func (c ClientIdentity) GetCertificate() *x509.Certificate {
+	return ParseCertPemOrPanic(c.CertificatePem)
 }
