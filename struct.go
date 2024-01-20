@@ -19,8 +19,9 @@ func ParseHistory(iterator shim.HistoryQueryIteratorInterface, filter func(KeyMo
 		keyModification, err := iterator.Next()
 		PanicError(err)
 		var timeStamp = keyModification.Timestamp
-		var t TimeLong
-		t = t.FromTimeStamp(*timeStamp)
+
+		var t = TimeLong(timeStamp.AsTime().UnixNano())
+
 		var translated = KeyModification{
 			keyModification.TxId,
 			keyModification.Value,
