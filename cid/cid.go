@@ -14,8 +14,8 @@ import (
 // ClientIdentity alternative of creator starting from 1.1
 type ClientIdentity struct {
 	MspID          string
-	CertificatePem []byte
-	Attrs          attrmgr.Attributes
+	CertificatePem string
+	Attrs          *attrmgr.Attributes
 }
 
 func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
@@ -29,10 +29,10 @@ func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 	PanicError(err)
 
 	c.MspID = signingID.GetMspid()
-	c.CertificatePem = signingID.GetIdBytes()
+	c.CertificatePem = string(signingID.GetIdBytes())
 	attrs, err := attrmgr.New().GetAttributesFromCert(c.GetCertificate())
 	PanicError(err)
-	c.Attrs = *attrs
+	c.Attrs = attrs
 	return c
 }
 
@@ -51,5 +51,5 @@ func (c ClientIdentity) GetID() string {
 }
 
 func (c ClientIdentity) GetCertificate() *x509.Certificate {
-	return ParseCertPemOrPanic(c.CertificatePem)
+	return ParseCertPemOrPanic([]byte(c.CertificatePem))
 }
