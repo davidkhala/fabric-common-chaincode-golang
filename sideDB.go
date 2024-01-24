@@ -50,7 +50,7 @@ func (cc CommonChaincode) DelPrivateData(collection, key string) {
 }
 
 // TODO is it used as getAll state starting with prefix?
-func (cc CommonChaincode) GetStateRange(collection, prefix string) shim.StateQueryIteratorInterface {
+func (cc CommonChaincode) GetPrivateDataFrom(collection, prefix string) shim.StateQueryIteratorInterface {
 	return cc.GetPrivateDataByRange(collection, prefix, prefix+"\x7f")
 }
 

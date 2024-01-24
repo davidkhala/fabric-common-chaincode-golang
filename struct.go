@@ -78,7 +78,7 @@ func (t Args) Get() [][]byte {
 	return t.buff
 }
 
-// a readable structure of peer.response
+// PeerResponse a readable structure of peer.response
 type PeerResponse struct {
 	// A status code that should follow the HTTP status codes.
 	Status int32 `json:"status,omitempty"`

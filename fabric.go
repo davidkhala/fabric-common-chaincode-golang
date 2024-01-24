@@ -26,16 +26,6 @@ func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, c
 	return resp
 }
 
-func (cc CommonChaincode) SplitCompositeKey(compositeKey string) (string, []string) {
-	objectType, attributes, err := cc.CCAPI.SplitCompositeKey(compositeKey)
-	PanicError(err)
-	return objectType, attributes
-}
-func (cc CommonChaincode) CreateCompositeKey(objectType string, attributes []string) string {
-	var key, err = cc.CCAPI.CreateCompositeKey(objectType, attributes)
-	PanicError(err)
-	return key
-}
 func (cc CommonChaincode) GetBinding() []byte {
 	var result, err = cc.CCAPI.GetBinding()
 	PanicError(err)
@@ -82,22 +72,10 @@ func (cc CommonChaincode) GetHistoryForKey(key string) shim.HistoryQueryIterator
 	PanicError(err)
 	return r
 }
-func (cc CommonChaincode) GetStateByPartialCompositeKey(objectType string, keys []string) shim.StateQueryIteratorInterface {
-	var r, err = cc.CCAPI.GetStateByPartialCompositeKey(objectType, keys)
-	PanicError(err)
-	return r
-}
 func (cc CommonChaincode) GetStateByRange(startKey string, endKey string) shim.StateQueryIteratorInterface {
 	var r, err = cc.CCAPI.GetStateByRange(startKey, endKey)
 	PanicError(err)
 	return r
-}
-
-// GetStateByPartialCompositeKeyWithPagination This call is only supported in a read only transaction.
-func (cc CommonChaincode) GetStateByPartialCompositeKeyWithPagination(objectType string, keys []string, pageSize int, bookmark string) (shim.StateQueryIteratorInterface, QueryResponseMetadata) {
-	var iterator, r, err = cc.CCAPI.GetStateByPartialCompositeKeyWithPagination(objectType, keys, int32(pageSize), bookmark)
-	PanicError(err)
-	return iterator, QueryResponseMetadata{int(r.FetchedRecordsCount), r.Bookmark}
 }
 
 // GetStateByRangeWithPagination This call is only supported in a read only transaction.
