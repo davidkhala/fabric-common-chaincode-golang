@@ -15,7 +15,7 @@ import (
 type ClientIdentity struct {
 	MspID          string
 	CertificatePem string
-	Attrs          attrmgr.Attributes
+	Attrs          map[string]string `json:"attrs"`
 }
 
 func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
@@ -32,12 +32,12 @@ func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 	c.CertificatePem = string(signingID.GetIdBytes())
 	attrs, err := attrmgr.New().GetAttributesFromCert(c.GetCertificate())
 	PanicError(err)
-	c.Attrs = *attrs
+	c.Attrs = attrs.Attrs
 	return c
 }
 
 func (c ClientIdentity) GetAttributeValue(attrName string) string {
-	return c.Attrs.Attrs[attrName]
+	return c.Attrs[attrName]
 }
 
 // GetID returns a unique ID associated with the invoking identity.
