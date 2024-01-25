@@ -6,14 +6,16 @@ import (
 )
 
 type CommonChaincode struct {
-	Name    string
-	Channel string
-	CCAPI   shim.ChaincodeStubInterface // chaincode API
+	Name      string
+	TxID      string
+	ChannelID string
+	CCAPI     shim.ChaincodeStubInterface // chaincode API
 }
 
 func (cc *CommonChaincode) Prepare(ccAPI shim.ChaincodeStubInterface) {
 	cc.CCAPI = ccAPI
-	cc.Channel = ccAPI.GetChannelID()
+	cc.ChannelID = ccAPI.GetChannelID()
+	cc.TxID = ccAPI.GetTxID()
 }
 
 // GetChaincodeID return empty for if no record.
