@@ -11,13 +11,14 @@ import (
 	"github.com/hyperledger/fabric-protos-go/msp"
 )
 
+type MSPID = string
+
 // ClientIdentity alternative of creator starting from 1.1
 type ClientIdentity struct {
-	MspID          string
+	MspID          MSPID
 	CertificatePem string
 	Attrs          map[string]string `json:"attrs"`
 }
-type MSPID = string
 
 func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 	signingID := &msp.SerializedIdentity{}
