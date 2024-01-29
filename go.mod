@@ -1,11 +1,11 @@
 module github.com/davidkhala/fabric-common-chaincode-golang
 
-go 1.18
+go 1.21
 
 require (
 	github.com/davidkhala/goutils v1.6.0
 	github.com/golang/protobuf v1.5.3
-	github.com/hyperledger/fabric-chaincode-go v0.0.0-20231108144948-3542320d76a7
+	github.com/hyperledger/fabric-chaincode-go v0.0.0-20240124143825-7dec3c7e7d45
 	github.com/hyperledger/fabric-protos-go v0.3.3
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.8.4
