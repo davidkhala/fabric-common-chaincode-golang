@@ -11,7 +11,11 @@ import (
 	"github.com/hyperledger/fabric-protos-go/msp"
 )
 
+// MSPID Hyperledger Fabric Member Service Provider ID
 type MSPID = string
+
+// CertificateID a unique ID associated with the x509 certificate identity
+type CertificateID = string
 
 // ClientIdentity alternative of creator starting from 1.1
 type ClientIdentity struct {
@@ -43,7 +47,7 @@ func (c ClientIdentity) GetAttributeValue(attrName string) string {
 }
 
 // GetID returns a unique ID associated with the invoking identity.
-func (c ClientIdentity) GetID() string {
+func (c ClientIdentity) GetID() CertificateID {
 	// The leading "x509::" distinguishes this as an X509 certificate, and
 	// the subject and issuer DNs uniquely identify the X509 certificate.
 	// The resulting ID will remain the same if the certificate is renewed.
