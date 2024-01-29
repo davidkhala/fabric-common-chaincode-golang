@@ -17,6 +17,7 @@ type ClientIdentity struct {
 	CertificatePem string
 	Attrs          map[string]string `json:"attrs"`
 }
+type MSPID = string
 
 func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
 	signingID := &msp.SerializedIdentity{}
