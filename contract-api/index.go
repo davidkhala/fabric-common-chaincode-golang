@@ -1,7 +1,6 @@
 package contract_api
 
 import (
-	"errors"
 	"github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
@@ -23,8 +22,22 @@ func NewChaincode(contracts ...contractapi.ContractInterface) *contractapi.Contr
 	return chaincode
 }
 
-var DeferHandlerError = func(errString string, params ...interface{}) (success bool) {
-	var _errP = params[0].(*error)
-	*_errP = errors.New(errString)
-	return true
+type DeferHandler func(error) (success bool)
+
+func Deferred(handler DeferHandler) {
+	err := recover()
+	if err == nil {
+		return
+	}
+
+	var success = handler(err.(error))
+	if !success {
+		panic(err)
+	}
+}
+func DefaultDeferHandler(err *error) func(error) bool {
+	return func(_err error) bool {
+		*err = _err
+		return true
+	}
 }

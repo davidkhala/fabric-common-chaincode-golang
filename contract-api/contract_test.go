@@ -2,7 +2,6 @@ package contract_api
 
 import (
 	"errors"
-	"github.com/davidkhala/goutils"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -12,7 +11,7 @@ type StupidContract struct {
 }
 
 func (*StupidContract) Defer() (err error) {
-	defer goutils.Deferred(DeferHandlerError, &err)
+	defer Deferred(DefaultDeferHandler(&err))
 	panic(errors.New("defer"))
 }
 
