@@ -3,12 +3,13 @@ package golang
 import (
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
+	"time"
 )
 
 type KeyModification struct {
 	TxId      string
 	Value     []byte
-	Timestamp TimeLong // as unix nano
+	Timestamp time.Time
 	IsDelete  bool
 }
 
@@ -20,12 +21,10 @@ func ParseHistory(iterator shim.HistoryQueryIteratorInterface, filter func(KeyMo
 		PanicError(err)
 		var timeStamp = keyModification.Timestamp
 
-		var t = TimeLong(timeStamp.AsTime().UnixNano())
-
 		var translated = KeyModification{
 			keyModification.TxId,
 			keyModification.Value,
-			t,
+			timeStamp.AsTime(),
 			keyModification.IsDelete}
 		if filter == nil || filter(translated) {
 			result = append(result, translated)
