@@ -1,6 +1,6 @@
 module github.com/davidkhala/fabric-common-chaincode-golang
 
-go 1.21
+go 1.20
 
 require (
 	github.com/davidkhala/goutils v1.6.0
