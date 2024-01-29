@@ -58,26 +58,6 @@ func ParseStates(iterator shim.StateQueryIteratorInterface, filter func(StateKV)
 	return kvs
 }
 
-type Args struct {
-	buff [][]byte
-}
-
-func ArgsBuilder(fcn string) Args {
-	return Args{[][]byte{[]byte(fcn)}}
-}
-
-func (t *Args) AppendBytes(bytes []byte) *Args {
-	t.buff = append(t.buff, bytes)
-	return t
-}
-func (t *Args) AppendArg(str string) *Args {
-	t.buff = append(t.buff, []byte(str))
-	return t
-}
-func (t Args) Get() [][]byte {
-	return t.buff
-}
-
 // PeerResponse a readable structure of peer.response
 type PeerResponse struct {
 	// A status code that should follow the HTTP status codes.

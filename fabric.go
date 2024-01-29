@@ -1,24 +1,11 @@
 package golang
 
 import (
-	"fmt"
 	. "github.com/davidkhala/goutils"
 	"github.com/golang/protobuf/ptypes/timestamp"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-protos-go/peer"
-	"runtime/debug"
 )
-
-func PanicPeerResponse(resp peer.Response) {
-	if resp.Status >= shim.ERRORTHRESHOLD {
-		var errorPB = PeerResponse{
-			resp.Status,
-			resp.Message,
-			string(resp.Payload),
-		}
-		PanicString(string(ToJson(errorPB)))
-	}
-}
 
 func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
 	var resp = cc.CCAPI.InvokeChaincode(chaincodeName, args, channel)
@@ -87,36 +74,5 @@ func (cc CommonChaincode) GetStateByRangeWithPagination(startKey, endKey string,
 
 func (cc CommonChaincode) SetEvent(name string, payload []byte) {
 	var err = cc.CCAPI.SetEvent(name, payload)
-	PanicError(err)
-}
-
-var DeferHandlerPeerResponse = func(errString string, params ...interface{}) bool {
-	var response = params[0].(*peer.Response)
-	response.Status = shim.ERROR
-	response.Message = errString
-	response.Payload = []byte(errString)
-	fmt.Println("DeferHandlerPeerResponse", errString)
-	debug.PrintStack()
-	return true
-}
-
-// GetMSPID From https://github.com/hyperledger/fabric-chaincode-go/commit/2d899240a7ed642a381ba9df2f6b0c303cb149dc
-func GetMSPID() string {
-	var mspId, err = shim.GetMSPID()
-	PanicError(err)
-	return mspId
-}
-func (cc CommonChaincode) GetFunctionAndArgs() (string, [][]byte) {
-	var allArgs = cc.CCAPI.GetArgs()
-	var fcn = ""
-	var args = [][]byte{}
-	if len(allArgs) >= 1 {
-		fcn = string(allArgs[0])
-		args = allArgs[1:]
-	}
-	return fcn, args
-}
-func ChaincodeStart(cc shim.Chaincode) {
-	var err = shim.Start(cc)
 	PanicError(err)
 }

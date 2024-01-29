@@ -1,6 +1,7 @@
 package contract_api
 
 import (
+	"errors"
 	"github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
@@ -20,4 +21,10 @@ func NewChaincode(contracts ...contractapi.ContractInterface) *contractapi.Contr
 	chaincode, err := contractapi.NewChaincode(contracts...)
 	goutils.PanicError(err)
 	return chaincode
+}
+
+var DeferHandlerError = func(errString string, params ...interface{}) (success bool) {
+	var _errP = params[0].(*error)
+	*_errP = errors.New(errString)
+	return true
 }
