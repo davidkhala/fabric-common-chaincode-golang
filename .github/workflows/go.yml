@@ -6,11 +6,10 @@ on:
 
 
 jobs:
-
-  build:
+  root:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@main
     - name: Set up Go
       uses: actions/setup-go@main
       with:
@@ -19,3 +18,18 @@ jobs:
       name: vendor
     - name: Test
       run: go test -v ./...
+  contract-api:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: contract-api
+    steps:
+      - uses: actions/checkout@main
+      - name: Set up Go
+        uses: actions/setup-go@main
+        with:
+          go-version: 1.21
+      - run: go mod vendor
+        name: vendor
+      - name: Test
+        run: go test -v ./...

@@ -1,10 +1,10 @@
 module github.com/davidkhala/fabric-common-chaincode-golang/contract-api
 
-go 1.18
+go 1.21
 
 require (
 	github.com/davidkhala/goutils v1.6.0
-	github.com/hyperledger/fabric-chaincode-go v0.0.0-20230731094759-d626e9ab09b9
+	github.com/hyperledger/fabric-chaincode-go v0.0.0-20240124143825-7dec3c7e7d45
 	github.com/hyperledger/fabric-contract-api-go v1.2.2
 	github.com/stretchr/testify v1.8.4
 )
