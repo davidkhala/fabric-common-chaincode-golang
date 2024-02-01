@@ -1,11 +1,11 @@
-package golang
+package classic
 
 import (
 	"fmt"
 	"testing"
 )
 
-func TestArgsBuilder_Constructor(t *testing.T) {
+func TestArgsBuilder(t *testing.T) {
 	var args = ArgsBuilder("abc")
 	fmt.Println("args", args)
 	args.AppendArg("cde")

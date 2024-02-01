@@ -2,6 +2,7 @@ package golang
 
 import (
 	"github.com/davidkhala/fabric-common-chaincode-golang/cid"
+	"github.com/davidkhala/fabric-common-chaincode-golang/classic"
 	. "github.com/davidkhala/goutils"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-chaincode-go/shimtest"
@@ -28,7 +29,7 @@ func (t *TestChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
 // Transaction makes payment of X units from A to B
 func (t *TestChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.Response) {
 	logger.Info("Invoke")
-	defer Deferred(DeferHandlerPeerResponse, &response)
+	defer Deferred(classic.DeferHandlerPeerResponse, &response)
 	var fcn, _ = stub.GetFunctionAndParameters()
 	var responseBytes []byte
 	switch fcn {
@@ -43,13 +44,13 @@ func (t *TestChaincode) Invoke(stub shim.ChaincodeStubInterface) (response peer.
 var cc = new(TestChaincode)
 var mock = shimtest.NewMockStub(name, cc)
 
-//initialize mocker
+// initialize mocker
 func TestCommonChaincode_Prepare(t *testing.T) {
 	cc.Prepare(mock)
 }
 
 func TestTestChaincode_Init(t *testing.T) {
-	var args = ArgsBuilder("Initfcn")
+	var args = classic.ArgsBuilder("Initfcn")
 	var TxID = "ob"
 
 	var response = mock.MockInit(TxID, args.Get())
@@ -58,7 +59,7 @@ func TestTestChaincode_Init(t *testing.T) {
 }
 func TestTestChaincode_Invoke(t *testing.T) {
 
-	var args = ArgsBuilder("Invokefcn")
+	var args = classic.ArgsBuilder("Invokefcn")
 
 	var TxID = "oa"
 	var response = mock.MockInvoke(TxID, args.Get())
@@ -83,7 +84,8 @@ func TestCreateCompositeKey(t *testing.T) {
 	mock.MockTransactionEnd(TxID)
 }
 
-/**
+/*
+*
 [31m2018-07-09 12:46:27.277 HKT [mock] HasNext -> ERRO 001[0m HasNext() couldn't get Current
 mockstub.go line 410:	mockLogger.Error("HasNext() couldn't get Current")
 */

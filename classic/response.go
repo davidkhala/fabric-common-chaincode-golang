@@ -1,4 +1,4 @@
-package golang
+package classic
 
 import (
 	"fmt"
@@ -27,4 +27,14 @@ var DeferHandlerPeerResponse = func(errString string, params ...interface{}) boo
 	fmt.Println("DeferHandlerPeerResponse", errString)
 	debug.PrintStack()
 	return true
+}
+
+// PeerResponse a readable structure of peer.response
+type PeerResponse struct {
+	// A status code that should follow the HTTP status codes.
+	Status int32 `json:"status,omitempty"`
+	// A message associated with the response code.
+	Message string `json:"message,omitempty"`
+	// A payload that can be used to include metadata with this response.
+	Payload string `json:"payload,omitempty"`
 }

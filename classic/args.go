@@ -1,4 +1,4 @@
-package golang
+package classic
 
 type Args struct {
 	buff [][]byte

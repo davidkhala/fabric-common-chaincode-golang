@@ -1,6 +1,7 @@
 package golang
 
 import (
+	"github.com/davidkhala/fabric-common-chaincode-golang/classic"
 	. "github.com/davidkhala/goutils"
 	"github.com/golang/protobuf/ptypes/timestamp"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
@@ -9,7 +10,7 @@ import (
 
 func (cc CommonChaincode) InvokeChaincode(chaincodeName string, args [][]byte, channel string) peer.Response {
 	var resp = cc.CCAPI.InvokeChaincode(chaincodeName, args, channel)
-	PanicPeerResponse(resp)
+	classic.PanicPeerResponse(resp)
 	return resp
 }
 

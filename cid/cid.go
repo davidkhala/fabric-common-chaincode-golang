@@ -3,25 +3,20 @@ package cid
 import (
 	"crypto/x509"
 	"fmt"
+	"github.com/davidkhala/fabric-common/golang/format"
 	. "github.com/davidkhala/goutils"
-	. "github.com/davidkhala/goutils/crypto"
+	"github.com/davidkhala/goutils/crypto"
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric-chaincode-go/pkg/attrmgr"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-protos-go/msp"
 )
 
-// MSPID Hyperledger Fabric Member Service Provider ID
-type MSPID = string
-
-// CertificateID a unique ID associated with the x509 certificate identity
-type CertificateID = string
-
 // ClientIdentity alternative of creator starting from 1.1
 type ClientIdentity struct {
-	MspID          MSPID
+	MspID          format.MSPID
 	CertificatePem string
-	Attrs          map[string]string `json:"attrs"`
+	Attrs          map[string]string `json:"Attrs,omitempty"`
 }
 
 func NewClientIdentity(stub shim.ChaincodeStubInterface) (c ClientIdentity) {
@@ -47,15 +42,15 @@ func (c ClientIdentity) GetAttributeValue(attrName string) string {
 }
 
 // GetID returns a unique ID associated with the invoking identity.
-func (c ClientIdentity) GetID() CertificateID {
+func (c ClientIdentity) GetID() format.CertificateID {
 	// The leading "x509::" distinguishes this as an X509 certificate, and
 	// the subject and issuer DNs uniquely identify the X509 certificate.
 	// The resulting ID will remain the same if the certificate is renewed.
 	var certificate = c.GetCertificate()
-	id := fmt.Sprintf("x509::%s::%s", GetDN(certificate.Subject), GetDN(certificate.Issuer))
+	id := fmt.Sprintf("x509::%s::%s", crypto.GetDN(certificate.Subject), crypto.GetDN(certificate.Issuer))
 	return id
 }
 
 func (c ClientIdentity) GetCertificate() *x509.Certificate {
-	return ParseCertPemOrPanic([]byte(c.CertificatePem))
+	return crypto.ParseCertPemOrPanic([]byte(c.CertificatePem))
 }
